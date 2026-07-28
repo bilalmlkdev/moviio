@@ -538,8 +538,7 @@ header {
   position: relative;
   z-index: 5;
   width: 50%;
-  max-width: 1200px;
-  flex-wrap: wrap;
+  max-width: 800px;
   margin-left: 4rem;
   color: var(--txt-color);
   display: flex;
@@ -575,6 +574,7 @@ header {
   display: flex;
   align-items: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .meta span {
@@ -805,9 +805,8 @@ display: none;
 /* Trailer Overlay new controls */
 .trailer-controls {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
-  margin-top: 1rem;
+  align-items: center;
 }
 
 .btn-icon {
