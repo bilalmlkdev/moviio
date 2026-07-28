@@ -44,6 +44,8 @@ What are you doing here?! you sneaky developer...
   <meta name="theme-color" content="#0f0f0f" />
   <meta name="color-scheme" content="dark light" />
   <link rel="icon" href="./assets/favicon.svg" />
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -87,7 +89,6 @@ What are you doing here?! you sneaky developer...
   margin: auto;
   position:absolute;
   left: 50%; top: 55%; transform: translate(-50% , -50%);z-index: 999;">
-
     </div>
 
     <header>
@@ -99,7 +100,6 @@ What are you doing here?! you sneaky developer...
               <span class="logo-dot"></span><span class="logo-dot"></span><span class="logo-dot"></span>
             </div>
           </a>
-
         </div>
         <div class="search-wrapper">
           <input type="search" placeholder="Search the movies" id="searchBox">
@@ -137,14 +137,22 @@ What are you doing here?! you sneaky developer...
           </select>
         </div>
 
-        <!-- Auto-rotate button placed outside the container -->
-        <button id="autoRotateBtn">
-          <strong>
-            <i class="fa-solid fa-play"></i>
-            <span>Auto Rotate</span>
-          </strong>
-        </button>
+        <!-- Control buttons (Auto‑Rotate & Shuffle) -->
+        <div style="display: flex; gap: 12px; align-items: center; margin-top: 10px;">
+          <button id="autoRotateBtn">
+            <strong>
+              <i class="fa-solid fa-play"></i>
+              <span>Auto Rotate</span>
+            </strong>
+          </button>
 
+          <button id="shuffleBtn">
+            <strong>
+              <i class="fa-solid fa-shuffle"></i>
+              <span>Shuffle</span>
+            </strong>
+          </button>
+        </div>
       </section>
 
       <!-- wheel container -->
@@ -161,6 +169,7 @@ What are you doing here?! you sneaky developer...
         </button>
         <!-- cards container with wheel Ui -->
         <div class="wheel-track">
+          <!-- 7 static card placeholders -->
           <div class="card card-0">
             <div class="movie-details">
               <div class="details-top">
@@ -169,25 +178,20 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
             </div>
             <img src="" alt="">
           </div>
-
           <div class="card card-1">
             <div class="movie-details">
               <div class="details-top">
@@ -196,25 +200,20 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
             </div>
             <img src="" alt="">
           </div>
-
           <div class="card card-2">
             <div class="movie-details">
               <div class="details-top">
@@ -223,25 +222,20 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
             </div>
             <img src="" alt="">
           </div>
-
           <div class="card card-3" id="active-card">
             <div class="movie-details">
               <div class="details-top">
@@ -250,25 +244,20 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
             </div>
             <img src="" alt="">
           </div>
-
           <div class="card card-4">
             <div class="movie-details">
               <div class="details-top">
@@ -277,25 +266,20 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
             </div>
             <img src="" alt="">
           </div>
-
           <div class="card card-5">
             <div class="movie-details">
               <div class="details-top">
@@ -304,25 +288,20 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
             </div>
             <img src="" alt="">
           </div>
-
           <div class="card card-6">
             <div class="movie-details">
               <div class="details-top">
@@ -331,18 +310,14 @@ What are you doing here?! you sneaky developer...
                   <div class="badge-top-right"></div>
                 </div>
                 <div class="movie-rating">
-                  <h2><span>
-                      <i class="fa-solid fa-star"></i>
-                    </span></h2>
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
                 </div>
               </div>
               <div class="details-bottom">
                 <div class="card-content">
                   <h3></h3>
                   <div class="movie-dateType">
-                    <span class="movie-data"></span>
-                    •
-                    <span class="what-type"></span>
+                    <span class="movie-data"></span> • <span class="what-type"></span>
                   </div>
                 </div>
               </div>
@@ -351,22 +326,15 @@ What are you doing here?! you sneaky developer...
           </div>
         </div>
       </div>
-
-
-
     </main>
   </section>
 
   <!-- this is the movie pop with trailer  -->
   <div id="trailer-overlay" class="hidden">
     <div class="trailer-bg">
-      <iframe id="trailerPlayer" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen></iframe>
+      <iframe id="trailerPlayer" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
     </div>
-
-
     <div class="trailer-gradient"></div>
-
     <div class="trailer-content">
       <div class="movie-rating">
         <span class="tag rating" id="trailerRating"></span>
@@ -376,11 +344,10 @@ What are you doing here?! you sneaky developer...
       <div class="meta">
         <span><i class="fa-solid fa-play"></i> <span>Movie</span></span>
         <span><i class="fa-solid fa-calendar-days"></i> <span id="trailerYear"></span></span>
-        <!-- Runtime, Cast, Genres will be injected by JS -->
       </div>
       <p id="trailerOverview" class="overview"></p>
 
-      <!-- New Controls -->
+      <!-- Trailer Controls (Play/Pause, Fullscreen, Watchlist, Share) -->
       <div class="trailer-controls">
         <button class="btn primary" id="playPauseBtn">
           <i class="fa-solid fa-play"></i> Watch Now
@@ -391,21 +358,26 @@ What are you doing here?! you sneaky developer...
         <button class="btn-icon watchlist-btn" id="overlayWatchlistBtn" title="Add to Watchlist">
           <i class="fa-regular fa-heart"></i>
         </button>
+        <button class="btn-icon" id="shareBtn" title="Share Movie">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
       </div>
     </div>
 
-
     <button id="closeTrailer" class="close">
       <svg xmlns="http://www.w3.org/2000/svg" width="4em" height="4em" fill="currentColor" viewBox="0 0 256 256">
-        <path
-          d="M232,200a8,8,0,0,1-16,0,88.1,88.1,0,0,0-88-88H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,61.66L51.31,96H128A104.11,104.11,0,0,1,232,200Z">
-        </path>
+        <path d="M232,200a8,8,0,0,1-16,0,88.1,88.1,0,0,0-88-88H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,61.66L51.31,96H128A104.11,104.11,0,0,1,232,200Z"></path>
       </svg>
     </button>
   </div>
 
-
   <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
 </body>
-
 </html>

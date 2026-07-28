@@ -1,0 +1,17 @@
+{
+  "name": "Moviio",
+  "short_name": "Moviio",
+  "description": "Discover movies in motion. Browse films, watch trailers, and explore cinema.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

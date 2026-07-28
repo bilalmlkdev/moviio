@@ -40,7 +40,6 @@ body {
   width: 100%;
   height: 100vh;
   filter: brightness(0.8);
-  /* display: none; */
 }
 
 .background-video video {
@@ -212,28 +211,6 @@ header {
   bottom: 25px;
 }
 
-/*
-.filter-wrapper::after {
-  content: "";
-  width: 20px;
-  height: 20px;
-  border-top: 3px solid var(--txt-color);
-  border-left: 3px solid var(--txt-color);
-  position: absolute;
-  top: -5px;
-  left: -5px;
-}
-
-.filter-wrapper::before {
-  content: "";
-  width: 20px;
-  height: 20px;
-  border-bottom: 3px solid var(--txt-color);
-  border-right: 3px solid var(--txt-color);
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-} */
 .active-indicator {
   position: absolute;
   height: 100%;
@@ -244,7 +221,6 @@ header {
   color: var(--txt-color);
 }
 
-/* Buttons */
 .filter-btn {
   height: 100%;
   width: 90px;
@@ -353,10 +329,9 @@ header {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: var(--shadow-soft);
-  transform: translate(-50%, -50%) var(--slot) translateX(var(--drag-x, 0px));
-  transition:
-    transform var(--transition-duration) ease,
-    filter var(--transition-duration) ease;
+  transform: translate(-50%, -50%) var(--slot) translateX(var(--drag-x, 0px))
+             rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform var(--transition-duration) ease, filter var(--transition-duration) ease;
   transform-origin: 50% 200%;
   filter: grayscale(100%) brightness(0.5);
   z-index: 1;
@@ -555,15 +530,9 @@ header {
 .trailer-gradient {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    #000 25%,
-    rgba(0, 0, 0, 0.5) 60%,
-    rgba(0, 0, 0, 0.9)
-  );
+  background: linear-gradient(90deg, #000 25%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.9));
 }
 
-/* LEFT CONTENT */
 .trailer-content {
   position: relative;
   z-index: 5;
@@ -616,14 +585,12 @@ header {
   font-size: 14px;
 }
 
-/* overview */
 .overview {
   max-width: 90%;
   margin-top: 1rem;
   opacity: 1;
 }
 
-/* buttons */
 .actions {
   margin-top: 1.5rem;
 }
@@ -645,7 +612,6 @@ header {
   gap: 10px;
 }
 
-/* Close button */
 .close {
   position: absolute;
   top: 20px;
@@ -671,7 +637,6 @@ header {
     flex-direction: column;
   }
 
-  /* background wrapper */
   .trailer-bg {
     position: relative;
     width: 100%;
@@ -679,14 +644,12 @@ header {
     overflow: hidden;
   }
 
-  /* iframe centered and covering */
   #trailerPlayer {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 100vw;
     height: 56.25vw;
-    /* maintain 16:9 ratio */
     max-height: 50vh;
     transform: translate(-50%, -50%);
   }
@@ -695,7 +658,6 @@ header {
     display: none;
   }
 
-  /* bottom content panel */
   .trailer-content {
     width: 100%;
     max-width: none;
@@ -801,7 +763,6 @@ header {
     gap: 12px;
   }
 
-  /* shrink logo */
   .logo {
     height: 22px;
     width: 22px;
@@ -838,7 +799,6 @@ header {
     letter-spacing: -1px;
   }
 
-  /* filters */
   .filter-wrapper {
     gap: 12px;
     height: 32px;
@@ -941,7 +901,6 @@ header {
     z-index: 40;
   }
 
-  /* decrease hero size */
   .hero-section h1 {
     font-size: 40px;
   }
@@ -968,7 +927,6 @@ header {
   }
 }
 
-/* narrow widths */
 @media (max-width: 480px) {
   header {
     padding: 12px 14px;
@@ -1031,7 +989,6 @@ header {
     right: 10%;
   }
 
-  /* smaller cards */
   :root {
     --card-w: 150px;
     --card-h: 220px;
@@ -1063,7 +1020,6 @@ header {
   }
 }
 
-/* very small widths */
 @media (max-width: 375px) {
   :root {
     --card-w: 140px;
@@ -1126,8 +1082,7 @@ header {
   }
 }
 
-/* phase 01:: */
-/* Skeleton Loading */
+/* Phase 1: Skeleton Loading */
 .skeleton {
   background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
   background-size: 200% 100%;
@@ -1163,9 +1118,7 @@ header {
   background: #2a2a2a;
 }
 
-/* Phase 2 */
-
-/* Heart/Watchlist button on cards */
+/* Phase 2 & 3: Watchlist, Auto‑Rotate, Shuffle, Genre/Year, Controls */
 .watchlist-btn {
   position: absolute;
   top: 12px;
@@ -1200,10 +1153,11 @@ header {
   font-weight: 900;
 }
 
-/* Auto-rotate button */
-#autoRotateBtn {
+/* Auto‑rotate & Shuffle buttons in hero section */
+#autoRotateBtn,
+#shuffleBtn {
   width: 130px;
-  padding:0;
+  padding: 0;
   border: none !important;
   transform: rotate(5deg);
   transform-origin: center;
@@ -1218,10 +1172,10 @@ header {
   background-color: var(--txt-color);
   position: relative;
   bottom: 10px;
-
 }
 
-#autoRotateBtn strong {
+#autoRotateBtn strong,
+#shuffleBtn strong {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -1233,14 +1187,14 @@ header {
   gap: 5px;
 }
 
-#autoRotateBtn:active {
+#autoRotateBtn:active,
+#shuffleBtn:active {
   transform: translateY(5px);
   padding-bottom: 0px;
   outline: 0;
 }
 
-
-/* Genre & Year selectors in filter wrapper */
+/* Genre & Year selectors */
 .filter-select {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1291,12 +1245,13 @@ header {
   transform: scale(1.05);
 }
 
-/* Responsive tweaks for new elements */
 @media (max-width: 768px) {
-  #autoRotateBtn {
+  #autoRotateBtn,
+  #shuffleBtn {
     width: 40px;
   }
-  #autoRotateBtn span {
+  #autoRotateBtn span,
+  #shuffleBtn span {
     padding: 0.2rem 0.5rem;
   }
   .filter-select {

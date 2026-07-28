@@ -1,10 +1,10 @@
 (function () {
-  //  Core config
+  // Core config
   const TRANS_MS = 360;
   const DRAG_THRESHOLD_PX = 40;
   const MAX_STEPS = 1;
 
-  //  DOM refs
+  // DOM refs
   const container = document.querySelector('.wheel-container');
   if (!container) return;
   let track = container.querySelector('.wheel-track');
@@ -24,7 +24,7 @@
   }
   centerCards();
 
-  //  Centralized State
+  // Centralized State
   const state = {
     feed: [],
     feedIndex: 0,
@@ -34,8 +34,7 @@
     isLoading: false,
     cache: new Map(),
     abortController: null,
-    // Phase 2 additions
-    watchlist: new Map(), // key: movieId, value: movie object
+    watchlist: new Map(),
     genres: [],
     selectedGenre: '',
     selectedYear: '',
@@ -43,7 +42,7 @@
     autoRotateInterval: null,
   };
 
-  //  Load Watchlist from localStorage
+  // Watchlist functions
   function loadWatchlist() {
     try {
       const stored = JSON.parse(localStorage.getItem('moviio_watchlist') || '[]');
@@ -58,17 +57,11 @@
 
   function toggleWatchlist(movie) {
     const key = String(movie.id);
-    if (state.watchlist.has(key)) {
-      state.watchlist.delete(key);
-    } else {
-      state.watchlist.set(key, movie);
-    }
+    if (state.watchlist.has(key)) state.watchlist.delete(key);
+    else state.watchlist.set(key, movie);
     saveWatchlist();
     updateWatchlistUI();
-    // If currently showing watchlist filter, refresh
-    if (state.currentQuery === 'watchlist') {
-      fetchMovies('watchlist');
-    }
+    if (state.currentQuery === 'watchlist') fetchMovies('watchlist');
   }
 
   function isInWatchlist(id) {
@@ -88,16 +81,24 @@
     });
   }
 
-  //  Load URL params on start (Phase 1 logic + genre/year)
+  // URL handling
   function loadFromURL() {
     const params = new URLSearchParams(window.location.search);
     const search = params.get('search');
     const filter = params.get('filter');
     const genre = params.get('genre');
     const year = params.get('year');
+    const movieId = params.get('movie_id');
 
     if (genre) state.selectedGenre = genre;
     if (year) state.selectedYear = year;
+
+    // Deep link: open trailer directly
+    if (movieId) {
+      openMovieOverlayById(movieId);
+      fetchMovies('popular'); // load background feed
+      return;
+    }
 
     if (search && search.trim()) {
       state.currentQuery = search.trim();
@@ -112,13 +113,13 @@
     }
   }
 
-  //  Update URL (Phase 1 + genre/year)
   function updateURL(query, filter, genre, year) {
     const url = new URL(window.location);
     url.searchParams.delete('search');
     url.searchParams.delete('filter');
     url.searchParams.delete('genre');
     url.searchParams.delete('year');
+    url.searchParams.delete('movie_id');
 
     if (query && query !== 'popular' && !['top_rated', 'upcoming', 'watchlist'].includes(query)) {
       url.searchParams.set('search', query);
@@ -130,7 +131,7 @@
     window.history.pushState({}, '', url);
   }
 
-  //  Fetch Genres from TMDB
+  // Fetch genres
   async function fetchGenres() {
     try {
       const res = await fetch('/api/tmdb?genres=1');
@@ -145,15 +146,13 @@
             opt.textContent = g.name;
             select.appendChild(opt);
           });
-          if (state.selectedGenre) {
-            select.value = state.selectedGenre;
-          }
+          if (state.selectedGenre) select.value = state.selectedGenre;
         }
       }
     } catch (e) { console.error('Failed to fetch genres', e); }
   }
 
-  //  Skeleton UI (Phase 1)
+  // Skeletons
   function showSkeletons() {
     const cards = track.querySelectorAll('.card');
     cards.forEach((card) => {
@@ -188,7 +187,7 @@
     });
   }
 
-  //  Data fetching (Phase 1 + Discover & Watchlist)
+  // Data fetching
   async function fetchPage(query, page = 1) {
     if (state.abortController) state.abortController.abort();
     state.abortController = new AbortController();
@@ -196,7 +195,6 @@
     const key = `${query}::${page}::${state.selectedGenre}::${state.selectedYear}`;
     if (state.cache.has(key)) return state.cache.get(key);
 
-    // Handle Watchlist filter
     if (query === 'watchlist') {
       const items = Array.from(state.watchlist.values());
       return { items, total: items.length };
@@ -210,7 +208,6 @@
       url = `/api/tmdb?search=${encodeURIComponent(query)}&page=${page}`;
     }
 
-    // If genre or year is selected, switch to discover endpoint
     if (state.selectedGenre || state.selectedYear) {
       url = `/api/tmdb?discover=1&page=${page}`;
       if (state.selectedGenre) url += `&with_genres=${state.selectedGenre}`;
@@ -250,7 +247,6 @@
     }
   }
 
-  //  Load more infinite
   async function loadMoreIntoFeed() {
     if (state.isLoading || state.currentQuery === 'watchlist') return;
     state.isLoading = true;
@@ -272,12 +268,13 @@
     return item;
   }
 
-  //  Populate cards
+  // Populate cards (with watchlist injection)
   function populateCards(items) {
     const cards = track.querySelectorAll('.card');
     cards.forEach((card, i) => {
       const item = items[i];
       if (!item) return;
+
       card.dataset.movieId = item.id;
       card.querySelector('h3').textContent = item.title;
       card.querySelector('.movie-data').textContent = item.date;
@@ -302,14 +299,14 @@
           </div>
         `;
       }
-      // Inject watchlist button into card if not present
+
+      // Force inject watchlist button
       let wlBtn = card.querySelector('.watchlist-btn');
-      if (!wlBtn) {
-        wlBtn = document.createElement('button');
-        wlBtn.className = 'watchlist-btn';
-        wlBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
-        card.appendChild(wlBtn);
-      }
+      if (wlBtn) wlBtn.remove();
+      wlBtn = document.createElement('button');
+      wlBtn.className = 'watchlist-btn';
+      wlBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+      card.appendChild(wlBtn);
       wlBtn.dataset.movieId = item.id;
       if (isInWatchlist(item.id)) {
         wlBtn.classList.add('in-watchlist');
@@ -325,14 +322,13 @@
     });
   }
 
-  //  Main fetchMovies
+  // Main fetchMovies
   async function fetchMovies(query) {
     if (!query || !query.trim()) query = 'popular';
     state.currentQuery = query;
     state.currentPage = 1;
     state.feedIndex = 0;
 
-    // Update URL
     const isFilter = ['popular', 'top_rated', 'upcoming', 'watchlist'].includes(query);
     updateURL(isFilter ? '' : query, isFilter ? query : '', state.selectedGenre, state.selectedYear);
 
@@ -345,14 +341,13 @@
     hideSkeletons();
     finalizeKeep7();
 
-    // Auto-rotate: stop then restart if active
     if (state.isAutoRotating) {
       stopAutoRotate();
       startAutoRotate();
     }
   }
 
-  //  Your original carousel logic (kept 100% intact)
+  // Carousel logic 
   function createCard(item) {
     if (!item) return null;
     const el = document.createElement('div');
@@ -450,7 +445,7 @@
     for (let i = 0; i < Math.min(MAX_STEPS, steps); i++) { await singleShiftRight(); }
   }
 
-  //  Auto-Rotate Feature
+  // Auto‑rotate
   function startAutoRotate() {
     if (state.isAutoRotating) return;
     state.isAutoRotating = true;
@@ -475,7 +470,7 @@
     else startAutoRotate();
   }
 
-  //  Drag 
+  // Drag
   let startX = 0, dragging = false, didDrag = false;
   track.addEventListener('pointerdown', e => { dragging = true; startX = e.clientX; });
   window.addEventListener('pointermove', e => {
@@ -501,7 +496,6 @@
   });
   document.getElementById('autoRotateBtn')?.addEventListener('click', toggleAutoRotate);
 
-  // Pause on hover
   container.addEventListener('mouseenter', () => {
     if (state.isAutoRotating) stopAutoRotate();
   });
@@ -511,7 +505,65 @@
     }
   });
 
-  //  Search & Filters (Phase 1 + Watchlist + Genre/Year)
+  // Phase 3: Parallax Tilt
+  container.addEventListener('pointermove', (e) => {
+    const activeCard = document.querySelector('.card.active');
+    if (!activeCard) return;
+    const rect = activeCard.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateY = ((x - centerX) / centerX) * -10;
+    const rotateX = ((y - centerY) / centerY) * 10;
+    activeCard.style.setProperty('--tilt-y', rotateY + 'deg');
+    activeCard.style.setProperty('--tilt-x', rotateX + 'deg');
+  });
+  container.addEventListener('pointerleave', () => {
+    const activeCard = document.querySelector('.card.active');
+    if (activeCard) {
+      activeCard.style.setProperty('--tilt-y', '0deg');
+      activeCard.style.setProperty('--tilt-x', '0deg');
+    }
+  });
+
+  // Phase 3: Shuffle
+  document.getElementById('shuffleBtn')?.addEventListener('click', async () => {
+    const randomPage = Math.floor(Math.random() * 500) + 1;
+    showApiMessage('🎲 Shuffling the deck...');
+    const url = `/api/tmdb?discover=1&page=${randomPage}&sort_by=popularity.desc`;
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.results && data.results.length > 0) {
+        const items = data.results.map(m => ({
+          id: m.id,
+          title: m.title || '',
+          date: m.release_date ? m.release_date.slice(0, 4) : '',
+          type: 'movie',
+          rating: m.vote_average ? m.vote_average.toFixed(1) : '—',
+          badgeLeft: 'MOVIE',
+          badgeRight: m.original_language?.toUpperCase() || '',
+          imgSrc: m.poster_path ? `https://image.tmdb.org/t/p/w400${m.poster_path}` : '',
+          imgAlt: m.title || '',
+          poster_path: m.poster_path || null,
+          overview: m.overview || '',
+        }));
+        state.feed = items;
+        state.feedIndex = 0;
+        state.currentQuery = 'random';
+        populateCards(state.feed.slice(0, 7));
+        finalizeKeep7();
+      } else {
+        showApiMessage('No movies found on that page, try again!');
+      }
+    } catch (err) {
+      console.error(err);
+      showApiMessage('Error shuffling movies.');
+    }
+  });
+
+  // Search & Filters
   let searchTimer = null;
   function debouncedSearch(value) { clearTimeout(searchTimer); searchTimer = setTimeout(() => fetchMovies(value.trim()), 200); }
 
@@ -544,7 +596,6 @@
     if (btn.classList.contains('active')) moveIndicator(btn);
   });
 
-  // Genre & Year dropdowns
   document.getElementById('genreSelect')?.addEventListener('change', (e) => {
     state.selectedGenre = e.target.value;
     if (state.currentQuery === 'watchlist') state.currentQuery = 'popular';
@@ -556,13 +607,14 @@
     fetchMovies(state.currentQuery);
   });
 
-  //  Trailer Overlay Enhancements (Play/Pause, Fullscreen, Director)
+  // Trailer Overlay
   const overlay = document.getElementById('trailer-overlay');
   const iframe = document.getElementById('trailerPlayer');
   const closeBtn = document.getElementById('closeTrailer');
   const playPauseBtn = document.getElementById('playPauseBtn');
   const fullscreenBtn = document.getElementById('fullscreenBtn');
   const overlayWlBtn = document.getElementById('overlayWatchlistBtn');
+  const shareBtn = document.getElementById('shareBtn');
 
   let trailerOpenBusy = false;
   let ytPlayer = null;
@@ -608,69 +660,36 @@
     } catch (err) { console.error(err); return null; }
   }
 
-  function closeTrailerOverlay() {
-    if (overlay) overlay.classList.add('hidden');
-    if (ytPlayer) { try { ytPlayer.stopVideo(); } catch {} } else if (iframe) { iframe.src = ''; }
-    trailerOpenBusy = false;
-    currentTrailerMovie = null;
-  }
-
-  if (closeBtn) closeBtn.addEventListener('click', closeTrailerOverlay);
-  if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeTrailerOverlay(); });
-
-  // Play/Pause button
-  playPauseBtn?.addEventListener('click', () => {
-    if (!ytPlayer) return;
-    if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) {
-      ytPlayer.pauseVideo();
-    } else {
-      ytPlayer.playVideo();
-    }
-  });
-
-  // Fullscreen button
-  fullscreenBtn?.addEventListener('click', () => {
-    if (ytPlayer) {
-      const el = ytPlayer.getIframe();
-      if (el.requestFullscreen) el.requestFullscreen();
-      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-      else if (el.msRequestFullscreen) el.msRequestFullscreen();
-    }
-  });
-
-  // Overlay watchlist button
-  overlayWlBtn?.addEventListener('click', () => {
-    if (currentTrailerMovie) {
-      toggleWatchlist(currentTrailerMovie);
-      updateWatchlistUI();
-      // Update overlay button state
-      if (isInWatchlist(currentTrailerMovie.id)) {
-        overlayWlBtn.querySelector('i').className = 'fa-solid fa-heart';
-      } else {
-        overlayWlBtn.querySelector('i').className = 'fa-regular fa-heart';
-      }
-    }
-  });
-
-  //  Card click to open trailer (Phase 1 + Director & Controls)
-  track.addEventListener('click', async e => {
-    if (didDrag) { didDrag = false; return; }
-    const card = e.target.closest('.card');
-    if (!card) return;
-    let movieId = card.dataset.movieId || null;
-    let item = null;
-    if (!movieId) {
-      const title = card.querySelector('h3')?.textContent?.trim();
-      if (title) {
-        item = state.feed.find(m => String(m.title).trim() === String(title).trim());
-        if (item) { movieId = item.id; card.dataset.movieId = movieId; }
-      }
-    } else { item = state.feed.find(m => String(m.id) === String(movieId)); }
-    if (!movieId || !item) { showApiMessage('Movie data missing.'); return; }
+  async function openMovieOverlayById(movieId) {
     if (trailerOpenBusy) return;
     trailerOpenBusy = true;
-
     try {
+      let item = state.feed.find(m => String(m.id) === String(movieId));
+      if (!item) {
+        const res = await fetch(`/api/tmdb?details=${movieId}`);
+        const data = await res.json();
+        if (data) {
+          item = {
+            id: data.id,
+            title: data.title || '',
+            date: data.release_date ? data.release_date.slice(0, 4) : '',
+            type: 'movie',
+            rating: data.vote_average ? data.vote_average.toFixed(1) : '—',
+            badgeLeft: 'MOVIE',
+            badgeRight: data.original_language?.toUpperCase() || '',
+            imgSrc: data.poster_path ? `https://image.tmdb.org/t/p/w400${data.poster_path}` : '',
+            imgAlt: data.title || '',
+            poster_path: data.poster_path || null,
+            overview: data.overview || '',
+          };
+        }
+      }
+
+      if (!item) {
+        showApiMessage('Movie not found.');
+        return;
+      }
+
       const result = await fetchTrailerAndDetails(movieId);
       if (!result || !result.key) { showApiMessage('Trailer not found.'); return; }
 
@@ -680,7 +699,6 @@
       document.getElementById('trailerRating').textContent = item.vote_average || item.rating || '—';
       document.getElementById('trailerOverview').textContent = item.overview || 'No description available.';
 
-      // Update overlay watchlist button
       if (isInWatchlist(item.id)) {
         overlayWlBtn.querySelector('i').className = 'fa-solid fa-heart';
       } else {
@@ -688,7 +706,6 @@
       }
 
       const metaContainer = document.querySelector('.meta');
-      // Clear old dynamic meta elements
       metaContainer.querySelectorAll('.runtime-info, .cast-info, .genre-info, .director-info').forEach(el => el.remove());
 
       const details = result.details;
@@ -735,9 +752,88 @@
       }
       if (overlay) overlay.classList.remove('hidden');
     } catch (err) { console.error(err); showApiMessage('Error opening trailer.'); } finally { trailerOpenBusy = false; }
+  }
+
+  function closeTrailerOverlay() {
+    if (overlay) overlay.classList.add('hidden');
+    if (ytPlayer) { try { ytPlayer.stopVideo(); } catch {} } else if (iframe) { iframe.src = ''; }
+    trailerOpenBusy = false;
+    currentTrailerMovie = null;
+    const url = new URL(window.location);
+    if (url.searchParams.get('movie_id')) {
+      url.searchParams.delete('movie_id');
+      window.history.replaceState({}, '', url);
+    }
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeTrailerOverlay);
+  if (overlay) overlay.addEventListener('click', e => { if (e.target === overlay) closeTrailerOverlay(); });
+
+  playPauseBtn?.addEventListener('click', () => {
+    if (!ytPlayer) return;
+    if (ytPlayer.getPlayerState() === YT.PlayerState.PLAYING) ytPlayer.pauseVideo();
+    else ytPlayer.playVideo();
   });
 
-  //  Keyboard Controls
+  fullscreenBtn?.addEventListener('click', () => {
+    if (ytPlayer) {
+      const el = ytPlayer.getIframe();
+      if (el.requestFullscreen) el.requestFullscreen();
+      else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+      else if (el.msRequestFullscreen) el.msRequestFullscreen();
+    }
+  });
+
+  overlayWlBtn?.addEventListener('click', () => {
+    if (currentTrailerMovie) {
+      toggleWatchlist(currentTrailerMovie);
+      updateWatchlistUI();
+      if (isInWatchlist(currentTrailerMovie.id)) {
+        overlayWlBtn.querySelector('i').className = 'fa-solid fa-heart';
+      } else {
+        overlayWlBtn.querySelector('i').className = 'fa-regular fa-heart';
+      }
+    }
+  });
+
+  // Phase 3: Share
+  shareBtn?.addEventListener('click', () => {
+    if (!currentTrailerMovie) return;
+    const url = `https://moviio.vercel.app/?movie_id=${currentTrailerMovie.id}`;
+    if (navigator.share) {
+      navigator.share({
+        title: currentTrailerMovie.title,
+        text: `Check out ${currentTrailerMovie.title} on Moviio!`,
+        url: url
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        showApiMessage('📋 Movie link copied to clipboard!');
+      }).catch(() => {
+        showApiMessage('Error copying link.');
+      });
+    }
+  });
+
+  // Card click to open trailer
+  track.addEventListener('click', async e => {
+    if (didDrag) { didDrag = false; return; }
+    const card = e.target.closest('.card');
+    if (!card) return;
+    let movieId = card.dataset.movieId || null;
+    let item = null;
+    if (!movieId) {
+      const title = card.querySelector('h3')?.textContent?.trim();
+      if (title) {
+        item = state.feed.find(m => String(m.title).trim() === String(title).trim());
+        if (item) { movieId = item.id; card.dataset.movieId = movieId; }
+      }
+    } else { item = state.feed.find(m => String(m.id) === String(movieId)); }
+    if (!movieId || !item) { showApiMessage('Movie data missing.'); return; }
+    openMovieOverlayById(movieId);
+  });
+
+  // Keyboard controls
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') { e.preventDefault(); shiftLeft(1); }
     else if (e.key === 'ArrowRight') { e.preventDefault(); shiftRight(1); }
@@ -745,7 +841,7 @@
     else if (e.key === 'Escape') closeTrailerOverlay();
   });
 
-  //  API Message
+  // API message
   function showApiMessage(text) {
     const box = document.getElementById('api-status');
     if (!box) { console.warn(text); return; }
@@ -754,7 +850,7 @@
     setTimeout(() => { box.style.display = 'none'; }, 3000);
   }
 
-  //  Initialize
+  // Initialize
   loadWatchlist();
   fetchGenres();
   loadFromURL();
@@ -765,6 +861,13 @@
     const filter = params.get('filter');
     const genre = params.get('genre');
     const year = params.get('year');
+    const movieId = params.get('movie_id');
+
+    if (movieId) {
+      openMovieOverlayById(movieId);
+      return;
+    }
+
     state.selectedGenre = genre || '';
     state.selectedYear = year || '';
     document.getElementById('genreSelect').value = state.selectedGenre;
