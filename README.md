@@ -16,11 +16,8 @@
   <a href="https://github.com/byllzz/moviio-cinema/issues/new?labels=enhancement&template=feature-request---.md"> Request Feature</a>
 </p>
 
----
 
 ![moviio-cinema Dashboard](./assets/preview.png)
-
----
 
 # About The Moviio
 
