@@ -1,87 +1,502 @@
-# <a href="https://moviio.vercel.app" target="_blank">Moviio - Discover Movies, Watch Youtube Trailers </a>
+# Moviio Cinema
 
-**Moviio** is a modern, interactive movie discovery web app powered by **TMDB**. Browse popular, top-rated, and upcoming movies, search by title, swipe or drag through a smooth **3D-style cinematic carousel**, and instantly watch official trailers in a fullscreen movie-theater overlay.
+> A cinematic 3D carousel movie explorer powered by TMDB. Discover films, watch trailers, and manage your watchlist with smooth motion!
 
-Built for **speed, motion, and immersion** - all running entirely in the browser.
-
-<p align="left">
-  <a href="./LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-9B72FF.svg?style=flat" />
-  </a>
-  <img src="https://img.shields.io/badge/Repository%20Status-Maintained-9B72FF.svg?style=flat" />
-  <img src="https://img.shields.io/badge/Website%20Status-Online-9B72FF.svg?style=flat" />
-  <a href="https://github.com/byllzz">
-    <img src="https://img.shields.io/badge/Author-Bilal%20Malik-9B72FF.svg?style=flat" />
-  </a>
-  <a href="https://github.com/byllzz/moviio/releases">
-    <img src="https://img.shields.io/badge/Latest%20Release-14%20Jan%202026-9B72FF.svg" />
+<p align="center">
+  <a href="https://github.com/byllzz/moviio-cinema">
+    <img src="./assets/favicon.svg" width="80" alt="Project Logo">
   </a>
 </p>
-<br />
 
-[![Visit Moviio](https://img.shields.io/badge/View-Moviio-9B72FF?style=flat)](https://moviio.vercel.app)
+<h1 align="center">Moviio Cinema</h1>
 
-<img width="100%" alt="Moviio Preview" src="./assets/preview.png" />
-
-⭐ **Star the repo if you like it — it really helps!**
-
----
-
-#  Features
-
-<p align="left">
-✔️ Interactive Movie Carousel (7-card cinematic layout)<br>
-✔️ Drag / Swipe Navigation (mouse, touch & pointer-based)<br>
-✔️ Smooth Animations & Transitions (GPU-optimized)<br>
-✔️ TMDB-Powered Data (popular, top-rated & upcoming movies)<br>
-✔️ Instant Search with Debounce (no reloads)<br>
-✔️ Filter Tabs with Animated Indicator<br>
-✔️ Infinite Movie Loading (auto prefetching)<br>
-✔️ Trailer Playback Overlay (YouTube No-Cookie)<br>
-✔️ Auto-Quality Trailer Playback (HD / 4K capable)<br>
-✔️ Movie Metadata (rating, year, language, type)<br>
-✔️ Client-Side Caching (faster repeat searches)<br>
-✔️ Keyboard, Mouse & Touch Friendly<br>
-✔️ No Accounts, No Tracking, No Backend UI<br>
-✔️ Deployed on Vercel (serverless API proxy)
+<p align="center">
+  <a href="https://moviio.vercel.app/"> Live Demo</a> •
+  <a href="https://github.com/byllzz/moviio-cinema/issues/new?labels=bug&template=bug-report---.md"> Report Bug</a> •
+  <a href="https://github.com/byllzz/moviio-cinema/issues/new?labels=enhancement&template=feature-request---.md"> Request Feature</a>
 </p>
 
 ---
 
-##  How It Works
-
-- Uses a **custom 7-card carousel engine** (no libraries)
-- Fetches movie data from **TMDB via a serverless API**
-- Keeps UI smooth by:
-  - Reusing cards
-  - Limiting DOM nodes
-  - GPU-friendly transforms
-- Automatically preloads upcoming pages for **instant scrolling**
-- Trailers are fetched dynamically and played using the **YouTube IFrame API**
-- All interactions happen **client-side**, keeping it fast and responsive
+[![Project Dashboard](https://raw.githubusercontent.com/byllzz/moviio-cinema/main/assets/preview.png)](https://moviio.vercel.app/)
 
 ---
 
-##  Installation & Setup
+# About The Project
 
-### Requirements
-- Node.js (for API proxy)
-- Browser (Chrome / Edge / Firefox)
-- TMDB API Key
-- TMDB_API_KEY=your_tmdb_api_key_here
+Welcome to **Moviio** - a modern, interactive movie discovery web app built to deliver an immersive cinematic experience directly in your browser.
 
+Instead of displaying movies in a traditional grid, the application introduces a **custom-built 7-card 3D wheel engine**, allowing users to swipe, drag, or click through movies in an elegant circular layout.
 
-### Clone the Repository
-```bash
-git clone https://github.com/byllzz/moviio.git
-cd moviio
+Powered by **TMDB**, the app fetches real-time movie information, official trailers, ratings, genres, and detailed metadata while maintaining buttery-smooth animations and GPU-accelerated performance.
+
+## Why this project stands out
+
+- 🎬 Custom-built **3D Wheel Engine**
+  - No third-party carousel libraries
+  - Pure CSS 3D transforms
+  - CSS custom properties (`--slot`)
+  - Vanilla JavaScript animations
+
+- ▶️ Cinema Trailer Experience
+  - Fullscreen trailer overlay
+  - YouTube player integration
+  - Play/Pause controls
+  - Fullscreen support
+  - Share functionality
+
+- ❤️ Smart Watchlist
+  - Persistent LocalStorage
+  - URL Deep Linking
+  - Auto-Rotate mode
+
+  ---
+
+# Built With
+
+This project is built entirely using modern web technologies together with a serverless API proxy.
+
+## Technologies
+
+| Technology | Purpose |
+|------------|---------|
+| HTML5 | Semantic markup and PWA support |
+| CSS3 | Layouts, animations, 3D transforms, responsive UI |
+| Vanilla JavaScript (ES6+) | State management, Fetch API, DOM manipulation |
+| TMDB API | Movies, trailers, posters and metadata |
+| YouTube IFrame API | Trailer playback |
+| Vercel | Deployment and serverless functions |
+
+### Tech Stack Badges
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![TMDB](https://img.shields.io/badge/TMDB-01B4E4?style=for-the-badge&logo=themoviedatabase&logoColor=white)
+
+---
+
+# Architecture
+
+The application follows a modular architecture.
+
+```
+moviio-cinema/
+│
+├── index.html
+├── style.css
+├── script.js
+├── README.md
+├── vercel.json
+│
+├── api/
+│   └── tmdb.js
+│
+├── assets/
+│   ├── favicon.svg
+│   ├── cloudsBg.webm
+│   └── preview.png
+│
+├── manifest.json
+└── sw.js
 ```
 
-# License 📄
+### Folder Overview
 
-This project is licensed under the MIT License - see the [LICENSE.md](./LICENSE) file for details.
+| File | Description |
+|------|-------------|
+| index.html | Main application |
+| style.css | Global styling |
+| script.js | Carousel logic, state management and UI |
+| api/tmdb.js | Serverless API proxy |
+| manifest.json | Progressive Web App manifest |
+| sw.js | Service Worker |
+| assets | Images and media |
+
+---
+
+# Features
+
+## Complete Feature List
+
+| # | Feature | Description |
+|---|---------|-------------|
+| 01 |  7-Card 3D Wheel | Custom-built carousel with 3D perspective, layered stacking, and smooth transitions. |
+| 02 |  Drag & Swipe Navigation | Navigate the carousel using mouse drag or touchscreen gestures. |
+| 03 |  Auto-Rotate Mode | Automatically rotates the wheel every 4 seconds and pauses on hover. |
+| 04 |  TMDB Integration | Fetches Popular, Upcoming, and Top Rated movies in real time. |
+| 05 |  Instant Search & Filters | Debounced search with Genre and Year filters powered by TMDB Discover API. |
+| 06 |  Watchlist | Save favorite movies using LocalStorage for persistent access. |
+| 07 |  Cinema Trailer Overlay | Watch official YouTube trailers in a fullscreen cinematic overlay. |
+| 08 |  Overlay Controls | Built-in Play/Pause, Fullscreen, and Share controls. |
+| 09 |  Dynamic Movie Details | Displays runtime, genres, director, and top cast automatically. |
+| 10 |  Shuffle Button | Discover hidden gems by loading a random page of movies. |
+| 11 |  Parallax Tilt Effect | Interactive 3D tilt effect on the active movie card. |
+| 12 |  URL Deep Linking | Share movies using direct URLs such as `/?movie_id=980431`. |
+| 13 |  Progressive Web App | Installable on desktop and mobile with offline caching support. |
+| 14 |  Keyboard Shortcuts | Navigate using Arrow Keys, Enter, Space, and Escape. |
+
+---
+
+#  Usage
+
+Once the application is running, you'll be welcomed by an immersive **3D movie carousel** designed to make discovering films feel like browsing a virtual cinema. Navigate effortlessly, watch trailers, and build your personal watchlist—all from a single interface.
+
+## Explore the Features
+
+###  Browse Movies
+Navigate through the custom 3D carousel using your preferred input method:
+
+- Click the **Previous** and **Next** buttons
+- Drag the carousel with your mouse
+- Swipe on touch devices
+- Use the **←** and **→** arrow keys
+
+---
+
+###  Search & Filter
+Quickly find the perfect movie with powerful filtering options:
+
+- Search by movie title
+- Filter by **Genre**
+- Filter by **Release Year**
+
+> **Tip:** Searches are automatically debounced for a smoother and more efficient experience.
+
+---
+
+###  Build Your Watchlist
+Keep track of movies you want to watch by clicking the **❤️ heart icon** on any movie card.
+
+Your watchlist includes:
+
+- Persistent storage using **LocalStorage**
+- One-click add or remove
+- Dedicated **Watchlist** filter
+
+---
+
+###  Watch Official Trailers
+Select the **center (active) movie card** to launch the cinematic trailer overlay.
+
+The application automatically loads the official YouTube trailer whenever one is available.
+
+---
+
+###  Trailer Controls
+The fullscreen player includes convenient playback controls:
+
+- ▶ Play / Pause
+-  Fullscreen Mode
+-  Share Movie Link
+
+---
+
+###  Auto Rotate
+Enable **Auto Rotate** to let the carousel automatically cycle through movies.
+
+The animation pauses while your cursor is over the carousel and resumes once you move away.
+
+---
+
+###  Share Movies
+Share a specific movie using a direct URL.
+
+```text
+/?movie_id=980431
+```
+
+Opening the link automatically loads that movie and displays its trailer.
+
+---
+
+#  Live Demo
+
+Skip the installation and experience the application instantly.
+
+👉 **https://moviio.vercel.app/**
+
+Explore the interactive 3D carousel, search thousands of movies, watch official trailers, and manage your watchlist directly in your browser.
+
+---
+
+# Getting Started
+
+Follow these steps to run the project locally.
+
+## Prerequisites
+
+Before starting, make sure you have:
+
+- A modern browser (Chrome, Firefox, Edge, or Safari)
+- Visual Studio Code (recommended)
+- A TMDB API Key
+
+Request an API key from:
+
+https://www.themoviedb.org/
+
+---
+
+# Installation
+
+## 1. Clone the repository
+
+```bash
+git clone https://github.com/byllzz/moviio-cinema.git
+```
+
+---
+
+## 2. Enter the project directory
+
+```bash
+cd moviio-cinema
+```
+
+---
+
+## 3. Configure your TMDB API Key
+
+This project uses a **serverless Vercel API proxy**.
+
+Create a `.env` file in the project root.
+
+```text
+TMDB_KEY=your_tmdb_api_key
+```
+
+Replace:
+
+```
+your_tmdb_api_key
+```
+
+with your actual **TMDB API v3 Key**.
+
+---
+
+## Deploying on Vercel
+
+If deploying online:
+
+1. Open your Vercel Dashboard.
+2. Navigate to your project.
+3. Open **Settings → Environment Variables**.
+4. Create a variable named:
+
+```text
+TMDB_KEY
+```
+
+5. Paste your TMDB API Key.
+6. Redeploy the project.
+
+---
+
+# Running the Project
+
+There are two ways to launch the app.
+
+## Option A - Open Directly
+
+Simply open:
+
+```
+index.html
+```
+
+However, because the application uses a serverless API (`/api/tmdb`), opening it via:
+
+```
+file://
+```
+
+will prevent API requests from working.
+
+---
+
+## Option B - Live Server (Recommended)
+
+1. Open the project in Visual Studio Code.
+2. Install the **Live Server** extension.
+3. Right-click `index.html`.
+4. Select **Open with Live Server**.
+
+This starts a local HTTP server, allowing the API proxy to function correctly.
+
+---
+
+# Environment Variables
+
+Create a `.env` file in the root directory.
+
+```env
+TMDB_KEY=your_tmdb_api_key
+```
+
+Never commit your `.env` file to GitHub.
+
+Ensure `.env` is included in your `.gitignore`.
+
+---
+
+# Project Requirements
+
+- HTML5-compatible browser
+- JavaScript enabled
+- Internet connection (for TMDB and YouTube APIs)
+- Valid TMDB API Key
+
+---
+
+<!-- CONTRIBUTING -->
+
+# Contributing
+
+Contributions are always welcome! Whether you've found a bug, have an idea for a new project, or want to improve the existing code, your help is appreciated.
+
+### Ways to Contribute
+
+-  Report bugs by opening an issue.
+-  Suggest new JavaScript mini-project ideas.
+-  Improve the code, documentation, or UI.
+-  Help enhance the README or project organization.
+
+---
+
+### Getting Started
+
+1. **Fork** this repository.
+2. **Clone** your fork locally.
+
+```bash
+git clone https://github.com/byllzz/moviio-cinema.git
+```
+
+3. Create a new feature branch.
+
+```bash
+git checkout -b feat/amazing-feature
+```
+
+4. Make your changes and commit them.
+
+```bash
+git commit -m "Add your amazing feature"
+```
+
+5. Push your branch.
+
+```bash
+git push origin feat/amazing-feature
+```
+
+6. Open a **Pull Request** describing your changes.
+
+---
+
+###  Show Your Support
+
+If you found this repository helpful:
+
+-  Star the repository
+-  Fork it
+-  Share it with other developers
+
+Every contribution, no matter how small, helps make this project better.
+
+---
+
+###  Contributors
+
+A big thank you to everyone who has contributed to this project!
+
+<a href="https://github.com/byllzz/moviio-cinema/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=byllzz/moviio-cinema" alt="Project Contributors" />
+</a>
+
+<p align="right">(<a href="#readme-top">Back to Top ↑</a>)</p>
+
+---
+
+<!-- AUTHOR -->
+
+#  Author
+
+<p align="left">
+  <img
+    src="https://github.com/byllzz.png"
+    alt="Bilal Malik"
+    width="120"
+    style="border-radius:8px"
+  />
+</p>
+
+<h3 align="left">Bilal Malik (byllzz)</h3>
+
+<p align="left">
+  Front-End Developer • JavaScript Enthusiast • Open Source Contributor
+</p>
+
+<p align="left">
+  <a href="https://github.com/byllzz">
+    <img src="https://img.shields.io/badge/GitHub-byllzz-181717?style=for-the-badge&logo=github" alt="GitHub" />
+  </a> <br>
+  <a href="https://x.com/bilalmlkdev">
+    <img src="https://img.shields.io/badge/@bilalmlkdev-000000?style=for-the-badge&logo=x&logoColor=white" alt="X (Twitter)" />
+  </a> <br>
+  <a href="https://bilalmlkdev.vercel.app">
+    <img src="https://img.shields.io/badge/Portfolio-bilal%20Malik.site-000000?style=for-the-badge&logo=vercel" alt="Portfolio" />
+  </a>
+</p>
+
+<p align="left">
+  If you enjoyed this project, consider giving it a ⭐ on GitHub!
+</p>
+
+<p align="right">(<a href="#readme-top">Back to Top ↑</a>)</p>
+
+---
+
+### `LICENSE` (MIT)
+
+```
+MIT License
+
+Copyright (c) 2026 Bilal Malik
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
 
 
-# Feedback
+## Acknowledgements
 
-Reach out at **bilalmlkdev@gmail.com**. If you like this project, please ⭐ star the repo — it motivates future updates!
+This project uses the following services and technologies:
+
+- **TMDB API** for movie data
+- **YouTube IFrame API** for trailer playback
+- **Vercel** for deployment and serverless functions
+- **HTML5**, **CSS3**, and **Vanilla JavaScript (ES6+)**
+
+---
+
+© 2026 Moviio. Licensed under the **MIT License**.

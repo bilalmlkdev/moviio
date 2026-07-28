@@ -805,6 +805,7 @@ display: none;
 /* Trailer Overlay new controls */
 .trailer-controls {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 1rem;
 }
