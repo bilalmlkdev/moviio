@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://moviio.vercel.app/">
-    <img src="./assets/favicon.svg" width="80" alt="Project Logo">
+    <img src="./assets/favicon.svg" width="120" alt="Project Logo">
   </a>
 </p>
 
@@ -18,11 +18,11 @@
 
 ---
 
-[![Project Dashboard](https://raw.githubusercontent.com/byllzz/moviio-cinema/main/assets/preview.png)](https://moviio.vercel.app/)
+[![moviio-cinema Dashboard](https://raw.githubusercontent.com/byllzz/moviio-cinema/main/assets/preview.png)](https://moviio.vercel.app/)
 
 ---
 
-# About The Project
+# About The Moviio
 
 Welcome to **Moviio** - a modern, interactive movie discovery web app built to deliver an immersive cinematic experience directly in your browser.
 
