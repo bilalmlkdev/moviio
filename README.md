@@ -3,7 +3,7 @@
 > A cinematic 3D carousel movie explorer powered by TMDB. Discover films, watch trailers, and manage your watchlist with smooth motion!
 
 <p align="center">
-  <a href="https://github.com/byllzz/moviio-cinema">
+  <a href="https://moviio.vercel.app/">
     <img src="./assets/favicon.svg" width="80" alt="Project Logo">
   </a>
 </p>
