@@ -538,6 +538,7 @@ header {
   z-index: 5;
   width: 50%;
   max-width: 800px;
+  flex-wrap: wrap;
   margin-left: 4rem;
   color: var(--txt-color);
   display: flex;

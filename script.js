@@ -538,7 +538,7 @@
     state.autoRotateInterval = setInterval(() => {
       if (!state.isAutoRotating) return;
       shiftLeft(1);
-    }, 3000);
+    }, 800);
   }
 
   function stopAutoRotate() {
