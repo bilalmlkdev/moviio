@@ -1,6 +1,14 @@
 export default async function handler(req, res) {
   const API_KEY = process.env.TMDB_KEY;
-  const { mode, search, page = 1, trailer, details, genres } = req.query;
+  const {
+    mode,
+    search,
+    page = 1,
+    trailer,
+    details,
+    genres,
+    discover,
+  } = req.query;
 
   let url = "";
 
@@ -10,6 +18,13 @@ export default async function handler(req, res) {
     url = `https://api.themoviedb.org/3/movie/${details}?api_key=${API_KEY}&append_to_response=credits,genres`;
   } else if (genres) {
     url = `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`;
+  } else if (discover) {
+    // Discover endpoint for genre & year filtering
+    const genreFilter = req.query.with_genres || "";
+    const yearFilter = req.query.primary_release_year || "";
+    url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=${page}`;
+    if (genreFilter) url += `&with_genres=${genreFilter}`;
+    if (yearFilter) url += `&primary_release_year=${yearFilter}`;
   } else if (mode) {
     url = `https://api.themoviedb.org/3/movie/${mode}?api_key=${API_KEY}&page=${page}`;
   } else if (search) {

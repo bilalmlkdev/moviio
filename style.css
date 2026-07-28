@@ -1168,3 +1168,127 @@ header {
   height: 100%;
   background: #2a2a2a;
 }
+
+
+
+/* Phase 2 */
+
+/* Heart/Watchlist button on cards */
+.watchlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 11;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+.watchlist-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.watchlist-btn.in-watchlist {
+  color: #ff4757;
+  border-color: #ff4757;
+}
+
+.watchlist-btn.in-watchlist i {
+  font-weight: 900;
+}
+
+/* Auto-rotate button */
+#autoRotateBtn {
+  width: 50px;
+  padding: 0;
+  transform: rotate(0deg) !important;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%) !important;
+  top: auto !important;
+}
+
+#autoRotateBtn span {
+  padding: 0.4rem 0.5rem;
+}
+
+/* Genre & Year selectors in filter wrapper */
+.filter-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--txt-color);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+  padding-right: 30px;
+}
+
+.filter-select option {
+  background: #000;
+  color: #fff;
+}
+
+/* Trailer Overlay new controls */
+.trailer-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--txt-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Responsive tweaks for new elements */
+@media (max-width: 768px) {
+  #autoRotateBtn {
+    bottom: -30px;
+    width: 40px;
+  }
+  .filter-select {
+    font-size: 12px;
+    padding: 2px 24px 2px 8px;
+  }
+  .watchlist-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    top: 8px;
+    right: 8px;
+  }
+}
