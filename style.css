@@ -705,19 +705,12 @@ header {
   font-weight: 900;
 }
 
-/* Auto‑rotate & Shuffle buttons in hero section */
-.extras-controls {
-    position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 99;
-}
-
-
+/* Auto‑Rotate & Shuffle buttons*/
 
 #autoRotateBtn,
 #shuffleBtn {
+  position: absolute;
+  top: 250px; /* .move-left/.move-right sit at top:180px + their own height (~55px) + 15px gap */
   width: 130px;
   padding: 0;
   border: none !important;
@@ -732,8 +725,18 @@ header {
   box-shadow: 0 2px 0 #494a4b;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background-color: var(--txt-color);
+  z-index: 10;
 }
 
+/* Auto-Rotate sits under the LEFT arrow (.move-left) */
+#autoRotateBtn {
+  left: 100px;
+}
+
+/* Shuffle sits under the RIGHT arrow (.move-right) */
+#shuffleBtn {
+  right: 100px;
+}
 
 #autoRotateBtn strong,
 #shuffleBtn strong {
@@ -753,30 +756,6 @@ header {
   transform: translateY(5px);
   padding-bottom: 0px;
   outline: 0;
-}
-
-@media  screen and (max-width: 800px) {
-  .extras-controls {
-    bottom:22%;
-    left: 50%;
-    transform: translate(-50% , -50%);
-  }
-}
-@media  screen and (max-width: 485px) {
-  .extras-controls {
-    bottom:70%;
-    left: 50%;
-    transform: translate(-50% , -50%);
-  }
-#autoRotateBtn,
-#shuffleBtn  {
-font-size: 12px;
-width: 50px;
-}
-#autoRotateBtn strong span,
-#shuffleBtn  strong span  {
-display: none;
-}
 }
 
 /* Genre & Year selectors */
@@ -1085,6 +1064,22 @@ display: none;
   .wheel-container {
     margin-top: 20px;
   }
+
+  /* keep Auto‑Rotate/Shuffle glued under the arrows at this size */
+  #autoRotateBtn,
+  #shuffleBtn {
+    top: 160px;
+    width: 100px;
+    font-size: 13px;
+  }
+
+  #autoRotateBtn {
+    left: 10px;
+  }
+
+  #shuffleBtn {
+    right: 10px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1139,6 +1134,22 @@ display: none;
 
   .wheel-container {
     margin-top: 80px;
+  }
+
+  /* Auto‑Rotate/Shuffle follow the arrows to the top of the wheel here */
+  #autoRotateBtn,
+  #shuffleBtn {
+    top: 100px;
+    width: 90px;
+    font-size: 12px;
+  }
+
+  #autoRotateBtn {
+    left: 70px;
+  }
+
+  #shuffleBtn {
+    right: 70px;
   }
 }
 
@@ -1234,7 +1245,26 @@ display: none;
     padding: 0.2rem;
   }
 
+  /* Auto‑Rotate/Shuffle */
+  #autoRotateBtn,
+  #shuffleBtn {
+    top: 12%;
+    width: 50px;
+    font-size: 12px;
+  }
 
+  #autoRotateBtn {
+    left: 10%;
+  }
+
+  #shuffleBtn {
+    right: 10%;
+  }
+
+  #autoRotateBtn strong span,
+  #shuffleBtn strong span {
+    display: none;
+  }
 }
 
 @media (max-width: 375px) {
@@ -1298,4 +1328,3 @@ display: none;
     min-width: 320px;
   }
 }
-

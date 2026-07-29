@@ -30,7 +30,7 @@ What are you doing here?! you sneaky developer...
   <meta name="author" content="Moviio" />
   <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Moviio — Explore Movies in Motion" />
+  <meta property="og:title" content="Moviio - Explore Movies in Motion" />
   <meta property="og:description"
     content="Discover movies in motion. Browse films, watch trailers, and explore cinema with Moviio." />
   <meta property="og:url" content="https://moviio.vercel.app" />
@@ -142,6 +142,7 @@ What are you doing here?! you sneaky developer...
 
       <!-- wheel container -->
       <div class="wheel-container">
+        <!-- LEFT arrow + Auto-Rotate button stacked directly under it -->
         <button class="move-right controller-btn">
           <span>
             <i class="fas fa-angle-right"></i>
@@ -152,6 +153,25 @@ What are you doing here?! you sneaky developer...
             <i class="fas fa-angle-left"></i>
           </span>
         </button>
+
+        <!-- UPDATED: Auto-Rotate now positioned under the left arrow,
+             Shuffle now positioned under the right arrow.
+             (Previously both lived together in a centered
+             ".extras-controls" bar below the whole wheel.) -->
+        <button id="autoRotateBtn">
+          <strong>
+            <i class="fa-solid fa-play"></i>
+            <span>Auto Rotate</span>
+          </strong>
+        </button>
+
+        <button id="shuffleBtn">
+          <strong>
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Shuffle</span>
+          </strong>
+        </button>
+
         <!-- cards container with wheel Ui -->
         <div class="wheel-track">
           <!-- 7 static card placeholders -->
@@ -312,29 +332,13 @@ What are you doing here?! you sneaky developer...
         </div>
       </div>
     </main>
-
-    <!-- Control buttons (Auto‑Rotate & Shuffle) -->
-    <div class="extras-controls" style="display: flex; gap: 20px; align-items: center; margin-top: 10px;">
-      <button id="autoRotateBtn">
-        <strong>
-          <i class="fa-solid fa-play"></i>
-          <span>Auto Rotate</span>
-        </strong>
-      </button>
-
-      <button id="shuffleBtn">
-        <strong>
-          <i class="fa-solid fa-shuffle"></i>
-          <span>Shuffle</span>
-        </strong>
-      </button>
-    </div>
   </section>
 
   <!-- this is the movie pop with trailer  -->
   <div id="trailer-overlay" class="hidden">
     <div class="trailer-bg">
-      <iframe id="trailerPlayer" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      <iframe id="trailerPlayer" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen></iframe>
     </div>
     <div class="trailer-gradient"></div>
     <div class="trailer-content">
@@ -368,7 +372,9 @@ What are you doing here?! you sneaky developer...
 
     <button id="closeTrailer" class="close">
       <svg xmlns="http://www.w3.org/2000/svg" width="4em" height="4em" fill="currentColor" viewBox="0 0 256 256">
-        <path d="M232,200a8,8,0,0,1-16,0,88.1,88.1,0,0,0-88-88H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,61.66L51.31,96H128A104.11,104.11,0,0,1,232,200Z"></path>
+        <path
+          d="M232,200a8,8,0,0,1-16,0,88.1,88.1,0,0,0-88-88H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,61.66L51.31,96H128A104.11,104.11,0,0,1,232,200Z">
+        </path>
       </svg>
     </button>
   </div>
@@ -382,4 +388,5 @@ What are you doing here?! you sneaky developer...
     }
   </script>
 </body>
+
 </html>
