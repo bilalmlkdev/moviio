@@ -1,5 +1,11 @@
 export default async function handler(req, res) {
   const API_KEY = process.env.TMDB_KEY;
+  if (!API_KEY) {
+    return res
+      .status(500)
+      .json({ error: "TMDB_KEY is not configured on the server." });
+  }
+
   const {
     mode,
     search,
@@ -31,10 +37,24 @@ export default async function handler(req, res) {
     url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(search)}&page=${page}`;
   }
 
+  // BUG FIX: previously, if no recognized query param was sent, `url` stayed
+  // empty and fetch("") threw an uncaught-looking error that surfaced as a
+  // generic 500. Now we return a clean 400 instead.
+  if (!url) {
+    return res
+      .status(400)
+      .json({ error: "Missing or invalid query parameters." });
+  }
+
   try {
     const response = await fetch(url);
     const data = await response.json();
-    res.status(200).json(data);
+
+    // BUG FIX: TMDB itself can return non-200 (e.g. bad key, rate limit).
+    // Previously that response was forwarded as a 200 with an error body,
+    // which the frontend's `!data.results` check happened to catch, but
+    // it's clearer (and matches HTTP semantics) to forward the real status.
+    res.status(response.ok ? 200 : response.status).json(data);
   } catch (err) {
     res.status(500).json({ error: "TMDB fetch failed" });
   }
