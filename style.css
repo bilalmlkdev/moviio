@@ -31,23 +31,6 @@ body {
   position: relative;
 }
 
-.background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  overflow: hidden;
-  width: 100%;
-  height: 100vh;
-  filter: brightness(0.8);
-}
-
-.background-video video {
-  object-fit: cover;
-  width: 100vw;
-  height: 100%;
-}
-
 a {
   text-decoration: none;
   color: inherit;
@@ -185,23 +168,15 @@ header {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   color: var(--txt-color);
   font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
-.shortcuts-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+.shortcuts-btn.active svg {
+ opacity:60%;
 }
 
-.shortcuts-btn.active {
-  background: var(--txt-color);
-  color: var(--bg-color);
-}
 
 .shortcuts-dropdown {
   position: absolute;
@@ -910,6 +885,43 @@ header {
 
 }
 
+
+/*
+   NEW: Empty state
+*/
+.wheel-container.is-empty .wheel-track {
+  filter: grayscale(100%) brightness(0.25);
+  pointer-events: none;
+  transition: filter 0.3s ease;
+}
+
+.empty-state {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  text-align: center;
+  color: var(--txt-color);
+  pointer-events: none;
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.empty-state i {
+  font-size: 32px;
+  opacity: 0.6;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.empty-state p {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.8;
+}
 
 /* NEW: Card click loading state*/
 .card-loader {

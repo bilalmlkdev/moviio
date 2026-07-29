@@ -7,17 +7,18 @@
   // DOM refs
 
   // near your other overlay DOM refs
-const cardLoader = document.getElementById("cardLoader");
+  const cardLoader = document.getElementById("cardLoader");
 
-function showCardLoader() {
-  if (cardLoader) cardLoader.classList.remove("hidden");
-}
+  function showCardLoader() {
+    if (cardLoader) cardLoader.classList.remove("hidden");
+  }
 
-function hideCardLoader() {
-  if (cardLoader) cardLoader.classList.add("hidden");
-}
+  function hideCardLoader() {
+    if (cardLoader) cardLoader.classList.add("hidden");
+  }
 
   const container = document.querySelector(".wheel-container");
+  const emptyStateEl = document.getElementById("emptyState"); // NEW: "nothing in watchlist" message
   if (!container) return;
   let track = container.querySelector(".wheel-track");
   if (!track) {
@@ -450,6 +451,13 @@ function hideCardLoader() {
     hideSkeletons();
     finalizeKeep7();
 
+    // NEW: if it's the Watchlist filter and there's nothing saved yet,
+    // dim the whole carousel and show a centered "empty" message.
+    const isEmptyWatchlist = query === "watchlist" && state.feed.length === 0;
+    if (container) container.classList.toggle("is-empty", isEmptyWatchlist);
+    if (emptyStateEl)
+      emptyStateEl.classList.toggle("hidden", !isEmptyWatchlist);
+
     if (state.isAutoRotating) {
       stopAutoRotate();
       startAutoRotate();
@@ -699,38 +707,36 @@ function hideCardLoader() {
     }
   });
 
-
   // Shortcuts dropdown toggle
-const shortcutsBtn = document.getElementById("shortcutsBtn");
-const shortcutsDropdown = document.getElementById("shortcutsDropdown");
+  const shortcutsBtn = document.getElementById("shortcutsBtn");
+  const shortcutsDropdown = document.getElementById("shortcutsDropdown");
 
-shortcutsBtn?.addEventListener("click", (e) => {
-  e.stopPropagation();
-  shortcutsDropdown?.classList.toggle("hidden");
-  shortcutsBtn.classList.toggle("active");
-});
+  shortcutsBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    shortcutsDropdown?.classList.toggle("hidden");
+    shortcutsBtn.classList.toggle("active");
+  });
 
-// Close on outside click
-document.addEventListener("click", (e) => {
-  if (
-    shortcutsDropdown &&
-    !shortcutsDropdown.classList.contains("hidden") &&
-    !shortcutsDropdown.contains(e.target) &&
-    e.target !== shortcutsBtn
-  ) {
-    shortcutsDropdown.classList.add("hidden");
-    shortcutsBtn?.classList.remove("active");
-  }
-});
+  // Close on outside click
+  document.addEventListener("click", (e) => {
+    if (
+      shortcutsDropdown &&
+      !shortcutsDropdown.classList.contains("hidden") &&
+      !shortcutsDropdown.contains(e.target) &&
+      e.target !== shortcutsBtn
+    ) {
+      shortcutsDropdown.classList.add("hidden");
+      shortcutsBtn?.classList.remove("active");
+    }
+  });
 
-// Close on Escape too
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    shortcutsDropdown?.classList.add("hidden");
-    shortcutsBtn?.classList.remove("active");
-  }
-});
-
+  // Close on Escape too
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      shortcutsDropdown?.classList.add("hidden");
+      shortcutsBtn?.classList.remove("active");
+    }
+  });
 
   const filterBtns = document.querySelectorAll(".filter-btn");
   const indicator = document.querySelector(".active-indicator");
@@ -839,135 +845,135 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-async function openMovieOverlayById(movieId) {
-  if (trailerOpenBusy) return;
-  trailerOpenBusy = true;
-  showCardLoader(); // NEW: dim screen + spinner the instant the card is clicked
-  try {
-    let item = state.feed.find((m) => String(m.id) === String(movieId));
-    if (!item) {
-      const res = await fetch(`/api/tmdb?details=${movieId}`);
-      const data = await res.json();
-      if (data) {
-        item = {
-          id: data.id,
-          title: data.title || "",
-          date: data.release_date ? data.release_date.slice(0, 4) : "",
-          type: "movie",
-          rating: data.vote_average ? data.vote_average.toFixed(1) : "—",
-          badgeLeft: "MOVIE",
-          badgeRight: data.original_language?.toUpperCase() || "",
-          imgSrc: data.poster_path
-            ? `https://image.tmdb.org/t/p/w400${data.poster_path}`
-            : "",
-          imgAlt: data.title || "",
-          poster_path: data.poster_path || null,
-          overview: data.overview || "",
-        };
-      }
-    }
-
-    if (!item) {
-      showApiMessage("Movie not found.");
-      return;
-    }
-
-    const result = await fetchTrailerAndDetails(movieId);
-    if (!result || !result.key) {
-      showApiMessage("Trailer not found.");
-      return;
-    }
-
-    currentTrailerMovie = item;
-    document.getElementById("trailerTitle").textContent = item.title || "—";
-    document.getElementById("trailerYear").textContent = (
-      item.date ||
-      item.release_date ||
-      item.date ||
-      "—"
-    )
-      .toString()
-      .slice(0, 4);
-    document.getElementById("trailerRating").textContent =
-      item.vote_average || item.rating || "—";
-    document.getElementById("trailerOverview").textContent =
-      item.overview || "No description available.";
-
-    if (overlayWlBtn) {
-      if (isInWatchlist(item.id)) {
-        overlayWlBtn.querySelector("i").className = "fa-solid fa-heart";
-      } else {
-        overlayWlBtn.querySelector("i").className = "fa-regular fa-heart";
-      }
-    }
-
-    const metaContainer = document.querySelector(".meta");
-    if (metaContainer) {
-      metaContainer
-        .querySelectorAll(
-          ".runtime-info, .cast-info, .genre-info, .director-info",
-        )
-        .forEach((el) => el.remove());
-
-      const details = result.details;
-      if (details) {
-        if (details.runtime) {
-          const hours = Math.floor(details.runtime / 60);
-          const mins = details.runtime % 60;
-          const runtimeEl = document.createElement("span");
-          runtimeEl.className = "runtime-info";
-          runtimeEl.innerHTML = `<i class="fa-regular fa-clock"></i> ${hours}h ${mins}m`;
-          metaContainer.appendChild(runtimeEl);
+  async function openMovieOverlayById(movieId) {
+    if (trailerOpenBusy) return;
+    trailerOpenBusy = true;
+    showCardLoader(); // NEW: dim screen + spinner the instant the card is clicked
+    try {
+      let item = state.feed.find((m) => String(m.id) === String(movieId));
+      if (!item) {
+        const res = await fetch(`/api/tmdb?details=${movieId}`);
+        const data = await res.json();
+        if (data) {
+          item = {
+            id: data.id,
+            title: data.title || "",
+            date: data.release_date ? data.release_date.slice(0, 4) : "",
+            type: "movie",
+            rating: data.vote_average ? data.vote_average.toFixed(1) : "—",
+            badgeLeft: "MOVIE",
+            badgeRight: data.original_language?.toUpperCase() || "",
+            imgSrc: data.poster_path
+              ? `https://image.tmdb.org/t/p/w400${data.poster_path}`
+              : "",
+            imgAlt: data.title || "",
+            poster_path: data.poster_path || null,
+            overview: data.overview || "",
+          };
         }
-        if (details.credits) {
-          const director = details.credits.crew?.find(
-            (c) => c.job === "Director",
-          );
-          if (director) {
-            const dirEl = document.createElement("span");
-            dirEl.className = "director-info";
-            dirEl.innerHTML = `<i class="fa-solid fa-video"></i> ${director.name}`;
-            metaContainer.appendChild(dirEl);
+      }
+
+      if (!item) {
+        showApiMessage("Movie not found.");
+        return;
+      }
+
+      const result = await fetchTrailerAndDetails(movieId);
+      if (!result || !result.key) {
+        showApiMessage("Trailer not found.");
+        return;
+      }
+
+      currentTrailerMovie = item;
+      document.getElementById("trailerTitle").textContent = item.title || "—";
+      document.getElementById("trailerYear").textContent = (
+        item.date ||
+        item.release_date ||
+        item.date ||
+        "—"
+      )
+        .toString()
+        .slice(0, 4);
+      document.getElementById("trailerRating").textContent =
+        item.vote_average || item.rating || "—";
+      document.getElementById("trailerOverview").textContent =
+        item.overview || "No description available.";
+
+      if (overlayWlBtn) {
+        if (isInWatchlist(item.id)) {
+          overlayWlBtn.querySelector("i").className = "fa-solid fa-heart";
+        } else {
+          overlayWlBtn.querySelector("i").className = "fa-regular fa-heart";
+        }
+      }
+
+      const metaContainer = document.querySelector(".meta");
+      if (metaContainer) {
+        metaContainer
+          .querySelectorAll(
+            ".runtime-info, .cast-info, .genre-info, .director-info",
+          )
+          .forEach((el) => el.remove());
+
+        const details = result.details;
+        if (details) {
+          if (details.runtime) {
+            const hours = Math.floor(details.runtime / 60);
+            const mins = details.runtime % 60;
+            const runtimeEl = document.createElement("span");
+            runtimeEl.className = "runtime-info";
+            runtimeEl.innerHTML = `<i class="fa-regular fa-clock"></i> ${hours}h ${mins}m`;
+            metaContainer.appendChild(runtimeEl);
           }
-          const castList = details.credits.cast
-            ?.slice(0, 5)
-            .map((c) => c.name)
-            .join(", ");
-          if (castList) {
-            const castEl = document.createElement("span");
-            castEl.className = "cast-info";
-            castEl.innerHTML = `<i class="fa-solid fa-user"></i> ${castList}`;
-            metaContainer.appendChild(castEl);
+          if (details.credits) {
+            const director = details.credits.crew?.find(
+              (c) => c.job === "Director",
+            );
+            if (director) {
+              const dirEl = document.createElement("span");
+              dirEl.className = "director-info";
+              dirEl.innerHTML = `<i class="fa-solid fa-video"></i> ${director.name}`;
+              metaContainer.appendChild(dirEl);
+            }
+            const castList = details.credits.cast
+              ?.slice(0, 5)
+              .map((c) => c.name)
+              .join(", ");
+            if (castList) {
+              const castEl = document.createElement("span");
+              castEl.className = "cast-info";
+              castEl.innerHTML = `<i class="fa-solid fa-user"></i> ${castList}`;
+              metaContainer.appendChild(castEl);
+            }
+          }
+          if (details.genres) {
+            const genreNames = details.genres.map((g) => g.name).join(" • ");
+            const genreEl = document.createElement("span");
+            genreEl.className = "genre-info";
+            genreEl.innerHTML = `<i class="fa-solid fa-film"></i> ${genreNames}`;
+            metaContainer.appendChild(genreEl);
           }
         }
-        if (details.genres) {
-          const genreNames = details.genres.map((g) => g.name).join(" • ");
-          const genreEl = document.createElement("span");
-          genreEl.className = "genre-info";
-          genreEl.innerHTML = `<i class="fa-solid fa-film"></i> ${genreNames}`;
-          metaContainer.appendChild(genreEl);
-        }
       }
-    }
 
-    if (iframe) {
-      iframe.src = `https://www.youtube-nocookie.com/embed/${result.key}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&modestbranding=1&loop=1&playlist=${result.key}&enablejsapi=1`;
+      if (iframe) {
+        iframe.src = `https://www.youtube-nocookie.com/embed/${result.key}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&modestbranding=1&loop=1&playlist=${result.key}&enablejsapi=1`;
+      }
+      if (ytPlayer && ytPlayer.loadVideoById) {
+        ytPlayer.loadVideoById(result.key);
+        try {
+          ytPlayer.setPlaybackQuality("hd1080");
+        } catch {}
+      }
+      if (overlay) overlay.classList.remove("hidden");
+    } catch (err) {
+      console.error(err);
+      showApiMessage("Error opening trailer.");
+    } finally {
+      trailerOpenBusy = false;
+      hideCardLoader(); // NEW: always clear the loader, success or failure
     }
-    if (ytPlayer && ytPlayer.loadVideoById) {
-      ytPlayer.loadVideoById(result.key);
-      try {
-        ytPlayer.setPlaybackQuality("hd1080");
-      } catch {}
-    }
-    if (overlay) overlay.classList.remove("hidden");
-  } catch (err) {
-    console.error(err);
-    showApiMessage("Error opening trailer.");
-  } finally {
-    trailerOpenBusy = false;
-    hideCardLoader(); // NEW: always clear the loader, success or failure
   }
-}
 
   function closeTrailerOverlay() {
     if (overlay) overlay.classList.add("hidden");

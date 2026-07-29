@@ -72,11 +72,6 @@ What are you doing here?! you sneaky developer...
 <body>
   <!-- main wrapper for the layout -->
   <section class="wrapper">
-    <div class="background-video">
-      <video autoplay muted loop playsinline>
-        <source src="./assets/cloudsBg.webm" type="video/webm">
-      </video>
-    </div>
     <div id="api-status" style="display:none;
   padding:20px;
   border-radius:8px;
@@ -113,14 +108,23 @@ What are you doing here?! you sneaky developer...
           </button>
         </div>
         <button class="shortcuts-btn" id="shortcutsBtn" title="Keyboard Shortcuts">
-          <i class="fa-solid fa-keyboard"></i>
+        <svg style="height: 66%; width:66%; " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M10 10V7C10 5.34315 8.65685 4 7 4C5.34315 4 4 5.34315 4 7C4 8.65685 5.34315 10 7 10H10ZM10 10V14M10 10H14M10 14V17C10 18.6569 8.65685 20 7 20C5.34315 20 4 18.6569 4 17C4 15.3431 5.34315 14 7 14H10ZM10 14H14M14 10H17C18.6569 10 20 8.65685 20 7C20 5.34315 18.6569 4 17 4C15.3431 4 14 5.34315 14 7V10ZM14 10V14M14 14H17C18.6569 14 20 15.3431 20 17C20 18.6569 18.6569 20 17 20C15.3431 20 14 18.6569 14 17V14Z"
+              stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </g>
+        </svg>
         </button>
 
         <div class="shortcuts-dropdown hidden" id="shortcutsDropdown">
           <h4>Keyboard Shortcuts</h4>
           <ul>
             <li><span class="key">←</span> <span class="key">→</span> <span>Navigate cards</span></li>
-            <li><span class="key">Enter</span> <span class="key">Space</span> <span>Open active card's trailer</span></li>
+            <li><span class="key">Enter</span> <span class="key">Space</span> <span>Open active card's trailer</span>
+            </li>
             <li><span class="key">Esc</span> <span>Close trailer</span></li>
           </ul>
         </div>
@@ -159,6 +163,13 @@ What are you doing here?! you sneaky developer...
 
       <!-- wheel container -->
       <div class="wheel-container">
+        <!-- NEW: shown when a filter (currently just Watchlist) returns
+             zero items — dims the card wheel via CSS and centers this. -->
+        <div id="emptyState" class="empty-state hidden">
+          <i class="fa-regular fa-heart"></i>
+          <p>Nothing in your watchlist yet.</p>
+        </div>
+
         <!-- LEFT arrow + Auto-Rotate button stacked directly under it -->
         <button class="move-right controller-btn">
           <span>
