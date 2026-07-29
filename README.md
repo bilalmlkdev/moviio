@@ -460,7 +460,7 @@ Every contribution, no matter how small, helps make this project better.
 A big thank you to everyone who has contributed to this project!
 
 <a href="https://github.com/byllzz/moviio-cinema/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=byllzz/moviio-cinema" alt="Project Contributors" />
+  <img src="https://contrib.rocks/image?repo=byllzz/moviio-cinema" alt="Project Contributors">
 </a>
 
 <p align="right">(<a href="#readme-top">Back to Top ↑</a>)</p>
