@@ -699,6 +699,39 @@ function hideCardLoader() {
     }
   });
 
+
+  // Shortcuts dropdown toggle
+const shortcutsBtn = document.getElementById("shortcutsBtn");
+const shortcutsDropdown = document.getElementById("shortcutsDropdown");
+
+shortcutsBtn?.addEventListener("click", (e) => {
+  e.stopPropagation();
+  shortcutsDropdown?.classList.toggle("hidden");
+  shortcutsBtn.classList.toggle("active");
+});
+
+// Close on outside click
+document.addEventListener("click", (e) => {
+  if (
+    shortcutsDropdown &&
+    !shortcutsDropdown.classList.contains("hidden") &&
+    !shortcutsDropdown.contains(e.target) &&
+    e.target !== shortcutsBtn
+  ) {
+    shortcutsDropdown.classList.add("hidden");
+    shortcutsBtn?.classList.remove("active");
+  }
+});
+
+// Close on Escape too
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    shortcutsDropdown?.classList.add("hidden");
+    shortcutsBtn?.classList.remove("active");
+  }
+});
+
+
   const filterBtns = document.querySelectorAll(".filter-btn");
   const indicator = document.querySelector(".active-indicator");
   function moveIndicator(btn) {
@@ -1054,7 +1087,11 @@ async function openMovieOverlayById(movieId) {
     } else if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       document.querySelector(".card.active")?.click();
-    } else if (e.key === "Escape") closeTrailerOverlay();
+    } else if (e.key === "Escape") {
+      closeTrailerOverlay();
+      shortcutsDropdown?.classList.add("hidden");
+      shortcutsBtn?.classList.remove("active");
+    }
   });
 
   // API message popup

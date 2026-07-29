@@ -178,6 +178,92 @@ header {
   position: relative;
 }
 
+/* NEW: Keyboard shortcuts button + dropdown,  */
+.shortcuts-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--txt-color);
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shortcuts-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.shortcuts-btn.active {
+  background: var(--txt-color);
+  color: var(--bg-color);
+}
+
+.shortcuts-dropdown {
+  position: absolute;
+  top: 64px;
+  right: 42px;
+  width: 260px;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 14px 16px;
+  z-index: 50;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.shortcuts-dropdown.hidden {
+  display: none;
+}
+
+.shortcuts-dropdown h4 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.6;
+  margin-bottom: 10px;
+}
+
+.shortcuts-dropdown ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shortcuts-dropdown li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.shortcuts-dropdown .key {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+@media (max-width: 480px) {
+  .shortcuts-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .shortcuts-dropdown {
+    right: 14px;
+    width: calc(100% - 28px);
+  }
+}
+
 .hero-section {
   display: flex;
   flex-direction: column;
