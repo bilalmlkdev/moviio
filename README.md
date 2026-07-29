@@ -61,32 +61,7 @@ Quick access to keyboard shortcuts directly from the interface.
 ---
 
 
-# Architecture & Folder Structure
-
-The application follows a modular architecture.
-
-```
-moviio-cinema/
-│
-├── index.html
-├── style.css
-├── script.js
-├── README.md
-├── vercel.json
-│
-├── api/
-│   └── tmdb.js
-│
-├── assets/
-│   ├── favicon.svg
-│   ├── cloudsBg.webm
-│   └── preview.png
-│
-├── manifest.json
-└── sw.js
-```
-
-### Folder Overview
+ # Architecture & Folder Structure
 
 | File | Description |
 |------|-------------|
@@ -97,7 +72,21 @@ moviio-cinema/
 | vercel.json | Optional Vercel config (function timeout, etc.) |
 | manifest.json | Progressive Web App manifest |
 | sw.js | Service Worker (versioned cache, auto-cleans old caches, skips `/api/` routes) |
-| assets | Images and media |
+| assets | Images, media, and diagrams |
+
+---
+
+## Visual Overview
+
+### Development Roadmap (How It Was Built)
+
+![Development Roadmap](./assets/charts/projectBuild-process.png)
+
+### Runtime Architecture (Data Flow)
+
+![Runtime Architecture](./assets/charts/project-flow.png)
+
+> **Note:** These diagrams were created with [Mermaid](https://mermaid.live/).The PNGs are included for fast, reliable rendering on any platform.
 
 ---
 
