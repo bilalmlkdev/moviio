@@ -201,7 +201,7 @@ header {
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* BUG FIX: this was ".shortcuts-btn.active svg" */
+/*  ".shortcuts-btn.active svg" */
 .shortcuts-btn.active {
   background: var(--txt-color);
   color: var(--bg-color);
@@ -800,11 +800,10 @@ header {
 }
 
 /* Auto‑Rotate & Shuffle buttons*/
-
 #autoRotateBtn,
 #shuffleBtn {
   position: absolute;
-  top: 250px; /* .move-left/.move-right sit at top:180px + their own height (~55px) + 15px gap */
+  top: 250px;
   width: 130px;
   padding: 0;
   border: none !important;

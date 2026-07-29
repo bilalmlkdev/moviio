@@ -52,7 +52,6 @@ export default async function handler(req, res) {
 
     // BUG FIX: TMDB itself can return non-200 (e.g. bad key, rate limit).
     // Previously that response was forwarded as a 200 with an error body,
-    // which the frontend's `!data.results` check happened to catch, but
     // it's clearer (and matches HTTP semantics) to forward the real status.
     res.status(response.ok ? 200 : response.status).json(data);
   } catch (err) {

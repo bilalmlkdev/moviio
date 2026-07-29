@@ -5,14 +5,10 @@
   const MAX_STEPS = 1;
 
   // DOM refs
-
-  // near your other overlay DOM refs
   const cardLoader = document.getElementById("cardLoader");
-
   function showCardLoader() {
     if (cardLoader) cardLoader.classList.remove("hidden");
   }
-
   function hideCardLoader() {
     if (cardLoader) cardLoader.classList.add("hidden");
   }
@@ -1050,7 +1046,7 @@
     }
   });
 
-  // Card click handler (Opening trailer vs heart button click)
+  // Card click handler
   track.addEventListener("click", async (e) => {
     if (didDrag) {
       didDrag = false;

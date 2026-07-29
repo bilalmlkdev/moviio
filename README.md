@@ -1,6 +1,3 @@
-# Moviio Cinema
-
-> A cinematic 3D carousel movie explorer powered by TMDB. Discover films, watch trailers, and manage your watchlist with smooth motion!
 
 <p align="center">
   <a href="https://moviio.vercel.app/">
@@ -9,6 +6,8 @@
 </p>
 
 <h1 align="center">Moviio Cinema</h1>
+
+> A cinematic 3D carousel movie explorer powered by TMDB. Discover films, watch trailers, and manage your watchlist with smooth motion!
 
 <p align="center">
   <a href="https://moviio.vercel.app/"> Live Demo</a> •
@@ -27,54 +26,42 @@ Instead of displaying movies in a traditional grid, the application introduces a
 
 Powered by **TMDB**, the app fetches real-time movie information, official trailers, ratings, genres, and detailed metadata while maintaining buttery-smooth animations and GPU-accelerated performance.
 
-## Why this project stands out
+## Why This Project Stands Out
 
-- 🎬 Custom-built **3D Wheel Engine**
-  - No third-party carousel libraries
-  - Pure CSS 3D transforms
-  - CSS custom properties (`--slot`)
-  - Vanilla JavaScript animations
+### Custom 3D Wheel Engine
+Built from scratch without relying on carousel libraries.
 
-- ▶️ Cinema Trailer Experience
-  - Fullscreen trailer overlay
-  - YouTube player integration
-  - Play/Pause controls
-  - Fullscreen support
-  - Share functionality
+- Pure CSS 3D transforms
+- CSS custom properties (`--slot`)
+- Vanilla JavaScript animations
+- Fully custom wheel implementation
 
-- ❤️ Smart Watchlist
-  - Persistent LocalStorage
-  - URL Deep Linking
-  - Auto-Rotate mode
+### Cinema Trailer Experience
+A dedicated trailer viewing experience with built-in controls.
 
-  ---
+- Fullscreen trailer overlay
+- YouTube player integration
+- Play, pause, and fullscreen controls
+- Share functionality
+- Loading overlay while trailer data is being fetched
 
-# Built With
+### Smart Watchlist
+A persistent watchlist designed for convenience.
 
-This project is built entirely using modern web technologies together with a serverless API proxy.
+- LocalStorage persistence
+- URL deep linking
+- Auto-rotate mode
+- Empty-state messaging for new watchlists
 
-## Technologies
+### Built-in Help
+Quick access to keyboard shortcuts directly from the interface.
 
-| Technology | Purpose |
-|------------|---------|
-| HTML5 | Semantic markup and PWA support |
-| CSS3 | Layouts, animations, 3D transforms, responsive UI |
-| Vanilla JavaScript (ES6+) | State management, Fetch API, DOM manipulation |
-| TMDB API | Movies, trailers, posters and metadata |
-| YouTube IFrame API | Trailer playback |
-| Vercel | Deployment and serverless functions |
-
-### Tech Stack Badges
-
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![TMDB](https://img.shields.io/badge/TMDB-01B4E4?style=for-the-badge&logo=themoviedatabase&logoColor=white)
+- One-click keyboard shortcuts menu
 
 ---
 
-# Architecture
+
+# Architecture & Folder Structure
 
 The application follows a modular architecture.
 
@@ -106,39 +93,43 @@ moviio-cinema/
 | index.html | Main application |
 | style.css | Global styling |
 | script.js | Carousel logic, state management and UI |
-| api/tmdb.js | Serverless API proxy |
+| api/tmdb.js | Serverless API proxy (validates TMDB_KEY, forwards TMDB's real status codes) |
+| vercel.json | Optional Vercel config (function timeout, etc.) |
 | manifest.json | Progressive Web App manifest |
-| sw.js | Service Worker |
+| sw.js | Service Worker (versioned cache, auto-cleans old caches, skips `/api/` routes) |
 | assets | Images and media |
 
 ---
 
-# Features
+# Moviio Features
 
 ## Complete Feature List
 
 | # | Feature | Description |
 |---|---------|-------------|
-| 01 |  7-Card 3D Wheel | Custom-built carousel with 3D perspective, layered stacking, and smooth transitions. |
-| 02 |  Drag & Swipe Navigation | Navigate the carousel using mouse drag or touchscreen gestures. |
-| 03 |  Auto-Rotate Mode | Automatically rotates the wheel every 4 seconds and pauses on hover. |
-| 04 |  TMDB Integration | Fetches Popular, Upcoming, and Top Rated movies in real time. |
-| 05 |  Instant Search & Filters | Debounced search with Genre and Year filters powered by TMDB Discover API. |
-| 06 |  Watchlist | Save favorite movies using LocalStorage for persistent access. |
-| 07 |  Cinema Trailer Overlay | Watch official YouTube trailers in a fullscreen cinematic overlay. |
-| 08 |  Overlay Controls | Built-in Play/Pause, Fullscreen, and Share controls. |
-| 09 |  Dynamic Movie Details | Displays runtime, genres, director, and top cast automatically. |
-| 10 |  Shuffle Button | Discover hidden gems by loading a random page of movies. |
-| 11 |  Parallax Tilt Effect | Interactive 3D tilt effect on the active movie card. |
-| 12 |  URL Deep Linking | Share movies using direct URLs such as `/?movie_id=980431`. |
-| 13 |  Progressive Web App | Installable on desktop and mobile with offline caching support. |
-| 14 |  Keyboard Shortcuts | Navigate using Arrow Keys, Enter, Space, and Escape. |
+| 01 | 7-Card 3D Wheel | Custom-built carousel with 3D perspective, layered stacking, and smooth transitions. |
+| 02 | Drag & Swipe Navigation | Navigate the carousel using mouse drag or touchscreen gestures. |
+| 03 | Auto-Rotate Mode | Automatically rotates the wheel every 800ms and pauses on hover. The button sits directly under the left arrow. |
+| 04 | TMDB Integration | Fetches Popular, Upcoming, and Top Rated movies in real time. |
+| 05 | Instant Search & Filters | Debounced search with Genre and Year filters powered by TMDB Discover API. |
+| 06 | Watchlist | Save favorite movies using LocalStorage for persistent access. Shows a dimmed carousel + "Nothing in your watchlist yet" message when empty. |
+| 07 | Cinema Trailer Overlay | Watch official YouTube trailers in a fullscreen cinematic overlay. |
+| 08 | Overlay Controls | Built-in Play/Pause, Fullscreen, and Share controls. |
+| 09 | Dynamic Movie Details | Displays runtime, genres, director, and top cast automatically. |
+| 10 | Shuffle Button | Discover hidden gems by loading a random page of movies. Sits directly under the right arrow. |
+| 11 | Parallax Tilt Effect | Interactive 3D tilt effect on the active movie card. |
+| 12 | URL Deep Linking | Share movies using direct URLs such as `/?movie_id=980431`. |
+| 13 | Progressive Web App | Installable on desktop and mobile with offline caching support (versioned service worker cache). |
+| 14 | Keyboard Shortcuts | Navigate using Arrow Keys, Enter, Space, and Escape. |
+| 15 | Shortcuts Dropdown | A dedicated button next to the search bar toggles a reference card listing every keyboard shortcut. |
+| 16 | Trailer Loading Feedback | Clicking a card immediately dims the screen and shows a spinner while trailer/details data is fetched, so the click never feels unresponsive. |
+| 17 | Empty-State Handling | Any filter that returns zero results (currently the Watchlist filter) dims the carousel and shows a centered message instead of leaving blank cards on screen. |
 
 ---
 
 #  Usage
 
-Once the application is running, you'll be welcomed by an immersive **3D movie carousel** designed to make discovering films feel like browsing a virtual cinema. Navigate effortlessly, watch trailers, and build your personal watchlist—all from a single interface.
+Once the application is running, you'll be welcomed by an immersive **3D movie carousel** designed to make discovering films feel like browsing a virtual cinema. Navigate effortlessly, watch trailers, and build your personal watchlist-all from a single interface.
 
 ## Explore the Features
 
@@ -171,13 +162,14 @@ Your watchlist includes:
 - Persistent storage using **LocalStorage**
 - One-click add or remove
 - Dedicated **Watchlist** filter
+- A dimmed carousel with a friendly "Nothing in your watchlist yet" message if you haven't saved anything yet
 
 ---
 
 ###  Watch Official Trailers
 Select the **center (active) movie card** to launch the cinematic trailer overlay.
 
-The application automatically loads the official YouTube trailer whenever one is available.
+The application automatically loads the official YouTube trailer whenever one is available. While the trailer and movie details are being fetched, the screen dims and a spinner shows so you always know something is happening.
 
 ---
 
@@ -191,9 +183,25 @@ The fullscreen player includes convenient playback controls:
 ---
 
 ###  Auto Rotate
-Enable **Auto Rotate** to let the carousel automatically cycle through movies.
+Enable **Auto Rotate** (button under the left arrow) to let the carousel automatically cycle through movies.
 
 The animation pauses while your cursor is over the carousel and resumes once you move away.
+
+---
+
+###  Shuffle
+Click **Shuffle** (button under the right arrow) to jump to a random page of popular movies - a quick way to discover something you wouldn't normally scroll to.
+
+---
+
+###  Keyboard Shortcuts
+Click the keyboard icon next to the search bar to open a quick-reference dropdown of every shortcut:
+
+| Key | Action |
+|-----|--------|
+| `←` `→` | Navigate cards |
+| `Enter` / `Space` | Open the active card's trailer |
+| `Esc` | Close the trailer overlay |
 
 ---
 
@@ -218,6 +226,31 @@ Explore the interactive 3D carousel, search thousands of movies, watch official 
 
 ---
 
+# Built With
+
+This project is built entirely using modern web technologies together with a serverless API proxy.
+
+## Technologies
+
+| Technology | Purpose |
+|------------|---------|
+| HTML5 | Semantic markup and PWA support |
+| CSS3 | Layouts, animations, 3D transforms, responsive UI |
+| Vanilla JavaScript (ES6+) | State management, Fetch API, DOM manipulation |
+| TMDB API | Movies, trailers, posters and metadata |
+| YouTube IFrame API | Trailer playback |
+| Vercel | Deployment and serverless functions |
+
+### Tech Stack Badges
+
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![TMDB](https://img.shields.io/badge/TMDB-01B4E4?style=for-the-badge&logo=themoviedatabase&logoColor=white)
+
+---
+
 # Getting Started
 
 Follow these steps to run the project locally.
@@ -235,6 +268,8 @@ Request an API key from:
 https://www.themoviedb.org/
 
 ---
+
+
 
 # Installation
 
@@ -256,7 +291,7 @@ cd moviio-cinema
 
 ## 3. Configure your TMDB API Key
 
-This project uses a **serverless Vercel API proxy**.
+This project uses a **serverless Vercel API proxy** located at `api/tmdb.js`.
 
 Create a `.env` file in the project root.
 
@@ -271,6 +306,8 @@ your_tmdb_api_key
 ```
 
 with your actual **TMDB API v3 Key**.
+
+> `api/tmdb.js` will return a clean `500` error if `TMDB_KEY` is missing, and forwards TMDB's real HTTP status codes instead of always returning 200 - check your Network tab if movies aren't loading.
 
 ---
 
@@ -288,7 +325,7 @@ TMDB_KEY
 ```
 
 5. Paste your TMDB API Key.
-6. Redeploy the project.
+6. **Redeploy the project** - adding or changing an environment variable does *not* retroactively apply to an already-running deployment. If you see a "Needs Attention" badge next to the variable in the dashboard, that's exactly why: redeploy to pick it up.
 
 ---
 
@@ -314,14 +351,25 @@ will prevent API requests from working.
 
 ---
 
-## Option B - Live Server (Recommended)
+## Option B - Live Server (Recommended for markup/style changes only)
 
 1. Open the project in Visual Studio Code.
 2. Install the **Live Server** extension.
 3. Right-click `index.html`.
 4. Select **Open with Live Server**.
 
-This starts a local HTTP server, allowing the API proxy to function correctly.
+> ⚠️ Live Server is a static file server only - it does **not** run `api/tmdb.js`. Any request to `/api/tmdb` will 404, and movies won't load. Live Server is fine for CSS/HTML tweaks, but for anything touching the API use Option C below.
+
+---
+
+## Option C - Vercel CLI (Recommended for full functionality)
+
+```bash
+npm install -g vercel
+vercel dev
+```
+
+This runs the serverless function locally exactly as it runs in production, so `/api/tmdb` actually works.
 
 ---
 
@@ -345,6 +393,7 @@ Ensure `.env` is included in your `.gitignore`.
 - JavaScript enabled
 - Internet connection (for TMDB and YouTube APIs)
 - Valid TMDB API Key
+- For local API testing: Vercel CLI (`vercel dev`) - plain Live Server will not run `api/tmdb.js`
 
 ---
 
