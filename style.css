@@ -182,7 +182,7 @@ header {
 }
 
 /* NEW: Keyboard shortcuts button + dropdown */
-.shortcuts-btn {
+.shortcuts-btn, .github-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -197,16 +197,16 @@ header {
   transition: all 0.2s ease;
 }
 
-.shortcuts-btn:hover {
+.shortcuts-btn:hover , .github-btn:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
 /*  ".shortcuts-btn.active svg" */
-.shortcuts-btn.active {
+.shortcuts-btn.active, .github-btn:active {
   background: var(--txt-color);
   color: var(--bg-color);
 }
-.shortcuts-btn.active svg {
+.shortcuts-btn.active svg , .github-btn:active svg {
   stroke-color: #000000;
 }
 
