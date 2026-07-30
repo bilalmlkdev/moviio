@@ -5,18 +5,18 @@
   </a>
 </p>
 
-<h1 align="center">Moviio Cinema</h1>
+<h1 align="center">Moviio</h1>
 
 > A cinematic 3D carousel movie explorer powered by TMDB. Discover films, watch trailers, and manage your watchlist with smooth motion!
 
 <p align="center">
   <a href="https://moviio.vercel.app/"> Live Demo</a> •
-  <a href="https://github.com/byllzz/moviio-cinema/issues/new?labels=bug&template=bug-report---.md"> Report Bug</a> •
-  <a href="https://github.com/byllzz/moviio-cinema/issues/new?labels=enhancement&template=feature-request---.md"> Request Feature</a>
+  <a href="https://github.com/byllzz/moviio/issues/new?labels=bug&template=bug-report---.md"> Report Bug</a> •
+  <a href="https://github.com/byllzz/moviio/issues/new?labels=enhancement&template=feature-request---.md"> Request Feature</a>
 </p>
 
 
-![moviio-cinema Dashboard](./assets/preview.png)
+![moviio Dashboard](./assets/preview.png)
 
 # About The Moviio
 
@@ -265,7 +265,7 @@ https://www.themoviedb.org/
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/byllzz/moviio-cinema.git
+git clone https://github.com/byllzz/moviio.git
 ```
 
 ---
@@ -273,7 +273,7 @@ git clone https://github.com/byllzz/moviio-cinema.git
 ## 2. Enter the project directory
 
 ```bash
-cd moviio-cinema
+cd moviio
 ```
 
 ---
@@ -407,7 +407,7 @@ Contributions are always welcome! Whether you've found a bug, have an idea for a
 2. **Clone** your fork locally.
 
 ```bash
-git clone https://github.com/byllzz/moviio-cinema.git
+git clone https://github.com/byllzz/moviio.git
 ```
 
 3. Create a new feature branch.
@@ -448,8 +448,8 @@ Every contribution, no matter how small, helps make this project better.
 
 A big thank you to everyone who has contributed to this project!
 
-<a href="https://github.com/byllzz/moviio-cinema/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=byllzz/moviio-cinema" alt="Project Contributors">
+<a href="https://github.com/byllzz/moviio/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=byllzz/moviio" alt="Project Contributors">
 </a>
 
 <p align="right">(<a href="#readme-top">Back to Top ↑</a>)</p>
