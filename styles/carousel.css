@@ -254,7 +254,7 @@
 }
 
 /* Favourite (heart) button on card */
-.favorite-btn {
+.favourite-btn {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -274,16 +274,16 @@
   pointer-events: auto;
 }
 
-.favorite-btn:hover {
+.favourite-btn:hover {
   transform: scale(1.1);
   background: rgba(255, 255, 255, 0.1);
 }
 
-.favorite-btn.in-favourites {
+.favourite-btn.in-favourites {
   color: #ff4757;
   border-color: #ff4757;
 }
 
-.favorite-btn.in-favourites i {
+.favourite-btn.in-favourites i {
   font-weight: 900;
 }
