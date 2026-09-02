@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { loadFavorites, updateFavoritesUI } from "./favorites.js";
+import { loadFavourites, updateFavouritesUI } from "./favourites.js";
 import { fetchGenres } from "./api.js";
 import {
   fetchMovies,
@@ -11,7 +11,7 @@ import {
   debouncedSearch,
   shuffleMovies,
   initKeyboardNav,
-  initFavoritesPopup,
+  initFavouritesPopup,
 } from "./controls.js";
 import { shiftLeft, shiftRight } from "./carousel.js";
 import {
@@ -23,8 +23,8 @@ import { initWelcomeModal, initInstructionsModal } from "./modal.js";
 import { showApiMessage } from "./utils.js";
 
 async function init() {
-  loadFavorites();
-  updateFavoritesUI();
+  loadFavourites();
+  updateFavouritesUI();
 
   await fetchGenres();
 
@@ -34,7 +34,7 @@ async function init() {
   loadYouTubeAPI();
   initWelcomeModal();
   initInstructionsModal();
-  initFavoritesPopup();
+  initFavouritesPopup();
 
   // Arrows
   document.querySelector(".move-right")?.addEventListener("click", () => {
@@ -78,12 +78,12 @@ async function init() {
   // Genre & year
   document.getElementById("genreSelect")?.addEventListener("change", (e) => {
     state.selectedGenre = e.target.value;
-    if (state.currentQuery === "favorites") state.currentQuery = "popular";
+    if (state.currentQuery === "favourites") state.currentQuery = "popular";
     fetchMovies(state.currentQuery);
   });
   document.getElementById("yearSelect")?.addEventListener("change", (e) => {
     state.selectedYear = e.target.value;
-    if (state.currentQuery === "favorites") state.currentQuery = "popular";
+    if (state.currentQuery === "favourites") state.currentQuery = "popular";
     fetchMovies(state.currentQuery);
   });
 

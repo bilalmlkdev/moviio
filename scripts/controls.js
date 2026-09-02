@@ -31,9 +31,9 @@ export async function fetchMovies(query) {
 
   const container = document.querySelector(".wheel-container");
   const emptyStateEl = document.getElementById("emptyState");
-  const isEmptyFavorites = query === "favorites" && state.feed.length === 0;
-  if (container) container.classList.toggle("is-empty", isEmptyFavorites);
-  if (emptyStateEl) emptyStateEl.classList.toggle("hidden", !isEmptyFavorites);
+  const isEmptyFavourites = query === "favourites" && state.feed.length === 0;
+  if (container) container.classList.toggle("is-empty", isEmptyFavourites);
+  if (emptyStateEl) emptyStateEl.classList.toggle("hidden", !isEmptyFavourites);
 
   if (state.isAutoRotating) {
     stopAutoRotate();
@@ -247,20 +247,20 @@ export async function shuffleMovies() {
   }
 }
 
-export function initFavoritesPopup() {
-  const popup = document.getElementById("favoritesPopup");
-  const btn = document.getElementById("favoritesBtn");
-  const closeBtn = document.getElementById("favoritesCloseBtn");
-  const list = document.getElementById("favoritesList");
+export function initFavouritesPopup() {
+  const popup = document.getElementById("favouritesPopup");
+  const btn = document.getElementById("favouritesBtn");
+  const closeBtn = document.getElementById("favouritesCloseBtn");
+  const list = document.getElementById("favouritesList");
 
-  function renderFavorites() {
+  function renderFavourites() {
     list.innerHTML = "";
-    const favorites = Array.from(state.favorites.values());
-    if (favorites.length === 0) {
-      list.innerHTML = '<p class="empty-favorites">No favourites yet.</p>';
+    const favourites = Array.from(state.favourites.values());
+    if (favourites.length === 0) {
+      list.innerHTML = '<p class="empty-favourites">No favourites yet.</p>';
       return;
     }
-    favorites.forEach((movie) => {
+    favourites.forEach((movie) => {
       const item = document.createElement("div");
       item.className = "favorite-item";
       item.innerHTML = `
@@ -274,7 +274,7 @@ export function initFavoritesPopup() {
       item.querySelector(".remove-fav").addEventListener("click", (e) => {
         e.stopPropagation();
         toggleFavorite(movie);
-        renderFavorites();
+        renderFavourites();
       });
       list.appendChild(item);
     });
@@ -282,7 +282,7 @@ export function initFavoritesPopup() {
 
   btn.addEventListener("click", () => {
     popup.classList.toggle("hidden");
-    renderFavorites();
+    renderFavourites();
   });
 
   closeBtn.addEventListener("click", () => popup.classList.add("hidden"));

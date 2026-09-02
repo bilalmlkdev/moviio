@@ -7,7 +7,7 @@ export const state = {
   isLoading: false,
   cache: new Map(),
   abortController: null,
-  favorites: new Map(),
+  favourites: new Map(),
   genres: [],
   selectedGenre: "",
   selectedYear: "",

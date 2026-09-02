@@ -109,7 +109,7 @@ export function populateCards(items) {
     favBtn.className = "favorite-btn";
     favBtn.dataset.movieId = item.id;
     const inFav = isFavorite(item.id);
-    if (inFav) favBtn.classList.add("in-favorites");
+    if (inFav) favBtn.classList.add("in-favourites");
     favBtn.innerHTML = `<i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>`;
     card.appendChild(favBtn);
 
@@ -129,7 +129,7 @@ export function createCard(item) {
   el.style.top = "50%";
   const inFav = isFavorite(item.id);
   el.innerHTML = `
-    <button class="favorite-btn ${inFav ? "in-favorites" : ""}" data-movie-id="${item.id}">
+    <button class="favorite-btn ${inFav ? "in-favourites" : ""}" data-movie-id="${item.id}">
       <i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>
     </button>
     <div class="movie-details">

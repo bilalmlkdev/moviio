@@ -30,8 +30,8 @@ export async function fetchPage(query, page = 1) {
   const key = `${query}::${page}::${state.selectedGenre}::${state.selectedYear}`;
   if (state.cache.has(key)) return state.cache.get(key);
 
-  if (query === "favorites") {
-    const items = Array.from(state.favorites.values());
+  if (query === "favourites") {
+    const items = Array.from(state.favourites.values());
     return { items, total: items.length };
   }
 
@@ -86,7 +86,7 @@ export async function fetchPage(query, page = 1) {
 }
 
 export async function loadMoreIntoFeed() {
-  if (state.isLoading || state.currentQuery === "favorites") return;
+  if (state.isLoading || state.currentQuery === "favourites") return;
   state.isLoading = true;
   try {
     state.currentPage++;

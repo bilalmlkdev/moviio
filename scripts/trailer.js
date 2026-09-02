@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { isFavorite, toggleFavorite, updateFavoritesUI } from "./favourites.js";
+import { isFavorite, toggleFavorite, updateFavouritesUI } from "./favourites.js";
 import { showApiMessage, showCardLoader, hideCardLoader } from "./utils.js";
 
 let trailerOpenBusy = false;
@@ -206,7 +206,7 @@ export function initTrailerControls() {
   overlayFavBtn?.addEventListener("click", () => {
     if (currentTrailerMovie) {
       toggleFavorite(currentTrailerMovie);
-      updateFavoritesUI();
+      updateFavouritesUI();
       const icon = overlayFavBtn.querySelector("i");
       if (isFavorite(currentTrailerMovie.id))
         icon.className = "fa-solid fa-heart";

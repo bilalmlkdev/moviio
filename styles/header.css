@@ -120,7 +120,7 @@ header {
   border-color: var(--primary-color);
 }
 
-.favorites-count {
+.favourites-count {
   position: absolute;
   top: -2px;
   right: -2px;
