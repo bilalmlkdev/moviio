@@ -1,4 +1,3 @@
-// Centralized application state
 export const state = {
   feed: [],
   feedIndex: 0,
@@ -8,7 +7,7 @@ export const state = {
   isLoading: false,
   cache: new Map(),
   abortController: null,
-  watchlist: new Map(),
+  favorites: new Map(),
   genres: [],
   selectedGenre: "",
   selectedYear: "",

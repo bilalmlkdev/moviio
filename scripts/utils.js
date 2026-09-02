@@ -1,4 +1,3 @@
-// Utility functions
 export function showApiMessage(text) {
   const box = document.getElementById("api-status");
   if (!box) {

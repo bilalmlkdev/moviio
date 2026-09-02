@@ -1,0 +1,157 @@
+#trailer-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  z-index: 9999;
+  width: 100%;
+  height: 100vh;
+}
+
+#trailer-overlay.hidden {
+  display: none;
+}
+
+.trailer-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+#trailerPlayer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  transform: translate(-50%, -50%);
+  border: none;
+}
+
+.trailer-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #000 25%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.9));
+}
+
+.trailer-content {
+  position: relative;
+  z-index: 5;
+  width: 50%;
+  max-width: 800px;
+  margin-left: 4rem;
+  color: var(--txt-color);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 1.2rem;
+}
+
+#fa-star {
+  font-size: 10px;
+  position: absolute;
+  right: -15px;
+  top: 0;
+}
+
+.movie-rating span {
+  font-size: 25px;
+}
+
+.trailer-content h1 {
+  font-size: 4rem;
+  line-height: 1.1;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.meta span i {
+  font-size: 14px;
+}
+
+.overview {
+  max-width: 90%;
+  margin-top: 1rem;
+  opacity: 1;
+}
+
+.btn {
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px;
+  border: none;
+  margin-right: 0.7rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+.btn.primary {
+  background: var(--primary-color);
+  color: var(--primary-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.close svg {
+  height: 80px;
+  fill: var(--txt-color);
+}
+
+.trailer-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--txt-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}

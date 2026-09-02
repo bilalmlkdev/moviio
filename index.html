@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-
+<!--
+██████╗ ██╗██╗      █████╗ ██╗
+██╔══██╗██║██║     ██╔══██╗██║
+██████╔╝██║██║     ███████║██║
+██╔══██╗██║██║     ██╔══██║██║
+██████╔╝██║███████╗██║  ██║███████╗
+╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
+███╗   ███╗ █████╗ ██╗     ██╗██╗  ██╗
+████╗ ████║██╔══██╗██║     ██║██║ ██╔╝
+██╔████╔██║███████║██║     ██║█████╔╝
+██║╚██╔╝██║██╔══██║██║     ██║██╔═██╗
+██║ ╚═╝ ██║██║  ██║███████╗██║██║  ██╗
+╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
+What are you doing here?! you sneaky developer...
+-->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,7 +55,6 @@
       <div class="l-bg-vignette"></div>
     </div>
 
-    <!-- Fixed floating nav -->
     <div class="l-nav-outer">
       <nav class="l-nav">
         <a class="l-nav-left" href="index.html">
@@ -66,7 +79,6 @@
       </nav>
     </div>
 
-    <!-- Hero -->
     <header class="l-hero">
       <div class="l-badge-row">
         <span class="l-badge"><i class="fa-brands fa-github"></i> Proudly Open Source Software!</span>
@@ -86,7 +98,6 @@
         </span>
       </h1>
 
-      <!-- Real search bar -->
       <div class="l-analyzer">
         <form class="l-input-row" id="landingSearchForm">
           <div class="l-input-icon"><i class="fa-solid fa-film"></i></div>
@@ -105,7 +116,6 @@
       </div>
     </header>
 
-    <!-- Feature grid -->
     <section class="l-features">
       <div class="l-feature-card">
         <div class="l-feature-icon"><i class="fa-solid fa-compass"></i></div>
@@ -119,7 +129,7 @@
       </div>
       <div class="l-feature-card">
         <div class="l-feature-icon"><i class="fa-regular fa-heart"></i></div>
-        <h3>Your Watchlist</h3>
+        <h3>Your Favourites</h3>
         <p>Save what catches your eye and come back to it any time.</p>
       </div>
       <div class="l-feature-card">
@@ -129,7 +139,6 @@
       </div>
     </section>
 
-    <!-- Footer -->
     <footer class="l-footer">
       <div class="l-footer-hairline"></div>
       <div class="l-footer-inner">
@@ -164,7 +173,6 @@
   <script>
     document.getElementById("footerYear").textContent = new Date().getFullYear();
 
-    // Landing search: redirect to app with query
     document.getElementById("landingSearchForm").addEventListener("submit", function (e) {
       e.preventDefault();
       const query = document.getElementById("landingSearchInput").value.trim();

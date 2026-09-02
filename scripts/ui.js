@@ -1,7 +1,6 @@
 import { state } from "./state.js";
-import { isInWatchlist, toggleWatchlist } from "./watchlist.js";
+import { isFavorite, toggleFavorite } from "./favorites.js";
 
-// Skeletons
 export function showSkeletons() {
   const track = document.querySelector(".wheel-track");
   if (!track) return;
@@ -41,7 +40,6 @@ export function hideSkeletons() {
   });
 }
 
-// Populate cards with data
 export function populateCards(items) {
   const track = document.querySelector(".wheel-track");
   if (!track) return;
@@ -90,24 +88,23 @@ export function populateCards(items) {
       img.style.display = "block";
     }
 
-    let wlBtn = card.querySelector(".watchlist-btn");
-    if (wlBtn) wlBtn.remove();
-    wlBtn = document.createElement("button");
-    wlBtn.className = "watchlist-btn";
-    wlBtn.dataset.movieId = item.id;
-    const inWl = isInWatchlist(item.id);
-    if (inWl) wlBtn.classList.add("in-watchlist");
-    wlBtn.innerHTML = `<i class="fa-${inWl ? "solid" : "regular"} fa-heart"></i>`;
-    card.appendChild(wlBtn);
+    let favBtn = card.querySelector(".favorite-btn");
+    if (favBtn) favBtn.remove();
+    favBtn = document.createElement("button");
+    favBtn.className = "favorite-btn";
+    favBtn.dataset.movieId = item.id;
+    const inFav = isFavorite(item.id);
+    if (inFav) favBtn.classList.add("in-favorites");
+    favBtn.innerHTML = `<i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>`;
+    card.appendChild(favBtn);
 
-    wlBtn.addEventListener("click", (e) => {
+    favBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      toggleWatchlist(item);
+      toggleFavorite(item);
     });
   });
 }
 
-// Create a new card element
 export function createCard(item) {
   if (!item) return null;
   const el = document.createElement("div");
@@ -115,10 +112,10 @@ export function createCard(item) {
   el.className = "card";
   el.style.left = "50%";
   el.style.top = "50%";
-  const inWl = isInWatchlist(item.id);
+  const inFav = isFavorite(item.id);
   el.innerHTML = `
-    <button class="watchlist-btn ${inWl ? "in-watchlist" : ""}" data-movie-id="${item.id}">
-      <i class="fa-${inWl ? "solid" : "regular"} fa-heart"></i>
+    <button class="favorite-btn ${inFav ? "in-favorites" : ""}" data-movie-id="${item.id}">
+      <i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>
     </button>
     <div class="movie-details">
       <div class="details-top">
@@ -143,11 +140,11 @@ export function createCard(item) {
     <img src="${item.imgSrc || ""}" alt="${item.imgAlt || item.title || ""}" style="display:block;">
   `;
 
-  const wlBtn = el.querySelector(".watchlist-btn");
-  if (wlBtn) {
-    wlBtn.addEventListener("click", (e) => {
+  const favBtn = el.querySelector(".favorite-btn");
+  if (favBtn) {
+    favBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      toggleWatchlist(item);
+      toggleFavorite(item);
     });
   }
 

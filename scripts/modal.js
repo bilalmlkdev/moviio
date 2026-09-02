@@ -42,3 +42,15 @@ export function initWelcomeModal() {
     }
   });
 }
+
+export function initInstructionsModal() {
+  const modal = document.getElementById("instructionsModal");
+  const btn = document.getElementById("instructionsBtn");
+  const closeBtn = document.getElementById("instructionsCloseBtn");
+
+  btn?.addEventListener("click", () => modal.classList.remove("hidden"));
+  closeBtn?.addEventListener("click", () => modal.classList.add("hidden"));
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.add("hidden");
+  });
+}

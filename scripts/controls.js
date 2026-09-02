@@ -1,20 +1,17 @@
 import { state } from "./state.js";
 import { fetchPage, loadMoreIntoFeed } from "./api.js";
 import { showSkeletons, hideSkeletons, populateCards } from "./ui.js";
-import { finalizeKeep7 } from "./carousel.js";
+import { finalizeKeep7, shiftLeft, shiftRight } from "./carousel.js";
 import { showApiMessage } from "./utils.js";
-import { isInWatchlist } from "./watchlist.js";
+import { isFavorite, toggleFavorite } from "./favorites.js";
 
-// Main fetch movies function
 export async function fetchMovies(query) {
   if (!query || !query.trim()) query = "popular";
   state.currentQuery = query;
   state.currentPage = 1;
   state.feedIndex = 0;
 
-  const isFilter = ["popular", "top_rated", "upcoming", "watchlist"].includes(
-    query,
-  );
+  const isFilter = ["popular", "top_rated", "upcoming"].includes(query);
   updateURL(
     isFilter ? "" : query,
     isFilter ? query : "",
@@ -33,9 +30,9 @@ export async function fetchMovies(query) {
 
   const container = document.querySelector(".wheel-container");
   const emptyStateEl = document.getElementById("emptyState");
-  const isEmptyWatchlist = query === "watchlist" && state.feed.length === 0;
-  if (container) container.classList.toggle("is-empty", isEmptyWatchlist);
-  if (emptyStateEl) emptyStateEl.classList.toggle("hidden", !isEmptyWatchlist);
+  const isEmptyFavorites = query === "favorites" && state.feed.length === 0;
+  if (container) container.classList.toggle("is-empty", isEmptyFavorites);
+  if (emptyStateEl) emptyStateEl.classList.toggle("hidden", !isEmptyFavorites);
 
   if (state.isAutoRotating) {
     stopAutoRotate();
@@ -54,13 +51,10 @@ function updateURL(query, filter, genre, year) {
   if (
     query &&
     query !== "popular" &&
-    !["top_rated", "upcoming", "watchlist"].includes(query)
+    !["top_rated", "upcoming"].includes(query)
   ) {
     url.searchParams.set("search", query);
-  } else if (
-    filter &&
-    ["popular", "top_rated", "upcoming", "watchlist"].includes(filter)
-  ) {
+  } else if (filter && ["popular", "top_rated", "upcoming"].includes(filter)) {
     url.searchParams.set("filter", filter);
   }
   if (genre) url.searchParams.set("genre", genre);
@@ -68,7 +62,6 @@ function updateURL(query, filter, genre, year) {
   window.history.pushState({}, "", url);
 }
 
-// Auto-rotate
 export function startAutoRotate() {
   if (state.autoRotateInterval) clearInterval(state.autoRotateInterval);
   state.isAutoRotating = true;
@@ -101,14 +94,12 @@ export function toggleAutoRotate() {
   else startAutoRotate();
 }
 
-// Search
 let searchTimer = null;
 export function debouncedSearch(value) {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => fetchMovies(value.trim()), 200);
 }
 
-// Initialize filters and dropdowns
 export function initFilters() {
   const filterBtns = document.querySelectorAll(".filter-btn");
   const indicator = document.querySelector(".active-indicator");
@@ -138,7 +129,6 @@ export function initFilters() {
   });
 }
 
-// Custom dropdown UI
 const dropdownSyncers = [];
 function initCustomDropdown(wrapperId) {
   const wrapper = document.getElementById(wrapperId);
@@ -219,7 +209,6 @@ export function initDropdowns() {
   window.__syncDropdownLabels = () => dropdownSyncers.forEach((fn) => fn());
 }
 
-// Shuffle
 export async function shuffleMovies() {
   const randomPage = Math.floor(Math.random() * 500) + 1;
   showApiMessage("🎲 Shuffling the deck...");
@@ -257,7 +246,50 @@ export async function shuffleMovies() {
   }
 }
 
-// Keyboard navigation
+export function initFavoritesPopup() {
+  const popup = document.getElementById("favoritesPopup");
+  const btn = document.getElementById("favoritesBtn");
+  const closeBtn = document.getElementById("favoritesCloseBtn");
+  const list = document.getElementById("favoritesList");
+
+  function renderFavorites() {
+    list.innerHTML = "";
+    const favorites = Array.from(state.favorites.values());
+    if (favorites.length === 0) {
+      list.innerHTML = '<p class="empty-favorites">No favourites yet.</p>';
+      return;
+    }
+    favorites.forEach((movie) => {
+      const item = document.createElement("div");
+      item.className = "favorite-item";
+      item.innerHTML = `
+        <img src="${movie.imgSrc || ""}" alt="${movie.title}" />
+        <div class="fav-info">
+          <h4>${movie.title}</h4>
+          <span>${movie.date || ""}</span>
+        </div>
+        <button class="remove-fav" data-id="${movie.id}"><i class="fa-solid fa-xmark"></i></button>
+      `;
+      item.querySelector(".remove-fav").addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleFavorite(movie);
+        renderFavorites();
+      });
+      list.appendChild(item);
+    });
+  }
+
+  btn.addEventListener("click", () => {
+    popup.classList.toggle("hidden");
+    renderFavorites();
+  });
+
+  closeBtn.addEventListener("click", () => popup.classList.add("hidden"));
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) popup.classList.add("hidden");
+  });
+}
+
 export function initKeyboardNav() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {

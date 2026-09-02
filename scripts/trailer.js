@@ -1,9 +1,5 @@
 import { state } from "./state.js";
-import {
-  isInWatchlist,
-  toggleWatchlist,
-  updateWatchlistUI,
-} from "./watchlist.js";
+import { isFavorite, toggleFavorite, updateFavoritesUI } from "./favorites.js";
 import { showApiMessage, showCardLoader, hideCardLoader } from "./utils.js";
 
 let trailerOpenBusy = false;
@@ -58,10 +54,10 @@ export async function openMovieOverlayById(movieId) {
     document.getElementById("trailerOverview").textContent =
       item.overview || "No description available.";
 
-    const overlayWlBtn = document.getElementById("overlayWatchlistBtn");
-    if (overlayWlBtn) {
-      const icon = overlayWlBtn.querySelector("i");
-      icon.className = isInWatchlist(item.id)
+    const overlayFavBtn = document.getElementById("overlayFavoriteBtn");
+    if (overlayFavBtn) {
+      const icon = overlayFavBtn.querySelector("i");
+      icon.className = isFavorite(item.id)
         ? "fa-solid fa-heart"
         : "fa-regular fa-heart";
     }
@@ -183,7 +179,7 @@ export function initTrailerControls() {
   const closeBtn = document.getElementById("closeTrailer");
   const playPauseBtn = document.getElementById("playPauseBtn");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
-  const overlayWlBtn = document.getElementById("overlayWatchlistBtn");
+  const overlayFavBtn = document.getElementById("overlayFavoriteBtn");
   const shareBtn = document.getElementById("shareBtn");
 
   closeBtn?.addEventListener("click", closeTrailerOverlay);
@@ -207,12 +203,12 @@ export function initTrailerControls() {
     }
   });
 
-  overlayWlBtn?.addEventListener("click", () => {
+  overlayFavBtn?.addEventListener("click", () => {
     if (currentTrailerMovie) {
-      toggleWatchlist(currentTrailerMovie);
-      updateWatchlistUI();
-      const icon = overlayWlBtn.querySelector("i");
-      if (isInWatchlist(currentTrailerMovie.id))
+      toggleFavorite(currentTrailerMovie);
+      updateFavoritesUI();
+      const icon = overlayFavBtn.querySelector("i");
+      if (isFavorite(currentTrailerMovie.id))
         icon.className = "fa-solid fa-heart";
       else icon.className = "fa-regular fa-heart";
     }
@@ -238,7 +234,6 @@ export function initTrailerControls() {
   });
 }
 
-// Load YouTube API
 export function loadYouTubeAPI() {
   if (window.YT && window.YT.Player) return;
   const tag = document.createElement("script");

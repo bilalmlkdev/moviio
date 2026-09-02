@@ -1,0 +1,79 @@
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.hero-section h1 {
+  font-size: 64px;
+  letter-spacing: -1px;
+  font-weight: 400;
+  font-family: var(--font-serif);
+  position: relative;
+  color: var(--txt-color);
+  bottom: 20px;
+}
+
+.filter-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: auto;
+  position: relative;
+  bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filter-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+.active-indicator {
+  position: absolute;
+  height: calc(100% - 6px);
+  top: 3px;
+  background: var(--card-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 0;
+  border-radius: 7px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--txt-color);
+}
+
+.filter-btn {
+  height: 34px;
+  padding: 0 16px;
+  border: none;
+  background: transparent;
+  color: var(--txt-muted);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  border-radius: 7px;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  color: var(--txt-color);
+  font-weight: 600;
+}

@@ -1,7 +1,6 @@
 import { state } from "./state.js";
 import { showApiMessage } from "./utils.js";
 
-// Fetch genres
 export async function fetchGenres() {
   try {
     const res = await fetch("/api/tmdb?genres=1");
@@ -24,7 +23,6 @@ export async function fetchGenres() {
   }
 }
 
-// Fetch a page of movies
 export async function fetchPage(query, page = 1) {
   if (state.abortController) state.abortController.abort();
   state.abortController = new AbortController();
@@ -32,8 +30,8 @@ export async function fetchPage(query, page = 1) {
   const key = `${query}::${page}::${state.selectedGenre}::${state.selectedYear}`;
   if (state.cache.has(key)) return state.cache.get(key);
 
-  if (query === "watchlist") {
-    const items = Array.from(state.watchlist.values());
+  if (query === "favorites") {
+    const items = Array.from(state.favorites.values());
     return { items, total: items.length };
   }
 
@@ -87,9 +85,8 @@ export async function fetchPage(query, page = 1) {
   }
 }
 
-// Load more items into feed
 export async function loadMoreIntoFeed() {
-  if (state.isLoading || state.currentQuery === "watchlist") return;
+  if (state.isLoading || state.currentQuery === "favorites") return;
   state.isLoading = true;
   try {
     state.currentPage++;

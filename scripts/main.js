@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { loadWatchlist, updateWatchlistUI } from "./watchlist.js";
+import { loadFavorites, updateFavoritesUI } from "./favorites.js";
 import { fetchGenres } from "./api.js";
 import {
   fetchMovies,
@@ -11,6 +11,7 @@ import {
   debouncedSearch,
   shuffleMovies,
   initKeyboardNav,
+  initFavoritesPopup,
 } from "./controls.js";
 import { shiftLeft, shiftRight } from "./carousel.js";
 import {
@@ -18,30 +19,24 @@ import {
   initTrailerControls,
   loadYouTubeAPI,
 } from "./trailer.js";
-import { initWelcomeModal } from "./modal.js";
+import { initWelcomeModal, initInstructionsModal } from "./modal.js";
 import { showApiMessage } from "./utils.js";
 
-// Initialize everything
 async function init() {
-  // Load watchlist and update UI
-  loadWatchlist();
-  updateWatchlistUI();
+  loadFavorites();
+  updateFavoritesUI();
 
-  // Fetch genres
   await fetchGenres();
 
-  // Initialize filters and dropdowns
   initFilters();
   initDropdowns();
-
-  // Initialize trailer controls and load YouTube API
   initTrailerControls();
   loadYouTubeAPI();
-
-  // Initialize welcome modal
   initWelcomeModal();
+  initInstructionsModal();
+  initFavoritesPopup();
 
-  // Set up event listeners for arrows, auto-rotate, shuffle, search
+  // Arrows
   document.querySelector(".move-right")?.addEventListener("click", () => {
     shiftRight(1);
     if (state.isAutoRotating) {
@@ -58,6 +53,7 @@ async function init() {
     }
   });
 
+  // Header buttons
   document
     .getElementById("autoRotateBtn")
     ?.addEventListener("click", toggleAutoRotate);
@@ -65,6 +61,7 @@ async function init() {
     .getElementById("shuffleBtn")
     ?.addEventListener("click", shuffleMovies);
 
+  // Search
   const searchBox = document.getElementById("searchBox");
   const searchBtn = document.getElementById("searchBtn");
   searchBtn?.addEventListener("click", () => {
@@ -78,60 +75,22 @@ async function init() {
     }
   });
 
-  // Genre and year changes
+  // Genre & year
   document.getElementById("genreSelect")?.addEventListener("change", (e) => {
     state.selectedGenre = e.target.value;
-    if (state.currentQuery === "watchlist") state.currentQuery = "popular";
+    if (state.currentQuery === "favorites") state.currentQuery = "popular";
     fetchMovies(state.currentQuery);
   });
   document.getElementById("yearSelect")?.addEventListener("change", (e) => {
     state.selectedYear = e.target.value;
-    if (state.currentQuery === "watchlist") state.currentQuery = "popular";
+    if (state.currentQuery === "favorites") state.currentQuery = "popular";
     fetchMovies(state.currentQuery);
   });
 
-  // Shortcuts dropdown toggle
-  const shortcutsBtn = document.getElementById("shortcutsBtn");
-  const shortcutsDropdown = document.getElementById("shortcutsDropdown");
-  shortcutsBtn?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    shortcutsDropdown?.classList.toggle("hidden");
-    shortcutsBtn.classList.toggle("active");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (
-      shortcutsDropdown &&
-      !shortcutsDropdown.classList.contains("hidden") &&
-      !shortcutsDropdown.contains(e.target) &&
-      e.target !== shortcutsBtn
-    ) {
-      shortcutsDropdown.classList.add("hidden");
-      shortcutsBtn?.classList.remove("active");
-    }
-  });
-
-  // Close dropdowns on outside click
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".custom-dropdown")) {
-      document
-        .querySelectorAll(".custom-dropdown.open")
-        .forEach((el) => el.classList.remove("open"));
-    }
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      document
-        .querySelectorAll(".custom-dropdown.open")
-        .forEach((el) => el.classList.remove("open"));
-    }
-  });
-
-  // Card click handler
+  // Card click
   const track = document.querySelector(".wheel-track");
   track?.addEventListener("click", async (e) => {
-    if (e.target.closest(".watchlist-btn")) return;
+    if (e.target.closest(".favorite-btn")) return;
     const card = e.target.closest(".card");
     if (!card) return;
     let movieId = card.dataset.movieId || null;
@@ -157,10 +116,10 @@ async function init() {
     openMovieOverlayById(movieId);
   });
 
-  // Keyboard navigation
+  // Keyboard nav
   initKeyboardNav();
 
-  // Load initial content from URL
+  // Initial load from URL
   const params = new URLSearchParams(window.location.search);
   const search = params.get("search");
   const filter = params.get("filter");
@@ -180,10 +139,7 @@ async function init() {
   if (search && search.trim()) {
     state.currentQuery = search.trim();
     fetchMovies(state.currentQuery);
-  } else if (
-    filter &&
-    ["popular", "top_rated", "upcoming", "watchlist"].includes(filter)
-  ) {
+  } else if (filter && ["popular", "top_rated", "upcoming"].includes(filter)) {
     state.currentQuery = filter;
     document
       .querySelector(`.filter-btn[data-attribute="${filter}"]`)
@@ -194,7 +150,7 @@ async function init() {
     fetchMovies("popular");
   }
 
-  // Popstate handler
+  // Popstate
   window.addEventListener("popstate", () => {
     const params = new URLSearchParams(window.location.search);
     const search = params.get("search");
@@ -217,14 +173,10 @@ async function init() {
     window.__syncDropdownLabels?.();
 
     if (search && search.trim()) fetchMovies(search.trim());
-    else if (
-      filter &&
-      ["popular", "top_rated", "upcoming", "watchlist"].includes(filter)
-    )
+    else if (filter && ["popular", "top_rated", "upcoming"].includes(filter))
       fetchMovies(filter);
     else fetchMovies("popular");
   });
 }
 
-// Start the app
 init();

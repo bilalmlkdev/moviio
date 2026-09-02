@@ -1,0 +1,47 @@
+:root {
+  --card-w: 270px;
+  --card-h: 380px;
+  --wheel-height: 700px;
+  --transition-duration: 360ms;
+
+  --bg-color: #16130f;
+  --txt-color: #f2ece4;
+  --txt-muted: #a89c8f;
+  --card-color: #201b16;
+  --border-color: #332b23;
+  --primary-color: #eec89a;
+  --primary-fg: #201b16;
+  --chip-bg: rgba(238, 200, 154, 0.1);
+  --chip-border: rgba(238, 200, 154, 0.3);
+  --accent-color: var(--primary-color);
+
+  --surface-color: rgba(255, 255, 255, 0.06);
+  --surface-border: rgba(255, 255, 255, 0.12);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+
+  --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  --font-sans: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+[data-theme="light"] {
+  --bg-color: #fafaf9;
+  --txt-color: #262220;
+  --txt-muted: #726a63;
+  --card-color: #ffffff;
+  --border-color: #e6e1db;
+  --primary-color: #6b4a2f;
+  --primary-fg: #ffffff;
+  --chip-bg: rgba(107, 74, 47, 0.08);
+  --chip-border: rgba(107, 74, 47, 0.25);
+
+  --surface-color: rgba(0, 0, 0, 0.04);
+  --surface-border: rgba(0, 0, 0, 0.1);
+  --surface-hover: rgba(0, 0, 0, 0.07);
+
+  --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.15);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
