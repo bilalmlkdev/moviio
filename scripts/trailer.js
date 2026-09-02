@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { isFavorite, toggleFavorite, updateFavoritesUI } from "./favorites.js";
+import { isFavorite, toggleFavorite, updateFavoritesUI } from "./favourites.js";
 import { showApiMessage, showCardLoader, hideCardLoader } from "./utils.js";
 
 let trailerOpenBusy = false;
