@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-<!--
-██████╗ ██╗██╗      █████╗ ██╗
-██╔══██╗██║██║     ██╔══██╗██║
-██████╔╝██║██║     ███████║██║
-██╔══██╗██║██║     ██╔══██║██║
-██████╔╝██║███████╗██║  ██║███████╗
-╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
-███╗   ███╗ █████╗ ██╗     ██╗██╗  ██╗
-████╗ ████║██╔══██╗██║     ██║██║ ██╔╝
-██╔████╔██║███████║██║     ██║█████╔╝
-██║╚██╔╝██║██╔══██║██║     ██║██╔═██╗
-██║ ╚═╝ ██║██║  ██║███████╗██║██║  ██╗
-╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
-What are you doing here?! you sneaky developer...
--->
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,7 +29,7 @@ What are you doing here?! you sneaky developer...
         if (t === "light" || t === "dark") {
           document.documentElement.setAttribute("data-theme", t);
         }
-      } catch (e) {}
+      } catch (e) { }
     })();
   </script>
 </head>
@@ -62,13 +48,13 @@ What are you doing here?! you sneaky developer...
           <div class="l-logo"><span></span><span></span><span></span><span></span></div>
           <span class="l-wordmark">Moviio</span>
         </a>
-
         <div class="l-nav-actions">
           <button class="l-pill-btn theme-toggle-btn icon-only" id="themeToggleBtn" title="Toggle theme">
             <i class="fa-solid fa-moon theme-icon-dark"></i>
             <i class="fa-solid fa-sun theme-icon-light"></i>
           </button>
-          <a class="l-pill-btn" href="https://github.com/bilalmlkdev/moviio.git" target="_blank" rel="noopener noreferrer">
+          <a class="l-pill-btn" href="https://github.com/bilalmlkdev/moviio.git" target="_blank"
+            rel="noopener noreferrer">
             <i class="fa-brands fa-github"></i>
             <span class="l-pill-label">GitHub</span>
           </a>
@@ -92,28 +78,29 @@ What are you doing here?! you sneaky developer...
           <span class="l-underline-wrap">
             <span>In Motion</span>
             <svg viewBox="0 0 100 10" preserveAspectRatio="none">
-              <path d="M2 5.5C15 3.5 45 2.5 60 4.5C75 6.5 90 8 98 5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" />
+              <path d="M2 5.5C15 3.5 45 2.5 60 4.5C75 6.5 90 8 98 5" stroke="currentColor" stroke-width="3" fill="none"
+                stroke-linecap="round" />
             </svg>
           </span>
           <span class="l-dim">, Not Static Lists.</span>
         </span>
       </h1>
 
-      <!-- Analyzer-style input bar -->
+      <!-- Real search bar -->
       <div class="l-analyzer">
-        <a href="app.html" style="display:block;">
-          <div class="l-input-row">
-            <div class="l-input-icon"><i class="fa-solid fa-film"></i></div>
-            <div class="l-input-field">Popular, Top Rated, Upcoming &amp; your Watchlist</div>
-            <div class="l-analyze-btn">
-              <i class="fa-solid fa-play"></i>
-              <span>Launch</span>
-              <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i>
-            </div>
-          </div>
-        </a>
+        <form class="l-input-row" id="landingSearchForm">
+          <div class="l-input-icon"><i class="fa-solid fa-film"></i></div>
+          <input type="search" class="l-input-field" id="landingSearchInput" placeholder="Search movies..."
+            autocomplete="off" />
+          <button type="submit" class="l-analyze-btn">
+            <i class="fa-solid fa-play"></i>
+            <span>Search</span>
+            <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i>
+          </button>
+        </form>
         <p class="l-analyzer-hint">
-          Try it now - jump straight to <button type="button" onclick="window.location.href='app.html'">Popular movies</button>, no sign-up needed.
+          Try it now - jump straight to <button type="button" onclick="window.location.href='app.html'">Popular
+            movies</button>, no sign-up needed.
         </p>
       </div>
     </header>
@@ -156,7 +143,8 @@ What are you doing here?! you sneaky developer...
           </div>
 
           <div class="l-footer-social">
-            <a href="https://github.com/bilalmlkdev/moviio.git" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <a href="https://github.com/bilalmlkdev/moviio.git" target="_blank" rel="noopener noreferrer"
+              aria-label="GitHub">
               <i class="fa-brands fa-github"></i>
             </a>
           </div>
@@ -175,10 +163,16 @@ What are you doing here?! you sneaky developer...
   <script src="theme.js"></script>
   <script>
     document.getElementById("footerYear").textContent = new Date().getFullYear();
-    var promo = document.getElementById("promoBanner");
-    var promoDismiss = document.getElementById("promoDismiss");
-    promoDismiss?.addEventListener("click", function () {
-      promo.style.display = "none";
+
+    // Landing search: redirect to app with query
+    document.getElementById("landingSearchForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const query = document.getElementById("landingSearchInput").value.trim();
+      if (query) {
+        window.location.href = `app.html?search=${encodeURIComponent(query)}`;
+      } else {
+        window.location.href = "app.html";
+      }
     });
 
     if ('serviceWorker' in navigator) {
