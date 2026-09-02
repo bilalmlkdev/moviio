@@ -1,4 +1,4 @@
-import { isFavourite, toggleFavourite } from "./favourites";
+import { isFavourite, toggleFavourite } from "./favourites.js";
 
 export function showSkeletons() {
   const track = document.querySelector(".wheel-track");
