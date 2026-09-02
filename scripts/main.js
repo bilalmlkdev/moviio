@@ -141,10 +141,10 @@ async function init() {
     fetchMovies(state.currentQuery);
   } else if (filter && ["popular", "top_rated", "upcoming"].includes(filter)) {
     state.currentQuery = filter;
+    document.querySelector(".filter-btn.active")?.classList.remove("active");
     document
       .querySelector(`.filter-btn[data-attribute="${filter}"]`)
       ?.classList.add("active");
-    document.querySelector(".filter-btn.active")?.classList.remove("active");
     fetchMovies(filter);
   } else {
     fetchMovies("popular");

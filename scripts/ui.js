@@ -42,7 +42,23 @@ export function hideSkeletons() {
 export function populateCards(items) {
   const track = document.querySelector(".wheel-track");
   if (!track) return;
-  const cards = track.querySelectorAll(".card");
+
+  let cards = Array.from(track.querySelectorAll(".card"));
+
+  // Create card shells dynamically if the track is empty on first load
+  if (cards.length === 0 && items.length > 0) {
+    track.innerHTML = "";
+    items.slice(0, 7).forEach((item, i) => {
+      const newCard = createCard(item);
+      if (newCard) {
+        newCard.className = `card card-${i}`;
+        if (i === 3) newCard.classList.add("active");
+        track.appendChild(newCard);
+      }
+    });
+    return;
+  }
+
   cards.forEach((card, i) => {
     const item = items[i];
     if (!item) return;
