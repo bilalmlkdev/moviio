@@ -3,7 +3,7 @@ import { fetchPage, loadMoreIntoFeed } from "./api.js";
 import { showSkeletons, hideSkeletons, populateCards } from "./ui.js";
 import { finalizeKeep7, shiftLeft, shiftRight } from "./carousel.js";
 import { showApiMessage } from "./utils.js";
-import { toggleFavorite } from "./favourites.js";
+import { toggleFavourite } from "./favourites.js";
 import { closeTrailerOverlay } from "./trailer.js";
 
 export async function fetchMovies(query) {
@@ -273,7 +273,7 @@ export function initFavouritesPopup() {
       `;
       item.querySelector(".remove-fav").addEventListener("click", (e) => {
         e.stopPropagation();
-        toggleFavorite(movie);
+        toggleFavourite(movie);
         renderFavourites();
       });
       list.appendChild(item);
