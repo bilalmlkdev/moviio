@@ -1,3 +1,24 @@
+// Theme toggle - click handler (theme is already applied inline in <head> to avoid flash)
+(function () {
+  const STORAGE_KEY = "moviio-theme";
+  const root = document.documentElement;
+
+  function toggleTheme() {
+    const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+    const next = current === "light" ? "dark" : "light";
+    if (next === "light") root.setAttribute("data-theme", "light");
+    else root.removeAttribute("data-theme");
+    localStorage.setItem(STORAGE_KEY, next);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("themeToggleBtn");
+    const landingBtn = document.getElementById("landingThemeToggleBtn");
+    if (btn) btn.addEventListener("click", toggleTheme);
+    if (landingBtn) landingBtn.addEventListener("click", toggleTheme);
+  });
+})();
+
 (function () {
   // Core config
   const TRANS_MS = 360;
@@ -257,7 +278,7 @@
         title: m.title || "",
         date: m.release_date ? m.release_date.slice(0, 4) : "",
         type: "movie",
-        rating: m.vote_average ? m.vote_average.toFixed(1) : "—",
+        rating: m.vote_average ? m.vote_average.toFixed(1) : "-",
         badgeLeft: "MOVIE",
         badgeRight: m.original_language?.toUpperCase() || "",
         imgSrc: m.poster_path
@@ -329,7 +350,7 @@
       // Rating
       const ratingNode = card.querySelector(".movie-rating h2");
       if (ratingNode) {
-        ratingNode.innerHTML = `${item.rating || "—"} <span><i class="fa-solid fa-star"></i></span>`;
+        ratingNode.innerHTML = `${item.rating || "-"} <span><i class="fa-solid fa-star"></i></span>`;
       }
 
       // Badges
@@ -394,7 +415,7 @@
             <div class="badge-top-right">${item.badgeRight || ""}</div>
           </div>
           <div class="movie-rating">
-            <h2>${item.rating || "—"} <span><i class="fa-solid fa-star"></i></span></h2>
+            <h2>${item.rating || "-"} <span><i class="fa-solid fa-star"></i></span></h2>
           </div>
         </div>
         <div class="details-bottom">
@@ -623,28 +644,6 @@
     if (state.isAutoRotating) stopAutoRotate();
   });
 
-  // Parallax Tilt
-  container.addEventListener("pointermove", (e) => {
-    const activeCard = document.querySelector(".card.active");
-    if (!activeCard) return;
-    const rect = activeCard.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateY = ((x - centerX) / centerX) * -10;
-    const rotateX = ((y - centerY) / centerY) * 10;
-    activeCard.style.setProperty("--tilt-y", rotateY + "deg");
-    activeCard.style.setProperty("--tilt-x", rotateX + "deg");
-  });
-  container.addEventListener("pointerleave", () => {
-    const activeCard = document.querySelector(".card.active");
-    if (activeCard) {
-      activeCard.style.setProperty("--tilt-y", "0deg");
-      activeCard.style.setProperty("--tilt-x", "0deg");
-    }
-  });
-
   // Shuffle
   document.getElementById("shuffleBtn")?.addEventListener("click", async () => {
     const randomPage = Math.floor(Math.random() * 500) + 1;
@@ -659,7 +658,7 @@
           title: m.title || "",
           date: m.release_date ? m.release_date.slice(0, 4) : "",
           type: "movie",
-          rating: m.vote_average ? m.vote_average.toFixed(1) : "—",
+          rating: m.vote_average ? m.vote_average.toFixed(1) : "-",
           badgeLeft: "MOVIE",
           badgeRight: m.original_language?.toUpperCase() || "",
           imgSrc: m.poster_path
@@ -856,7 +855,7 @@
             title: data.title || "",
             date: data.release_date ? data.release_date.slice(0, 4) : "",
             type: "movie",
-            rating: data.vote_average ? data.vote_average.toFixed(1) : "—",
+            rating: data.vote_average ? data.vote_average.toFixed(1) : "-",
             badgeLeft: "MOVIE",
             badgeRight: data.original_language?.toUpperCase() || "",
             imgSrc: data.poster_path
@@ -881,17 +880,17 @@
       }
 
       currentTrailerMovie = item;
-      document.getElementById("trailerTitle").textContent = item.title || "—";
+      document.getElementById("trailerTitle").textContent = item.title || "-";
       document.getElementById("trailerYear").textContent = (
         item.date ||
         item.release_date ||
         item.date ||
-        "—"
+        "-"
       )
         .toString()
         .slice(0, 4);
       document.getElementById("trailerRating").textContent =
-        item.vote_average || item.rating || "—";
+        item.vote_average || item.rating || "-";
       document.getElementById("trailerOverview").textContent =
         item.overview || "No description available.";
 
