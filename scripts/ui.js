@@ -1,4 +1,3 @@
-import { state } from "./state.js";
 import { isFavorite, toggleFavorite } from "./favorites.js";
 
 export function showSkeletons() {

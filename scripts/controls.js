@@ -3,7 +3,8 @@ import { fetchPage, loadMoreIntoFeed } from "./api.js";
 import { showSkeletons, hideSkeletons, populateCards } from "./ui.js";
 import { finalizeKeep7, shiftLeft, shiftRight } from "./carousel.js";
 import { showApiMessage } from "./utils.js";
-import { isFavorite, toggleFavorite } from "./favorites.js";
+import { toggleFavorite } from "./favorites.js";
+import { closeTrailerOverlay } from "./trailer.js";
 
 export async function fetchMovies(query) {
   if (!query || !query.trim()) query = "popular";
