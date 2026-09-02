@@ -1,12 +1,16 @@
 // BUG FIX: bump this on every deploy that changes cached files, so old
 // clients pick up new assets instead of being stuck on a stale cache-first
 // response forever.
-const CACHE_NAME = "moviio-v2";
+const CACHE_NAME = "moviio-v3";
 const urlsToCache = [
   "/",
   "/style.css",
   "/script.js",
+  "/theme.js",
+  "/landing.css",
+  "/landing.js",
   "/index.html",
+  "/app.html",
   "/manifest.json",
 ];
 

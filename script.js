@@ -1,24 +1,3 @@
-// Theme toggle - click handler (theme is already applied inline in <head> to avoid flash)
-(function () {
-  const STORAGE_KEY = "moviio-theme";
-  const root = document.documentElement;
-
-  function toggleTheme() {
-    const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
-    const next = current === "light" ? "dark" : "light";
-    if (next === "light") root.setAttribute("data-theme", "light");
-    else root.removeAttribute("data-theme");
-    localStorage.setItem(STORAGE_KEY, next);
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("themeToggleBtn");
-    const landingBtn = document.getElementById("landingThemeToggleBtn");
-    if (btn) btn.addEventListener("click", toggleTheme);
-    if (landingBtn) landingBtn.addEventListener("click", toggleTheme);
-  });
-})();
-
 (function () {
   // Core config
   const TRANS_MS = 360;
@@ -596,32 +575,6 @@
     else startAutoRotate();
   }
 
-  // Drag logic
-  let startX = 0,
-    dragging = false,
-    didDrag = false;
-  track.addEventListener("pointerdown", (e) => {
-    dragging = true;
-    startX = e.clientX;
-  });
-  window.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    const delta = e.clientX - startX;
-    if (Math.abs(delta) > DRAG_THRESHOLD_PX) {
-      dragging = false;
-      didDrag = true;
-      if (delta < 0) shiftLeft(1);
-      else shiftRight(1);
-      if (state.isAutoRotating) {
-        stopAutoRotate();
-        startAutoRotate();
-      }
-    }
-  });
-  window.addEventListener("pointerup", () => {
-    dragging = false;
-  });
-
   document.querySelector(".move-right")?.addEventListener("click", () => {
     shiftRight(1);
     if (state.isAutoRotating) {
@@ -754,6 +707,7 @@
       const yearSel = document.getElementById("yearSelect");
       if (genreSel) genreSel.value = "";
       if (yearSel) yearSel.value = "";
+      window.__syncDropdownLabels?.();
       fetchMovies(filter);
     });
     if (btn.classList.contains("active")) moveIndicator(btn);
@@ -1047,10 +1001,6 @@
 
   // Card click handler
   track.addEventListener("click", async (e) => {
-    if (didDrag) {
-      didDrag = false;
-      return;
-    }
     if (e.target.closest(".watchlist-btn")) return; // Ignore card open if heart icon clicked
     const card = e.target.closest(".card");
     if (!card) return;
@@ -1114,6 +1064,96 @@
   fetchGenres();
   loadFromURL();
 
+  // Custom dropdown UI, backed by the real <select id="genreSelect"/"yearSelect">
+  // so all existing filtering logic (fetchMovies, URL sync, popstate) keeps working untouched.
+  const dropdownSyncers = [];
+
+  function initCustomDropdown(wrapperId) {
+    const wrapper = document.getElementById(wrapperId);
+    if (!wrapper) return;
+    const select = wrapper.querySelector("select");
+    const trigger = wrapper.querySelector(".dropdown-trigger");
+    const valueLabel = wrapper.querySelector(".dropdown-value");
+    const menu = wrapper.querySelector(".dropdown-menu");
+
+    function renderOptions() {
+      menu.innerHTML = "";
+      Array.from(select.options).forEach((opt) => {
+        const item = document.createElement("div");
+        item.className = "dropdown-option" + (opt.value === select.value ? " selected" : "");
+        item.setAttribute("role", "option");
+        item.textContent = opt.textContent;
+        item.addEventListener("click", () => {
+          if (select.value !== opt.value) {
+            select.value = opt.value;
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+          syncLabel();
+          closeDropdown();
+        });
+        menu.appendChild(item);
+      });
+    }
+
+    function syncLabel() {
+      const selectedOpt = select.options[select.selectedIndex];
+      valueLabel.textContent = selectedOpt ? selectedOpt.textContent : "";
+      menu.querySelectorAll(".dropdown-option").forEach((el, i) => {
+        el.classList.toggle("selected", select.options[i] && select.options[i].value === select.value);
+      });
+    }
+
+    function openDropdown() {
+      document.querySelectorAll(".custom-dropdown.open").forEach((el) => {
+        if (el !== wrapper) el.classList.remove("open");
+      });
+      wrapper.classList.add("open");
+      trigger.setAttribute("aria-expanded", "true");
+    }
+
+    function closeDropdown() {
+      wrapper.classList.remove("open");
+      trigger.setAttribute("aria-expanded", "false");
+    }
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (wrapper.classList.contains("open")) closeDropdown();
+      else {
+        renderOptions();
+        openDropdown();
+      }
+    });
+
+    // Keep label in sync if the select's value changes from elsewhere (e.g. popstate, filter reset)
+    select.addEventListener("change", syncLabel);
+    const observer = new MutationObserver(() => {
+      renderOptions();
+      syncLabel();
+    });
+    observer.observe(select, { childList: true });
+
+    renderOptions();
+    syncLabel();
+    dropdownSyncers.push(syncLabel);
+  }
+
+  initCustomDropdown("genreDropdown");
+  initCustomDropdown("yearDropdown");
+  window.__syncDropdownLabels = () => dropdownSyncers.forEach((fn) => fn());
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".custom-dropdown")) {
+      document.querySelectorAll(".custom-dropdown.open").forEach((el) => el.classList.remove("open"));
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".custom-dropdown.open").forEach((el) => el.classList.remove("open"));
+    }
+  });
+
   window.addEventListener("popstate", () => {
     const params = new URLSearchParams(window.location.search);
     const search = params.get("search");
@@ -1133,6 +1173,7 @@
     const yearSel = document.getElementById("yearSelect");
     if (genreSel) genreSel.value = state.selectedGenre;
     if (yearSel) yearSel.value = state.selectedYear;
+    window.__syncDropdownLabels?.();
 
     if (search && search.trim()) fetchMovies(search.trim());
     else if (

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <!--
 ██████╗ ██╗██╗      █████╗ ██╗
 ██╔══██╗██║██║     ██╔══██╗██║
@@ -15,13 +15,10 @@
 ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
 What are you doing here?! you sneaky developer...
 -->
-
 <head>
-  <!-- Basic -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!--  SEO -->
   <title>Moviio - Discover movies in motion. Browse films, watch trailers, and explore cinema with Moviio.</title>
   <meta name="description"
     content="Moviio is a modern movie discovery platform to explore popular, top-rated, and upcoming films, watch official trailers, and browse cinema in a smooth motion-driven experience." />
@@ -31,486 +28,159 @@ What are you doing here?! you sneaky developer...
   <meta name="robots" content="index, follow" />
   <meta property="og:description"
     content="Discover movies in motion. Browse films, watch trailers, and explore cinema with Moviio." />
-  <meta name="theme-color" content="#0f0f0f" />
+  <meta name="theme-color" content="#16130f" />
   <meta name="color-scheme" content="dark light" />
   <link rel="icon" href="./assets/favicon.svg" />
   <link rel="manifest" href="/manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="style.css" />
-  <script>
-    // Apply saved/preferred theme before first paint to avoid a flash
-    (function () {
-      const stored = localStorage.getItem("moviio-theme");
-      const theme = stored === "light" || stored === "dark"
-        ? stored
-        : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-      if (theme === "light") document.documentElement.setAttribute("data-theme", "light");
-    })();
-  </script>
+  <link rel="stylesheet" href="landing.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <style>
-    /* this is for layout safety of cards*/
-    .wheel-container {
-      overflow: hidden;
-      position: relative;
-      transition: transform 360ms ease;
-      will-change: transform;
-      touch-action: pan-y;
-    }
-
-    .wheel-track {
-      display: block;
-      position: relative;
-      transform-origin: 50% 50%;
-      will-change: transform;
-    }
-  </style>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("moviio-theme");
+        if (t === "light" || t === "dark") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 
 <body>
-  <!-- main wrapper for the layout -->
-  <section class="wrapper">
-    <div id="api-status" style="display:none;
-  padding:20px;
-  border-radius:8px;
-  background:#ffe8e8;
-  color:#a40000;
-  font-weight:600;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-  margin: auto;
-  position:absolute;
-  left: 50%; top: 55%; transform: translate(-50% , -50%);z-index: 999;">
+  <div class="landing">
+    <div class="l-bg-layers">
+      <div class="l-bg-glow"></div>
+      <div class="l-bg-vignette"></div>
     </div>
 
-    <!-- Loader shown while a card's trailer/details are being fetched -->
-    <div id="cardLoader" class="card-loader hidden">
-      <div class="spinner"></div>
-    </div>
+    <!-- Fixed floating nav -->
+    <div class="l-nav-outer">
+      <nav class="l-nav">
+        <a class="l-nav-left" href="index.html">
+          <div class="l-logo"><span></span><span></span><span></span><span></span></div>
+          <span class="l-wordmark">Moviio</span>
+        </a>
 
-    <!-- ============ LANDING PAGE ============ -->
-    <section id="landing" class="landing">
-      <div class="landing-bg">
-        <div class="landing-glow"></div>
-      </div>
-
-      <nav class="landing-nav">
-        <div class="logo">
-          <span class="logo-dot"></span>
-          <span class="logo-dot"></span><span class="logo-dot"></span><span class="logo-dot"></span>
-        </div>
-        <div class="landing-nav-actions">
-          <button class="theme-toggle-btn" id="landingThemeToggleBtn" title="Toggle theme" aria-label="Toggle theme">
-            <svg class="icon-sun" style="height: 60%; width:60%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 2V4M12 20V22M4 12H2M22 12H20M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-            <svg class="icon-moon" style="height: 60%; width:60%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <div class="l-nav-actions">
+          <button class="l-pill-btn theme-toggle-btn icon-only" id="themeToggleBtn" title="Toggle theme">
+            <i class="fa-solid fa-moon theme-icon-dark"></i>
+            <i class="fa-solid fa-sun theme-icon-light"></i>
           </button>
-          <a href="https://github.com/bilalmlkdev/moviio" target="_blank" rel="noopener noreferrer" class="github-btn" title="View on GitHub">
-            <svg style="height: 60%; width:60%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.0744 2.9938C4.13263 1.96371 4.37869 1.51577 5.08432 1.15606C5.84357 0.768899 7.04106 0.949072 8.45014 1.66261C9.05706 1.97009 9.11886 1.97635 10.1825 1.83998C11.5963 1.65865 13.4164 1.65929 14.7213 1.84164C15.7081 1.97954 15.7729 1.97265 16.3813 1.66453C18.3814 0.651679 19.9605 0.71795 20.5323 1.8387C20.8177 2.39812 20.8707 3.84971 20.6494 5.04695C20.5267 5.71069 20.5397 5.79356 20.8353 6.22912C22.915 9.29385 21.4165 14.2616 17.8528 16.1155C17.5801 16.2574 17.3503 16.3452 17.163 16.4167C16.5879 16.6363 16.4133 16.703 16.6247 17.7138C16.7265 18.2 16.8491 19.4088 16.8973 20.4002C16.9844 22.1922 16.9831 22.2047 16.6688 22.5703C16.241 23.0676 15.6244 23.076 15.2066 22.5902C14.9341 22.2734 14.9075 22.1238 14.9075 20.9015C14.9075 19.0952 14.7095 17.8946 14.2417 16.8658C13.6854 15.6415 14.0978 15.185 15.37 14.9114C17.1383 14.531 18.5194 13.4397 19.2892 11.8146C20.0211 10.2698 20.1314 8.13501 18.8082 6.83668C18.4319 6.3895 18.4057 5.98446 18.6744 4.76309C18.7748 4.3066 18.859 3.71768 18.8615 3.45425C18.8653 3.03823 18.8274 2.97541 18.5719 2.97541C18.4102 2.97541 17.7924 3.21062 17.1992 3.49805L16.2524 3.95695C16.1663 3.99866 16.07 4.0147 15.975 4.0038C13.5675 3.72746 11.2799 3.72319 8.86062 4.00488C8.76526 4.01598 8.66853 3.99994 8.58215 3.95802L7.63585 3.49882C7.04259 3.21087 6.42482 2.97541 6.26317 2.97541C5.88941 2.97541 5.88379 3.25135 6.22447 4.89078C6.43258 5.89203 6.57262 6.11513 5.97101 6.91572C5.06925 8.11576 4.844 9.60592 5.32757 11.1716C5.93704 13.1446 7.4295 14.4775 9.52773 14.9222C10.7926 15.1903 11.1232 15.5401 10.6402 16.9905C10.26 18.1319 10.0196 18.4261 9.46707 18.4261C8.72365 18.4261 8.25796 17.7821 8.51424 17.1082C8.62712 16.8112 8.59354 16.7795 7.89711 16.5255C5.77117 15.7504 4.14514 14.0131 3.40172 11.7223C2.82711 9.95184 3.07994 7.64739 4.00175 6.25453C4.31561 5.78028 4.32047 5.74006 4.174 4.83217C4.09113 4.31822 4.04631 3.49103 4.0744 2.9938Z" fill="currentColor"></path>
-              <path d="M3.33203 15.9454C3.02568 15.4859 2.40481 15.3617 1.94528 15.6681C1.48576 15.9744 1.36158 16.5953 1.66793 17.0548C1.8941 17.3941 2.16467 17.6728 2.39444 17.9025C2.4368 17.9449 2.47796 17.9858 2.51815 18.0257C2.71062 18.2169 2.88056 18.3857 3.05124 18.5861C3.42875 19.0292 3.80536 19.626 4.0194 20.6962C4.11474 21.1729 4.45739 21.4297 4.64725 21.5419C4.85315 21.6635 5.07812 21.7352 5.26325 21.7819C5.64196 21.8774 6.10169 21.927 6.53799 21.9559C7.01695 21.9877 7.53592 21.998 7.99999 22.0008C8.00033 22.5527 8.44791 23.0001 8.99998 23.0001C9.55227 23.0001 9.99998 22.5524 9.99998 22.0001V21.0001C9.99998 20.4478 9.55227 20.0001 8.99998 20.0001C8.90571 20.0001 8.80372 20.0004 8.69569 20.0008C8.10883 20.0026 7.34388 20.0049 6.67018 19.9603C6.34531 19.9388 6.07825 19.9083 5.88241 19.871C5.58083 18.6871 5.09362 17.8994 4.57373 17.2891C4.34391 17.0194 4.10593 16.7834 3.91236 16.5914C3.87612 16.5555 3.84144 16.5211 3.80865 16.4883C3.5853 16.265 3.4392 16.1062 3.33203 15.9454Z" fill="currentColor"></path>
-            </svg>
+          <a class="l-pill-btn" href="https://github.com/bilalmlkdev/moviio.git" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-github"></i>
+            <span class="l-pill-label">GitHub</span>
+          </a>
+          <a class="l-pill-btn" href="app.html">
+            <i class="fa-solid fa-play"></i>
+            <span class="l-pill-label">Launch App</span>
           </a>
         </div>
       </nav>
+    </div>
 
-      <div class="landing-hero">
-        <span class="landing-badge">
-          <i class="fa-solid fa-film"></i> Powered by TMDB
-        </span>
+    <!-- Hero -->
+    <header class="l-hero">
+      <div class="l-badge-row">
+        <span class="l-badge"><i class="fa-brands fa-github"></i> Proudly Open Source Software!</span>
+      </div>
 
-        <h1 class="landing-title">
-          <span class="landing-title-dim">Discover</span> Movies
-          <br>
-          <span class="landing-title-accent-wrap">
-            <span class="landing-title-accent">In Motion</span>
-            <svg class="landing-underline" viewBox="0 0 100 10" preserveAspectRatio="none">
+      <h1 class="l-heading">
+        <span class="l-dim">Discover <span class="l-solid">Every</span> Movie</span>
+        <span>
+          <span class="l-underline-wrap">
+            <span>In Motion</span>
+            <svg viewBox="0 0 100 10" preserveAspectRatio="none">
               <path d="M2 5.5C15 3.5 45 2.5 60 4.5C75 6.5 90 8 98 5" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" />
             </svg>
           </span>
-        </h1>
+          <span class="l-dim">, Not Static Lists.</span>
+        </span>
+      </h1>
 
-        <p class="landing-subtitle">
-          Browse popular, top-rated, and upcoming films through a cinematic 3D carousel.
-          Watch trailers, build a watchlist, and explore cinema - no clutter, just movies.
+      <!-- Analyzer-style input bar -->
+      <div class="l-analyzer">
+        <a href="app.html" style="display:block;">
+          <div class="l-input-row">
+            <div class="l-input-icon"><i class="fa-solid fa-film"></i></div>
+            <div class="l-input-field">Popular, Top Rated, Upcoming &amp; your Watchlist</div>
+            <div class="l-analyze-btn">
+              <i class="fa-solid fa-play"></i>
+              <span>Launch</span>
+              <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i>
+            </div>
+          </div>
+        </a>
+        <p class="l-analyzer-hint">
+          Try it now - jump straight to <button type="button" onclick="window.location.href='app.html'">Popular movies</button>, no sign-up needed.
         </p>
+      </div>
+    </header>
 
-        <div class="landing-cta">
-          <a href="#appSection" class="landing-btn-primary" id="enterAppBtn">
-            <i class="fa-solid fa-clapperboard"></i> Explore Movies
-          </a>
-        </div>
-
-        <div class="landing-stats">
-          <div class="landing-stat">
-            <strong>3D</strong>
-            <span>Carousel engine</span>
-          </div>
-          <div class="landing-stat">
-            <strong>PWA</strong>
-            <span>Installable, offline-ready</span>
-          </div>
-          <div class="landing-stat">
-            <strong>TMDB</strong>
-            <span>Live movie data</span>
-          </div>
-        </div>
+    <!-- Feature grid -->
+    <section class="l-features">
+      <div class="l-feature-card">
+        <div class="l-feature-icon"><i class="fa-solid fa-compass"></i></div>
+        <h3>Browse &amp; Filter</h3>
+        <p>Popular, upcoming and top-rated titles, filterable by genre and year.</p>
+      </div>
+      <div class="l-feature-card">
+        <div class="l-feature-icon"><i class="fa-solid fa-play"></i></div>
+        <h3>Watch Trailers</h3>
+        <p>Instant official trailers in a full-screen player, right from the card.</p>
+      </div>
+      <div class="l-feature-card">
+        <div class="l-feature-icon"><i class="fa-regular fa-heart"></i></div>
+        <h3>Your Watchlist</h3>
+        <p>Save what catches your eye and come back to it any time.</p>
+      </div>
+      <div class="l-feature-card">
+        <div class="l-feature-icon"><i class="fa-solid fa-shuffle"></i></div>
+        <h3>Shuffle &amp; Auto-Rotate</h3>
+        <p>Let the carousel surface something new, or take the wheel yourself.</p>
       </div>
     </section>
-    <!-- ============ END LANDING PAGE ============ -->
 
-    <div id="appSection">
-    <header>
-      <nav id="navigation">
-        <div class="nav-left">
-          <a href="https://moviio.vercel.app">
+    <!-- Footer -->
+    <footer class="l-footer">
+      <div class="l-footer-hairline"></div>
+      <div class="l-footer-inner">
+        <div class="l-footer-top">
+          <div class="l-footer-brand-block">
+            <a class="l-footer-brand" href="index.html">
+              <div class="l-logo"><span></span><span></span><span></span><span></span></div>
+              <span class="l-wordmark">Moviio</span>
+            </a>
+            <p class="l-footer-tagline">Discover movies in motion,<br />with trailers and cinema in one place.</p>
+          </div>
 
-            <div class="logo">
-              <span class="logo-dot"></span>
-              <span class="logo-dot"></span><span class="logo-dot"></span><span class="logo-dot"></span>
-            </div>
-          </a>
-        </div>
-        <div class="search-wrapper">
-          <input type="search" placeholder="Search the movies" id="searchBox">
-          <button class="search-icon" id="searchBtn">
-            <i class="fa-solid fa-search"></i>
-          </button>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 15px;">
-        <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle theme" aria-label="Toggle theme">
-          <svg class="icon-sun" style="height: 60%; width:60%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 2V4M12 20V22M4 12H2M22 12H20M19.07 4.93L17.66 6.34M6.34 17.66L4.93 19.07M19.07 19.07L17.66 17.66M6.34 6.34L4.93 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <svg class="icon-moon" style="height: 60%; width:60%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <button class="shortcuts-btn" id="shortcutsBtn" title="Keyboard Shortcuts">
-        <svg style="height: 66%; width:66%; " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M10 10V7C10 5.34315 8.65685 4 7 4C5.34315 4 4 5.34315 4 7C4 8.65685 5.34315 10 7 10H10ZM10 10V14M10 10H14M10 14V17C10 18.6569 8.65685 20 7 20C5.34315 20 4 18.6569 4 17C4 15.3431 5.34315 14 7 14H10ZM10 14H14M14 10H17C18.6569 10 20 8.65685 20 7C20 5.34315 18.6569 4 17 4C15.3431 4 14 5.34315 14 7V10ZM14 10V14M14 14H17C18.6569 14 20 15.3431 20 17C20 18.6569 18.6569 20 17 20C15.3431 20 14 18.6569 14 17V14Z"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </g>
-        </svg>
-        </button>
-        <a href="https://github.com/bilalmlkdev/moviio.git" target="_blank"
-        rel="noopener noreferrer" class="github-btn" id="githubBtn" title="Keyboard Shortcuts">
-        <svg style="height: 60%; width:60%;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M4.0744 2.9938C4.13263 1.96371 4.37869 1.51577 5.08432 1.15606C5.84357 0.768899 7.04106 0.949072 8.45014 1.66261C9.05706 1.97009 9.11886 1.97635 10.1825 1.83998C11.5963 1.65865 13.4164 1.65929 14.7213 1.84164C15.7081 1.97954 15.7729 1.97265 16.3813 1.66453C18.3814 0.651679 19.9605 0.71795 20.5323 1.8387C20.8177 2.39812 20.8707 3.84971 20.6494 5.04695C20.5267 5.71069 20.5397 5.79356 20.8353 6.22912C22.915 9.29385 21.4165 14.2616 17.8528 16.1155C17.5801 16.2574 17.3503 16.3452 17.163 16.4167C16.5879 16.6363 16.4133 16.703 16.6247 17.7138C16.7265 18.2 16.8491 19.4088 16.8973 20.4002C16.9844 22.1922 16.9831 22.2047 16.6688 22.5703C16.241 23.0676 15.6244 23.076 15.2066 22.5902C14.9341 22.2734 14.9075 22.1238 14.9075 20.9015C14.9075 19.0952 14.7095 17.8946 14.2417 16.8658C13.6854 15.6415 14.0978 15.185 15.37 14.9114C17.1383 14.531 18.5194 13.4397 19.2892 11.8146C20.0211 10.2698 20.1314 8.13501 18.8082 6.83668C18.4319 6.3895 18.4057 5.98446 18.6744 4.76309C18.7748 4.3066 18.859 3.71768 18.8615 3.45425C18.8653 3.03823 18.8274 2.97541 18.5719 2.97541C18.4102 2.97541 17.7924 3.21062 17.1992 3.49805L16.2524 3.95695C16.1663 3.99866 16.07 4.0147 15.975 4.0038C13.5675 3.72746 11.2799 3.72319 8.86062 4.00488C8.76526 4.01598 8.66853 3.99994 8.58215 3.95802L7.63585 3.49882C7.04259 3.21087 6.42482 2.97541 6.26317 2.97541C5.88941 2.97541 5.88379 3.25135 6.22447 4.89078C6.43258 5.89203 6.57262 6.11513 5.97101 6.91572C5.06925 8.11576 4.844 9.60592 5.32757 11.1716C5.93704 13.1446 7.4295 14.4775 9.52773 14.9222C10.7926 15.1903 11.1232 15.5401 10.6402 16.9905C10.26 18.1319 10.0196 18.4261 9.46707 18.4261C8.72365 18.4261 8.25796 17.7821 8.51424 17.1082C8.62712 16.8112 8.59354 16.7795 7.89711 16.5255C5.77117 15.7504 4.14514 14.0131 3.40172 11.7223C2.82711 9.95184 3.07994 7.64739 4.00175 6.25453C4.31561 5.78028 4.32047 5.74006 4.174 4.83217C4.09113 4.31822 4.04631 3.49103 4.0744 2.9938Z"
-              fill="currentColor"></path>
-            <path
-              d="M3.33203 15.9454C3.02568 15.4859 2.40481 15.3617 1.94528 15.6681C1.48576 15.9744 1.36158 16.5953 1.66793 17.0548C1.8941 17.3941 2.16467 17.6728 2.39444 17.9025C2.4368 17.9449 2.47796 17.9858 2.51815 18.0257C2.71062 18.2169 2.88056 18.3857 3.05124 18.5861C3.42875 19.0292 3.80536 19.626 4.0194 20.6962C4.11474 21.1729 4.45739 21.4297 4.64725 21.5419C4.85315 21.6635 5.07812 21.7352 5.26325 21.7819C5.64196 21.8774 6.10169 21.927 6.53799 21.9559C7.01695 21.9877 7.53592 21.998 7.99999 22.0008C8.00033 22.5527 8.44791 23.0001 8.99998 23.0001C9.55227 23.0001 9.99998 22.5524 9.99998 22.0001V21.0001C9.99998 20.4478 9.55227 20.0001 8.99998 20.0001C8.90571 20.0001 8.80372 20.0004 8.69569 20.0008C8.10883 20.0026 7.34388 20.0049 6.67018 19.9603C6.34531 19.9388 6.07825 19.9083 5.88241 19.871C5.58083 18.6871 5.09362 17.8994 4.57373 17.2891C4.34391 17.0194 4.10593 16.7834 3.91236 16.5914C3.87612 16.5555 3.84144 16.5211 3.80865 16.4883C3.5853 16.265 3.4392 16.1062 3.33203 15.9454Z"
-              fill="currentColor"></path>
-          </g>
-        </svg>
-      </a>
+          <div class="l-footer-social">
+            <a href="https://github.com/bilalmlkdev/moviio.git" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </div>
         </div>
 
-        <div class="shortcuts-dropdown hidden" id="shortcutsDropdown">
-          <h4>Keyboard Shortcuts</h4>
-          <ul>
-            <li><span class="key">←</span> <span class="key">→</span> <span>Navigate cards</span></li>
-            <li><span class="key">Enter</span> <span class="key">Space</span> <span>Open active card's trailer</span>
-            </li>
-            <li><span class="key">Esc</span> <span>Close trailer</span></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <main class="main-site">
-      <!-- hero section -->
-      <section class="hero-section">
-        <h1>Search and Discover Movies</h1>
-        <div class="filter-wrapper">
-          <span class="active-indicator"></span>
-          <button class="filter-btn active" data-attribute="popular">Popular</button>
-          <button class="filter-btn" data-attribute="upcoming">Upcoming</button>
-          <button class="filter-btn" data-attribute="top_rated">Top Rated</button>
-          <button class="filter-btn" data-attribute="watchlist">Watchlist</button>
-
-          <!-- Genre & Year selectors -->
-          <select class="filter-select" id="genreSelect">
-            <option value="">All Genres</option>
-          </select>
-          <select class="filter-select" id="yearSelect">
-            <option value="">All Years</option>
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-          </select>
-        </div>
-
-
-      </section>
-
-      <!-- wheel container -->
-      <div class="wheel-container">
-        <!-- NEW: shown when a filter -->
-        <div id="emptyState" class="empty-state hidden">
-          <i class="fa-regular fa-heart"></i>
-          <p>Nothing in your watchlist yet.</p>
-        </div>
-
-        <!-- LEFT arrow + Auto-Rotate button stacked directly under it -->
-        <button class="move-right controller-btn">
-          <span>
-            <i class="fas fa-angle-right"></i>
-          </span>
-        </button>
-        <button class="move-left controller-btn">
-          <span>
-            <i class="fas fa-angle-left"></i>
-          </span>
-        </button>
-
-        <!-- UPDATED: Auto-Rotate now positioned under the left arrow,
-              -->
-        <button id="autoRotateBtn">
-          <strong>
-            <i class="fa-solid fa-play"></i>
-            <span>Auto Rotate</span>
-          </strong>
-        </button>
-
-        <button id="shuffleBtn">
-          <strong>
-            <i class="fa-solid fa-shuffle"></i>
-            <span>Shuffle</span>
-          </strong>
-        </button>
-
-        <!-- cards container with wheel Ui -->
-        <div class="wheel-track">
-          <!-- 7 static card placeholders -->
-          <div class="card card-0">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
-          </div>
-          <div class="card card-1">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
-          </div>
-          <div class="card card-2">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
-          </div>
-          <div class="card card-3" id="active-card">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
-          </div>
-          <div class="card card-4">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
-          </div>
-          <div class="card card-5">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
-          </div>
-          <div class="card card-6">
-            <div class="movie-details">
-              <div class="details-top">
-                <div class="movie-type">
-                  <div class="badge-top-left"></div>
-                  <div class="badge-top-right"></div>
-                </div>
-                <div class="movie-rating">
-                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
-                </div>
-              </div>
-              <div class="details-bottom">
-                <div class="card-content">
-                  <h3></h3>
-                  <div class="movie-dateType">
-                    <span class="movie-data"></span> • <span class="what-type"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <img src="" alt="">
+        <div class="l-footer-bottom">
+          <p class="l-footer-copy">© <span id="footerYear"></span> Moviio. All rights reserved.</p>
+          <div class="l-footer-links">
+            <a href="app.html">Launch App</a>
           </div>
         </div>
       </div>
-    </main>
-    </div>
-  </section>
-
-  <!-- this is the movie pop with trailer  -->
-  <div id="trailer-overlay" class="hidden">
-    <div class="trailer-bg">
-      <iframe id="trailerPlayer" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen></iframe>
-    </div>
-    <div class="trailer-gradient"></div>
-    <div class="trailer-content">
-      <div class="movie-rating">
-        <span class="tag rating" id="trailerRating"></span>
-        <i class="fa-solid fa-star" id="fa-star"></i>
-      </div>
-      <h1 id="trailerTitle"></h1>
-      <div class="meta">
-        <span><i class="fa-solid fa-play"></i> <span>Movie</span></span>
-        <span><i class="fa-solid fa-calendar-days"></i> <span id="trailerYear"></span></span>
-      </div>
-      <p id="trailerOverview" class="overview"></p>
-
-      <!-- Trailer Controls (Play/Pause, Fullscreen, Watchlist, Share) -->
-      <div class="trailer-controls">
-        <button class="btn primary" id="playPauseBtn">
-          <i class="fa-solid fa-play"></i> Watch Now
-        </button>
-        <button class="btn-icon" id="fullscreenBtn" title="Fullscreen">
-          <i class="fa-solid fa-expand"></i>
-        </button>
-        <button class="btn-icon watchlist-btn" id="overlayWatchlistBtn" title="Add to Watchlist">
-          <i class="fa-regular fa-heart"></i>
-        </button>
-        <button class="btn-icon" id="shareBtn" title="Share Movie">
-          <i class="fa-solid fa-share-nodes"></i>
-        </button>
-      </div>
-    </div>
-
-    <button id="closeTrailer" class="close">
-      <svg xmlns="http://www.w3.org/2000/svg" width="4em" height="4em" fill="currentColor" viewBox="0 0 256 256">
-        <path
-          d="M232,200a8,8,0,0,1-16,0,88.1,88.1,0,0,0-88-88H51.31l34.35,34.34a8,8,0,0,1-11.32,11.32l-48-48a8,8,0,0,1,0-11.32l48-48A8,8,0,0,1,85.66,61.66L51.31,96H128A104.11,104.11,0,0,1,232,200Z">
-        </path>
-      </svg>
-    </button>
+    </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script src="theme.js"></script>
   <script>
+    document.getElementById("footerYear").textContent = new Date().getFullYear();
+    var promo = document.getElementById("promoBanner");
+    var promoDismiss = document.getElementById("promoDismiss");
+    promoDismiss?.addEventListener("click", function () {
+      promo.style.display = "none";
+    });
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js');

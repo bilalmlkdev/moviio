@@ -2,7 +2,7 @@
   "name": "Moviio",
   "short_name": "Moviio",
   "description": "Discover movies in motion. Browse films, watch trailers, and explore cinema.",
-  "start_url": "/",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
