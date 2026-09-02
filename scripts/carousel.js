@@ -1,8 +1,10 @@
+// scripts/carousel.js
 import { state } from "./state.js";
 import { TRANS_MS, MAX_STEPS } from "./config.js";
 import { loadMoreIntoFeed } from "./api.js";
 import { createCard } from "./ui.js";
 
+//  Core wheel management
 export function finalizeKeep7() {
   const track = document.querySelector(".wheel-track");
   if (!track) return;
@@ -96,8 +98,8 @@ export async function shiftRight(steps = 1) {
   }
 }
 
-//  DRAG SUPPORT
-let dragState = {
+//  Drag & Swipe support
+const dragState = {
   startX: 0,
   currentX: 0,
   isDragging: false,
@@ -105,7 +107,7 @@ let dragState = {
 };
 
 export function initDrag() {
-  const track = document.querySelector('.wheel-track');
+  const track = document.querySelector(".wheel-track");
   if (!track) return;
 
   function onStart(e) {
@@ -114,7 +116,9 @@ export function initDrag() {
     dragState.currentX = point.clientX;
     dragState.isDragging = true;
     dragState.moved = false;
-    track.classList.add('dragging');
+    track.classList.add("dragging");
+    // Disable transitions for instant feedback during drag
+    track.style.transition = "none";
   }
 
   function onMove(e) {
@@ -122,31 +126,50 @@ export function initDrag() {
     const point = e.touches ? e.touches[0] : e;
     dragState.currentX = point.clientX;
     const delta = dragState.currentX - dragState.startX;
-    if (Math.abs(delta) > 10) {
+    if (Math.abs(delta) > 5) {
       dragState.moved = true;
-      e.preventDefault();
+      e.preventDefault(); // Prevent page scroll
+      // Apply subtle translation to the track (visual feedback)
+      track.style.transform = `translate3d(-50%, -50%, 0) translateX(${delta * 0.3}px)`;
     }
-    // Apply a subtle transform (optional)
-    track.style.transform = `translate3d(-50%, -50%, 0) translateX(${delta * 0.3}px)`;
   }
 
   function onEnd(e) {
     if (!dragState.isDragging) return;
     dragState.isDragging = false;
-    track.classList.remove('dragging');
-    track.style.transform = '';
+    track.classList.remove("dragging");
+    track.style.transition = "";
+    track.style.transform = ""; // Reset to original position
+
     const delta = dragState.currentX - dragState.startX;
     if (dragState.moved && Math.abs(delta) > 40) {
-      if (delta < 0) shiftLeft(1);
-      else shiftRight(1);
+      if (delta < 0) {
+        shiftLeft(1);
+      } else {
+        shiftRight(1);
+      }
     }
-    dragState.moved = false;
+    // Reset moved flag after a short delay to avoid click triggering
+    setTimeout(() => {
+      dragState.moved = false;
+    }, 100);
   }
 
-  track.addEventListener('mousedown', onStart);
-  track.addEventListener('touchstart', onStart, { passive: true });
-  document.addEventListener('mousemove', onMove);
-  document.addEventListener('touchmove', onMove, { passive: false });
-  document.addEventListener('mouseup', onEnd);
-  document.addEventListener('touchend', onEnd);
+  // Mouse events
+  track.addEventListener("mousedown", onStart);
+  document.addEventListener("mousemove", onMove);
+  document.addEventListener("mouseup", onEnd);
+
+  // Touch events
+  track.addEventListener("touchstart", onStart, { passive: true });
+  document.addEventListener("touchmove", onMove, { passive: false });
+  document.addEventListener("touchend", onEnd, { passive: true });
+
+  // Prevent context menu on long press (optional)
+  track.addEventListener("contextmenu", (e) => e.preventDefault());
+}
+
+// Export a function to check if the last interaction was a drag
+export function wasDragMoved() {
+  return dragState.moved;
 }

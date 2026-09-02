@@ -1,3 +1,4 @@
+// scripts/main.js
 import { state } from "./state.js";
 import { loadFavourites, updateFavouritesUI } from "./favourites.js";
 import { fetchGenres } from "./api.js";
@@ -13,7 +14,7 @@ import {
   initKeyboardNav,
   initFavouritesPopup,
 } from "./controls.js";
-import { shiftLeft, shiftRight, initDrag } from "./carousel.js"; // added initDrag
+import { shiftLeft, shiftRight, initDrag, wasDragMoved } from "./carousel.js";
 import {
   openMovieOverlayById,
   initTrailerControls,
@@ -36,8 +37,8 @@ async function init() {
   initInstructionsModal();
   initFavouritesPopup();
 
-  // ---- Drag support ----
-  initDrag(); // <-- new
+  //  Drag support
+  initDrag();
 
   // Arrows
   document.querySelector(".move-right")?.addEventListener("click", () => {
@@ -90,10 +91,11 @@ async function init() {
     fetchMovies(state.currentQuery);
   });
 
-  // Card click
+  // Card click – skip if a drag just happened
   const track = document.querySelector(".wheel-track");
   track?.addEventListener("click", async (e) => {
     if (e.target.closest(".favorite-btn")) return;
+    if (wasDragMoved()) return; // <-- PREVENT CLICK AFTER DRAG
     const card = e.target.closest(".card");
     if (!card) return;
     let movieId = card.dataset.movieId || null;
@@ -122,7 +124,7 @@ async function init() {
   // Keyboard nav
   initKeyboardNav();
 
-  // ---- Initial load from URL ----
+  //  Initial load from URL
   const params = new URLSearchParams(window.location.search);
   const search = params.get("search");
   const filter = params.get("filter");

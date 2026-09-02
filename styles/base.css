@@ -104,3 +104,9 @@ li {
 #api-status.hidden {
   display: none;
 }
+
+.wheel-container,
+.wheel-track {
+  touch-action: none;
+  -ms-touch-action: none;
+}
