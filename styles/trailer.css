@@ -1,8 +1,8 @@
-/*  Trailer Overlay (dark bg always)  */
+/*  Trailer Overlay - Force dark  */
 #trailer-overlay {
   position: fixed;
   inset: 0;
-  background: #0a0a0a;
+  background: #0a0a0a !important;
   /* force dark */
   display: flex;
   align-items: center;
@@ -14,7 +14,7 @@
 }
 
 #trailer-overlay.hidden {
-  display: none;
+  display: none !important;
 }
 
 .trailer-bg {
@@ -45,7 +45,7 @@
   width: 50%;
   max-width: 800px;
   margin-left: 4rem;
-  color: #f2ece4;
+  color: #f2ece4 !important;
   /* light text always */
   display: flex;
   flex-direction: column;
@@ -55,21 +55,21 @@
 
 .trailer-content .movie-rating span {
   font-size: 25px;
-  color: #f2ece4;
+  color: #f2ece4 !important;
 }
 
 .trailer-content h1 {
   font-size: 4rem;
   line-height: 1.1;
-  color: #fff;
+  color: #fff !important;
 }
 
 .meta span {
-  color: #ccc;
+  color: #ccc !important;
 }
 
 .overview {
-  color: #ddd;
+  color: #ddd !important;
 }
 
 .btn.primary {
@@ -151,7 +151,7 @@
   cursor: pointer;
 }
 
-/* Loader overlay (full‑screen dim) */
+/*  Loader overlay  */
 #cardLoader {
   position: fixed;
   inset: 0;
@@ -192,7 +192,7 @@
   }
 }
 
-/* Responsive trailer content */
+/* Responsive */
 @media (max-width: 768px) {
   .trailer-content {
     width: 80%;

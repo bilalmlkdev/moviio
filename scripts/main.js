@@ -94,7 +94,7 @@ async function init() {
   // Card click – skip if a drag just happened
   const track = document.querySelector(".wheel-track");
   track?.addEventListener("click", async (e) => {
-    if (e.target.closest(".favorite-btn")) return;
+    if (e.target.closest(".favourite-btn")) return;
     if (wasDragMoved()) return; // <-- PREVENT CLICK AFTER DRAG
     const card = e.target.closest(".card");
     if (!card) return;

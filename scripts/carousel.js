@@ -98,7 +98,7 @@ export async function shiftRight(steps = 1) {
   }
 }
 
-//  Drag & Swipe support
+//  DRAG & SWIPE
 const dragState = {
   startX: 0,
   currentX: 0,
@@ -107,8 +107,14 @@ const dragState = {
 };
 
 export function initDrag() {
+  const container = document.querySelector(".wheel-container");
   const track = document.querySelector(".wheel-track");
-  if (!track) return;
+  if (!track || !container) return;
+
+  // Prevent page scroll and touch interactions on the container
+  container.style.touchAction = "none";
+  container.style.overscrollBehavior = "none";
+  track.style.touchAction = "none";
 
   function onStart(e) {
     const point = e.touches ? e.touches[0] : e;
@@ -117,8 +123,9 @@ export function initDrag() {
     dragState.isDragging = true;
     dragState.moved = false;
     track.classList.add("dragging");
-    // Disable transitions for instant feedback during drag
     track.style.transition = "none";
+    // Disable pointer events on cards during drag to avoid accidental clicks
+    track.style.pointerEvents = "none";
   }
 
   function onMove(e) {
@@ -128,8 +135,8 @@ export function initDrag() {
     const delta = dragState.currentX - dragState.startX;
     if (Math.abs(delta) > 5) {
       dragState.moved = true;
-      e.preventDefault(); // Prevent page scroll
-      // Apply subtle translation to the track (visual feedback)
+      e.preventDefault(); // crucial: prevent scroll
+      // Visual feedback
       track.style.transform = `translate3d(-50%, -50%, 0) translateX(${delta * 0.3}px)`;
     }
   }
@@ -139,7 +146,8 @@ export function initDrag() {
     dragState.isDragging = false;
     track.classList.remove("dragging");
     track.style.transition = "";
-    track.style.transform = ""; // Reset to original position
+    track.style.transform = "";
+    track.style.pointerEvents = ""; // re-enable clicks
 
     const delta = dragState.currentX - dragState.startX;
     if (dragState.moved && Math.abs(delta) > 40) {
@@ -149,27 +157,27 @@ export function initDrag() {
         shiftRight(1);
       }
     }
-    // Reset moved flag after a short delay to avoid click triggering
+    // Keep moved flag true for a moment so click handler can ignore it
     setTimeout(() => {
       dragState.moved = false;
-    }, 100);
+    }, 200);
   }
 
-  // Mouse events
+  // Mouse
   track.addEventListener("mousedown", onStart);
   document.addEventListener("mousemove", onMove);
   document.addEventListener("mouseup", onEnd);
 
-  // Touch events
+  // Touch
   track.addEventListener("touchstart", onStart, { passive: true });
   document.addEventListener("touchmove", onMove, { passive: false });
   document.addEventListener("touchend", onEnd, { passive: true });
 
-  // Prevent context menu on long press (optional)
+  // Prevent context menu on long press
   track.addEventListener("contextmenu", (e) => e.preventDefault());
 }
 
-// Export a function to check if the last interaction was a drag
+// Export the moved flag for click guard
 export function wasDragMoved() {
   return dragState.moved;
 }
