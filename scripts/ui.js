@@ -103,10 +103,10 @@ export function populateCards(items) {
       img.style.display = "block";
     }
 
-    let favBtn = card.querySelector(".favorite-btn");
+    let favBtn = card.querySelector(".favourite-btn");
     if (favBtn) favBtn.remove();
     favBtn = document.createElement("button");
-    favBtn.className = "favorite-btn";
+    favBtn.className = "favourite-btn";
     favBtn.dataset.movieId = item.id;
     const inFav = isFavourite(item.id);
     if (inFav) favBtn.classList.add("in-favourites");
@@ -129,7 +129,7 @@ export function createCard(item) {
   el.style.top = "50%";
   const inFav = isFavourite(item.id);
   el.innerHTML = `
-    <button class="favorite-btn ${inFav ? "in-favourites" : ""}" data-movie-id="${item.id}">
+    <button class="favourite-btn ${inFav ? "in-favourites" : ""}" data-movie-id="${item.id}">
       <i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>
     </button>
     <div class="movie-details">
@@ -155,7 +155,7 @@ export function createCard(item) {
     <img src="${item.imgSrc || ""}" alt="${item.imgAlt || item.title || ""}" style="display:block;">
   `;
 
-  const favBtn = el.querySelector(".favorite-btn");
+  const favBtn = el.querySelector(".favourite-btn");
   if (favBtn) {
     favBtn.addEventListener("click", (e) => {
       e.stopPropagation();
