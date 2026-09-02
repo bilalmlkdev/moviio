@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { isFavorite, toggleFavorite, updateFavouritesUI } from "./favourites.js";
+import { isFavourite, toggleFavourite, updateFavouritesUI } from "./favourites.js";
 import { showApiMessage, showCardLoader, hideCardLoader } from "./utils.js";
 
 let trailerOpenBusy = false;
@@ -57,7 +57,7 @@ export async function openMovieOverlayById(movieId) {
     const overlayFavBtn = document.getElementById("overlayFavoriteBtn");
     if (overlayFavBtn) {
       const icon = overlayFavBtn.querySelector("i");
-      icon.className = isFavorite(item.id)
+      icon.className = isFavourite(item.id)
         ? "fa-solid fa-heart"
         : "fa-regular fa-heart";
     }
@@ -205,10 +205,10 @@ export function initTrailerControls() {
 
   overlayFavBtn?.addEventListener("click", () => {
     if (currentTrailerMovie) {
-      toggleFavorite(currentTrailerMovie);
+      toggleFavourite(currentTrailerMovie);
       updateFavouritesUI();
       const icon = overlayFavBtn.querySelector("i");
-      if (isFavorite(currentTrailerMovie.id))
+      if (isFavourite(currentTrailerMovie.id))
         icon.className = "fa-solid fa-heart";
       else icon.className = "fa-regular fa-heart";
     }
