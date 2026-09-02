@@ -1,4 +1,5 @@
-const CACHE_NAME = "moviio-v4";
+const CACHE_NAME = "moviio-v5"; 
+
 const urlsToCache = [
   "/",
   "/index.html",
@@ -51,8 +52,26 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
+  // Never intercept API calls
   if (event.request.url.includes("/api/")) return;
 
+  // For navigation requests (HTML), use network-first, falling back to cache
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clone = response.clone();
+          caches
+            .open(CACHE_NAME)
+            .then((cache) => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request)),
+    );
+    return;
+  }
+
+  // For other assets (CSS, JS, images), use cache-first, then network
   event.respondWith(
     caches
       .match(event.request)
