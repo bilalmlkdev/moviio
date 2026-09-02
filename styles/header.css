@@ -168,3 +168,73 @@ header {
   opacity: 0;
   transform: rotate(90deg) scale(0.5);
 }
+
+
+/*  Responsive header  */
+@media (max-width: 768px) {
+  header {
+    padding: 10px 16px;
+  }
+
+  #navigation {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-left {
+    flex: 1;
+  }
+
+  .search-wrapper {
+    order: 3;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .header-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .wordmark {
+    font-size: 18px;
+  }
+
+  .favourites-count {
+    font-size: 8px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-actions .header-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .search-wrapper input[type="search"] {
+    font-size: 13px;
+    padding-left: 12px;
+  }
+
+  .controller-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .move-right {
+    right: 20px;
+  }
+
+  .move-left {
+    left: 20px;
+  }
+}

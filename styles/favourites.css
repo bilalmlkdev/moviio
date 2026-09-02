@@ -2,7 +2,7 @@
   position: fixed;
   top: 80px;
   right: 20px;
-  width: 320px;
+  width: 340px;
   max-height: 70vh;
   background: var(--card-color);
   border: 1px solid var(--border-color);
@@ -34,59 +34,99 @@
 }
 
 .favourites-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
   padding: 12px;
 }
 
 .favourite-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
+  position: relative;
+  aspect-ratio: 2 / 3;
   border-radius: 8px;
-  transition: background 0.2s;
+  overflow: hidden;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s;
 }
 
 .favourite-item:hover {
-  background: var(--surface-hover);
+  transform: scale(1.02);
+  z-index: 2;
 }
 
 .favourite-item img {
-  width: 45px;
-  height: 60px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: 4px;
 }
 
-.fav-info {
-  flex: 1;
+.favourite-item .fav-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: #fff;
 }
 
-.fav-info h4 {
+.favourite-item .fav-info h4 {
+  font-size: 13px;
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.fav-info span {
-  font-size: 12px;
-  color: var(--txt-muted);
+.favourite-item .fav-info span {
+  font-size: 11px;
+  opacity: 0.8;
 }
 
-.remove-fav {
-  background: none;
+.favourite-item .remove-fav {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.6);
   border: none;
-  color: var(--txt-muted);
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
   cursor: pointer;
-  font-size: 16px;
-  transition: color 0.2s;
 }
 
-.remove-fav:hover {
-  color: #ff4757;
+.favourite-item:hover .remove-fav {
+  opacity: 1;
+}
+
+.favourite-item .remove-fav:hover {
+  background: #ff4757;
 }
 
 .empty-favourites {
+  grid-column: 1 / -1;
   text-align: center;
   color: var(--txt-muted);
-  padding: 20px 0;
+  padding: 30px 0;
+}
+
+/* Responsive: single column on small screens */
+@media (max-width: 480px) {
+  .favourites-popup {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    top: 70px;
+  }
+
+  .favourites-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -309,3 +309,65 @@ export function initKeyboardNav() {
     }
   });
 }
+
+export function openWatchNowModal(movieTitle, movieId) {
+  // Remove existing modal if any
+  const old = document.querySelector(".watchnow-modal");
+  if (old) old.remove();
+
+  const modal = document.createElement("div");
+  modal.className = "watchnow-modal";
+  modal.innerHTML = `
+    <div class="watchnow-content">
+      <h2>Watch "${movieTitle}"</h2>
+      <div class="platform-grid">
+        <button class="platform-btn" data-service="netflix"><i class="fa-brands fa-netflix"></i> Netflix</button>
+        <button class="platform-btn" data-service="prime"><i class="fa-brands fa-prime"></i> Prime Video</button>
+        <button class="platform-btn" data-service="disney"><i class="fa-brands fa-disney"></i> Disney+</button>
+        <button class="platform-btn" data-service="apple"><i class="fa-brands fa-apple"></i> Apple TV+</button>
+        <button class="platform-btn" data-service="hbomax"><i class="fa-solid fa-tv"></i> HBO Max</button>
+        <button class="platform-btn" data-service="justwatch"><i class="fa-solid fa-magnifying-glass"></i> More options</button>
+      </div>
+      <button class="watchnow-close">Close</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Close handler
+  modal
+    .querySelector(".watchnow-close")
+    .addEventListener("click", () => modal.remove());
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.remove();
+  });
+
+  // Platform redirects
+  modal.querySelectorAll(".platform-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const service = btn.dataset.service;
+      let url = "";
+      const search = encodeURIComponent(`${movieTitle} movie`);
+      switch (service) {
+        case "netflix":
+          url = `https://www.netflix.com/search?q=${encodeURIComponent(movieTitle)}`;
+          break;
+        case "prime":
+          url = `https://www.amazon.com/s?k=${encodeURIComponent(movieTitle)}+movie`;
+          break;
+        case "disney":
+          url = `https://www.disneyplus.com/search/${encodeURIComponent(movieTitle)}`;
+          break;
+        case "apple":
+          url = `https://tv.apple.com/search?term=${encodeURIComponent(movieTitle)}`;
+          break;
+        case "hbomax":
+          url = `https://www.max.com/search?q=${encodeURIComponent(movieTitle)}`;
+          break;
+        default:
+          url = `https://www.justwatch.com/us/search?q=${encodeURIComponent(movieTitle)}`;
+      }
+      window.open(url, "_blank");
+      modal.remove();
+    });
+  });
+}

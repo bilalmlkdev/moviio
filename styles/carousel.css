@@ -10,7 +10,7 @@
   z-index: 2;
 }
 
-.move-right {
+/* .move-right {
   top: 180px;
   right: 130px;
 }
@@ -18,7 +18,7 @@
 .move-left {
   top: 180px;
   left: 130px;
-}
+} */
 
 .controller-btn {
   width: 44px;
@@ -286,4 +286,28 @@
 
 .favourite-btn.in-favourites i {
   font-weight: 900;
+}
+
+
+.move-right {
+  top: 50%;
+  right: 80px;
+  transform: translateY(-50%);
+}
+
+.move-left {
+  top: 50%;
+  left: 80px;
+  transform: translateY(-50%);
+}
+
+/* On smaller screens bring them closer */
+@media (max-width: 600px) {
+  .move-right {
+    right: 20px;
+  }
+
+  .move-left {
+    left: 20px;
+  }
 }
