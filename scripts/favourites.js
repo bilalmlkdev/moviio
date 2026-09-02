@@ -12,7 +12,7 @@ export function saveFavourites() {
   localStorage.setItem("moviio_favourites", JSON.stringify(movies));
 }
 
-export function toggleFavorite(movie) {
+export function toggleFavourite(movie) {
   if (!movie || !movie.id) return;
   const key = String(movie.id);
   if (state.favourites.has(key)) state.favourites.delete(key);
@@ -21,14 +21,14 @@ export function toggleFavorite(movie) {
   updateFavouritesUI();
 }
 
-export function isFavorite(id) {
+export function isFavourite(id) {
   return state.favourites.has(String(id));
 }
 
 export function updateFavouritesUI() {
-  document.querySelectorAll(".favorite-btn").forEach((btn) => {
+  document.querySelectorAll(".favourite-btn").forEach((btn) => {
     const id = btn.dataset.movieId;
-    if (id && isFavorite(id)) {
+    if (id && isFavourite(id)) {
       btn.classList.add("in-favourites");
       const icon = btn.querySelector("i");
       if (icon) icon.className = "fa-solid fa-heart";

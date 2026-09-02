@@ -1,4 +1,4 @@
-import { isFavorite, toggleFavorite } from "./favourites";
+import { isFavourite, toggleFavourite } from "./favourites";
 
 export function showSkeletons() {
   const track = document.querySelector(".wheel-track");
@@ -108,14 +108,14 @@ export function populateCards(items) {
     favBtn = document.createElement("button");
     favBtn.className = "favorite-btn";
     favBtn.dataset.movieId = item.id;
-    const inFav = isFavorite(item.id);
+    const inFav = isFavourite(item.id);
     if (inFav) favBtn.classList.add("in-favourites");
     favBtn.innerHTML = `<i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>`;
     card.appendChild(favBtn);
 
     favBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      toggleFavorite(item);
+      toggleFavourite(item);
     });
   });
 }
@@ -127,7 +127,7 @@ export function createCard(item) {
   el.className = "card";
   el.style.left = "50%";
   el.style.top = "50%";
-  const inFav = isFavorite(item.id);
+  const inFav = isFavourite(item.id);
   el.innerHTML = `
     <button class="favorite-btn ${inFav ? "in-favourites" : ""}" data-movie-id="${item.id}">
       <i class="fa-${inFav ? "solid" : "regular"} fa-heart"></i>
@@ -159,7 +159,7 @@ export function createCard(item) {
   if (favBtn) {
     favBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      toggleFavorite(item);
+      toggleFavourite(item);
     });
   }
 
