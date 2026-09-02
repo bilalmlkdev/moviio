@@ -13,7 +13,7 @@ import {
   initKeyboardNav,
   initFavouritesPopup,
 } from "./controls.js";
-import { shiftLeft, shiftRight } from "./carousel.js";
+import { shiftLeft, shiftRight, initDrag } from "./carousel.js"; // added initDrag
 import {
   openMovieOverlayById,
   initTrailerControls,
@@ -35,6 +35,9 @@ async function init() {
   initWelcomeModal();
   initInstructionsModal();
   initFavouritesPopup();
+
+  // ---- Drag support ----
+  initDrag(); // <-- new
 
   // Arrows
   document.querySelector(".move-right")?.addEventListener("click", () => {
@@ -119,13 +122,18 @@ async function init() {
   // Keyboard nav
   initKeyboardNav();
 
-  // Initial load from URL
+  // ---- Initial load from URL ----
   const params = new URLSearchParams(window.location.search);
   const search = params.get("search");
   const filter = params.get("filter");
   const genre = params.get("genre");
   const year = params.get("year");
   const movieId = params.get("movie_id");
+
+  // Populate search box if a search query came from landing page
+  if (search && searchBox) {
+    searchBox.value = search;
+  }
 
   if (genre) state.selectedGenre = genre;
   if (year) state.selectedYear = year;

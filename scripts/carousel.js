@@ -95,3 +95,58 @@ export async function shiftRight(steps = 1) {
     await singleShiftRight();
   }
 }
+
+//  DRAG SUPPORT
+let dragState = {
+  startX: 0,
+  currentX: 0,
+  isDragging: false,
+  moved: false,
+};
+
+export function initDrag() {
+  const track = document.querySelector('.wheel-track');
+  if (!track) return;
+
+  function onStart(e) {
+    const point = e.touches ? e.touches[0] : e;
+    dragState.startX = point.clientX;
+    dragState.currentX = point.clientX;
+    dragState.isDragging = true;
+    dragState.moved = false;
+    track.classList.add('dragging');
+  }
+
+  function onMove(e) {
+    if (!dragState.isDragging) return;
+    const point = e.touches ? e.touches[0] : e;
+    dragState.currentX = point.clientX;
+    const delta = dragState.currentX - dragState.startX;
+    if (Math.abs(delta) > 10) {
+      dragState.moved = true;
+      e.preventDefault();
+    }
+    // Apply a subtle transform (optional)
+    track.style.transform = `translate3d(-50%, -50%, 0) translateX(${delta * 0.3}px)`;
+  }
+
+  function onEnd(e) {
+    if (!dragState.isDragging) return;
+    dragState.isDragging = false;
+    track.classList.remove('dragging');
+    track.style.transform = '';
+    const delta = dragState.currentX - dragState.startX;
+    if (dragState.moved && Math.abs(delta) > 40) {
+      if (delta < 0) shiftLeft(1);
+      else shiftRight(1);
+    }
+    dragState.moved = false;
+  }
+
+  track.addEventListener('mousedown', onStart);
+  track.addEventListener('touchstart', onStart, { passive: true });
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('touchmove', onMove, { passive: false });
+  document.addEventListener('mouseup', onEnd);
+  document.addEventListener('touchend', onEnd);
+}

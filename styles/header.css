@@ -135,3 +135,36 @@ header {
   justify-content: center;
   font-weight: bold;
 }
+
+
+
+.theme-toggle-btn {
+  position: relative;
+}
+
+.theme-toggle-btn .theme-icon-light,
+.theme-toggle-btn .theme-icon-dark {
+  position: absolute;
+  transition: opacity 0.2s ease, transform 0.3s ease;
+  font-size: 16px;
+}
+
+.theme-toggle-btn .theme-icon-light {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.theme-toggle-btn .theme-icon-dark {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="light"] .theme-toggle-btn .theme-icon-light {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+[data-theme="light"] .theme-toggle-btn .theme-icon-dark {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}

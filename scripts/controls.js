@@ -262,7 +262,7 @@ export function initFavouritesPopup() {
     }
     favourites.forEach((movie) => {
       const item = document.createElement("div");
-      item.className = "favorite-item";
+      item.className = "favourite-item";
       item.innerHTML = `
         <img src="${movie.imgSrc || ""}" alt="${movie.title}" />
         <div class="fav-info">
