@@ -1,4 +1,4 @@
-const CACHE_NAME = "moviio-v5"; 
+const CACHE_NAME = "moviio-v5";
 
 const urlsToCache = [
   "/",
@@ -15,12 +15,12 @@ const urlsToCache = [
   "/styles/carousel.css",
   "/styles/trailer.css",
   "/styles/modal.css",
-  "/styles/favorites.css",
+  "/styles/favourites.css",
   "/scripts/config.js",
   "/scripts/state.js",
   "/scripts/utils.js",
   "/scripts/api.js",
-  "/scripts/favorites.js",
+  "/scripts/favourites.js",
   "/scripts/ui.js",
   "/scripts/carousel.js",
   "/scripts/controls.js",
