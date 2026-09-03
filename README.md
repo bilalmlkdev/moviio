@@ -1,35 +1,19 @@
-<p align="center">
+<div align="center">
+
   <a href="https://moviio.vercel.app/">
-    <img src="./assets/favicon.svg" alt="JS Practice Projects" width="100%" height="150">
+    <img src="./assets/favicon.svg" alt="JS Practice Projects" width="100%" height="120">
   </a>
-</p>
 
-<h1 align="center">Moviio - Movie Explorer</h1>
+# Moviio - Movie Explorer
 
-<p align="center">A cinematic <a href="https://moviio.vercel.app/">3D carousel movie explorer</a> powered by TMDB. Discover movies, watch trailers, and save favourites through a smooth interactive experience.</p>
+A cinematic <a href="https://moviio.vercel.app/">3D carousel movie explorer</a> powered by TMDB.Discover movies,
+<br />
+ watch trailers, and save favourites through a smooth interactive experience.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white" alt="CSS3" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
-  <a href="https://github.com/bilalmlkdev/moviio/stargazers" target="_blank">
-    <img src="https://img.shields.io/github/stars/bilalmlkdev/moviio?style=flat" alt="GitHub stars">
-  </a>
-    <img src="https://img.shields.io/badge/Status-Complete-9B72FF?style=flat" alt="Status">
-  <a href="https://github.com/bilalmlkdev/moviio/blob/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/bilalmlkdev/moviio?style=flat" alt="License">
-  </a>
-</p>
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-black?style=for-the-badge)](https://moviio.vercel.app)
+[![GitHub Stars](https://img.shields.io/github/stars/bilalmlkdev/moviio?style=for-the-badge&logo=github&color=yellow)](https://github.com/bilalmlkdev/moviio.git)
 
-<p align="center">
-<a href="https://moviio.vercel.app/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/badge/Live%20Moviio%20Movie%20Explorer?logo=eye&logoColor=currentColor&variant=outline&mode=dark&font=geist" />
-    <img alt="Live Preview" src="https://shieldcn.dev/badge/Live%20Moviio%20Movie%20Explorer?logo=eye&logoColor=currentColor&variant=outline&mode=light&font=geist" />
-  </picture>
-</a>
-</p>
-
+</div>
 
 <p align="center">
   <i>Created by <a href="https://bilalmlkdev.vercel.app" target="_blank">Bilal Malik</a></i><br>
