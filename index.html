@@ -22,43 +22,43 @@
   <link rel="stylesheet" href="landing.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    /* Preview section – matches landing aesthetic */
+<style>
+  /* Preview section – matches landing aesthetic */
+  .l-preview {
+    margin: 40px auto 0;
+    max-width: 1100px;
+    padding: 0 20px;
+  }
+
+  .l-preview-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: var(--l-card);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  .l-preview-inner img {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* aspect-ratio: 16 / 9; */
+    object-fit: contain;
+    object-position: top;
+    border-radius: 16px;
+  }
+
+  .l-preview-mask {
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+
+  @media (max-width: 640px) {
     .l-preview {
-      margin: 40px auto 0;
-      max-width: 1100px;
-      padding: 0 20px;
+      padding: 0 12px;
     }
-
-    .l-preview-inner {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      background: var(--l-card);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .l-preview-inner img {
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 9;
-      object-fit: contain;
-      object-position: top;
-      border-radius: 16px;
-    }
-
-    .l-preview-mask {
-      mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-    }
-
-    @media (max-width: 640px) {
-      .l-preview {
-        padding: 0 12px;
-      }
-    }
-  </style>
+  }
+</style>
   <script>
     (function () {
       try {
@@ -139,12 +139,12 @@
       <div class="l-analyzer">
         <form class="l-input-row" id="landingSearchForm">
           <div class="l-input-icon"><i class="fa-solid fa-film"></i></div>
-          <input type="search" class="l-input-field" id="landingSearchInput" placeholder="Search movies..."
+          <input type="search" class="l-input-field" id="landingSearchInput" placeholder="you can search movie from here by entering movie name..."
             autocomplete="off" />
           <button type="submit" class="l-analyze-btn">
-            <i class="fa-solid fa-play"></i>
-            <span>Search</span>
-            <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i>
+            <!-- <i class="fa-solid fa-play"></i> -->
+            <span>Search Movie</span>
+            <!-- <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i> -->
           </button>
         </form>
         <p class="l-analyzer-hint">

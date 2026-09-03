@@ -1,48 +1,59 @@
-![Moviio Dashboard](./assets/preview.png)
+<p align="center">
+  <a href="https://moviio.vercel.app/">
+    <img src="./assets/favicon.svg" alt="JS Practice Projects" width="100%" height="150">
+  </a>
+</p>
 
-<h1 align="center">Moviio — Movie Explorer</h1>
+<h1 align="center">Moviio - Movie Explorer</h1>
 
-<p align="center">A cinematic 3D carousel movie explorer powered by TMDB. Discover movies, watch trailers, and save favourites through a smooth interactive experience.</p>
+<p align="center">A cinematic <a href="https://moviio.vercel.app/">3D carousel movie explorer</a> powered by TMDB. Discover movies, watch trailers, and save favourites through a smooth interactive experience.</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Complete-9B72FF?style=flat" alt="Status">
-  <a href="https://github.com/bilalmlkdev/moviio/blob/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/github/license/bilalmlkdev/moviio?style=flat" alt="License">
-  </a>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white" alt="CSS3" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
   <a href="https://github.com/bilalmlkdev/moviio/stargazers" target="_blank">
     <img src="https://img.shields.io/github/stars/bilalmlkdev/moviio?style=flat" alt="GitHub stars">
   </a>
-  <img src="https://img.shields.io/badge/Deployed%20on-Vercel-9B72FF?style=flat" alt="Vercel">
+    <img src="https://img.shields.io/badge/Status-Complete-9B72FF?style=flat" alt="Status">
+  <a href="https://github.com/bilalmlkdev/moviio/blob/main/LICENSE" target="_blank">
+    <img src="https://img.shields.io/github/license/bilalmlkdev/moviio?style=flat" alt="License">
+  </a>
 </p>
 
 <p align="center">
-  <a href="https://moviio.vercel.app/"><b>Explore Moviio</b></a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/bilalmlkdev/moviio/issues/new?labels=bug&template=bug-report---.md">Report Issue</a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/bilalmlkdev/moviio/issues/new?labels=enhancement&template=feature-request---.md">Suggest Feature</a>
+<a href="https://moviio.vercel.app/" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/badge/Live%20Moviio%20Movie%20Explorer?logo=eye&logoColor=currentColor&variant=outline&mode=dark&font=geist" />
+    <img alt="Live Preview" src="https://shieldcn.dev/badge/Live%20Moviio%20Movie%20Explorer?logo=eye&logoColor=currentColor&variant=outline&mode=light&font=geist" />
+  </picture>
+</a>
 </p>
+
 
 <p align="center">
   <i>Created by <a href="https://bilalmlkdev.vercel.app" target="_blank">Bilal Malik</a></i><br>
-  <i>Follow on GitHub <a href="https://github.com/bilalmlkdev" target="_blank">bilalmlkdev</a></i>
+  <i>Follow on Github <a href="https://github.com/bilalmlkdev" target="_blank">bilalmlkdev</a></i>
 </p>
 
----
+
+[![JS Practice Projects Dashboard](https://raw.githubusercontent.com/bilalmlkdev/moviio/main/assets/dashboard.png)](https://seepreview.vercel.app/)
+
+
 
 ## About
 
-Moviio is an interactive movie discovery app split into a marketing landing page and a separate app view — a **custom 7-card 3D wheel engine** where movies rotate through a circular cinematic interface with CSS 3D transforms.
+Moviio is an interactive movie discovery app split into a marketing landing page and a separate app view - a **custom 7-card 3D wheel engine** where movies rotate through a circular cinematic interface with CSS 3D transforms.
 
 It's powered by the TMDB API through a serverless proxy (so the API key never reaches the client), ships as an installable Progressive Web App with offline caching, and supports full light/dark theming.
 
-- **Two-page structure** — `index.html` is the marketing landing page, `app.html` is the movie explorer itself
-- **Custom 3D carousel** — drag, swipe, keyboard, or auto-rotate through movies
-- **Trailer overlay** — fullscreen YouTube playback with cast, director, runtime, and genres
-- **Favourites** — heart any movie to save it locally, browse them in a dedicated popup
-- **Light/dark theme** — full theming across both pages, persisted via localStorage
-- **PWA-ready** — installable, works offline via a versioned service worker
-- **Secure by design** — TMDB key stays server-side in a Vercel serverless function
+- **Two-page structure** - `index.html` is the marketing landing page, `app.html` is the movie explorer itself
+- **Custom 3D carousel** - drag, swipe, keyboard, or auto-rotate through movies
+- **Trailer overlay** - fullscreen YouTube playback with cast, director, runtime, and genres
+- **Favourites** - heart any movie to save it locally, browse them in a dedicated popup
+- **Light/dark theme** - full theming across both pages, persisted via localStorage
+- **PWA-ready** - installable, works offline via a versioned service worker
+- **Secure by design** - TMDB key stays server-side in a Vercel serverless function
 
 ## Features
 
@@ -51,7 +62,7 @@ It's powered by the TMDB API through a serverless proxy (so the API key never re
 | 3D Movie Wheel | Custom-built carousel with layered cards and smooth 3D transitions |
 | Drag & Swipe Navigation | Mouse drag, touch gestures, or button controls |
 | Search & Filters | Search by title, filter by genre or release year, with custom dropdowns |
-| Favourites | Heart any movie to save it via LocalStorage — browse them in a popup |
+| Favourites | Heart any movie to save it via LocalStorage - browse them in a popup |
 | Trailer Overlay | Fullscreen YouTube trailers with cast, director, runtime, and share |
 | Deep Linking | Share any movie directly via `/app.html?movie_id=980431` |
 | Keyboard Shortcuts | `←` `→` navigate, `Enter`/`Space` open trailer, `Esc` close overlays |
@@ -97,7 +108,7 @@ Then run:
 vercel dev
 ```
 
-> Opening the HTML files directly (or Live Server) won't work — `/api/tmdb` requires the Vercel serverless function to proxy TMDB requests.
+> Opening the HTML files directly (or Live Server) won't work - `/api/tmdb` requires the Vercel serverless function to proxy TMDB requests.
 
 ## Usage
 
@@ -105,7 +116,7 @@ Start on the landing page and click through to the app. Navigate the 3D wheel wi
 
 ## Contributing
 
-Contributions are welcome — bug reports, feature ideas, or code improvements.
+Contributions are welcome - bug reports, feature ideas, or code improvements.
 
 ```bash
 git checkout -b feat/your-feature-name
