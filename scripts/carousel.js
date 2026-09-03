@@ -123,7 +123,6 @@ export function initDrag() {
     dragState.isDragging = true;
     dragState.moved = false;
     track.classList.add("dragging");
-    track.style.transition = "none";
     // Disable pointer events on cards during drag to avoid accidental clicks
     track.style.pointerEvents = "none";
   }
@@ -136,8 +135,11 @@ export function initDrag() {
     if (Math.abs(delta) > 5) {
       dragState.moved = true;
       e.preventDefault(); // crucial: prevent scroll
-      // Visual feedback
-      track.style.transform = `translate3d(-50%, -50%, 0) translateX(${delta * 0.3}px)`;
+      // Visual feedback: nudge only the active card, not the whole wheel
+      const activeCard = track.querySelector(".card.active");
+      if (activeCard) {
+        activeCard.style.setProperty("--drag-x", `${delta * 0.3}px`);
+      }
     }
   }
 
@@ -145,8 +147,8 @@ export function initDrag() {
     if (!dragState.isDragging) return;
     dragState.isDragging = false;
     track.classList.remove("dragging");
-    track.style.transition = "";
-    track.style.transform = "";
+    const activeCard = track.querySelector(".card.active");
+    if (activeCard) activeCard.style.removeProperty("--drag-x");
     track.style.pointerEvents = ""; // re-enable clicks
 
     const delta = dragState.currentX - dragState.startX;

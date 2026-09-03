@@ -84,13 +84,6 @@ body {
   background: radial-gradient(ellipse at center, transparent 0%, var(--l-bg) 82%);
 }
 
-/* Promo banner (not used in this version) */
-.l-promo {
-  ...
-}
-
-/* (keep if needed) */
-
 /* Nav */
 .l-nav-outer {
   position: fixed;

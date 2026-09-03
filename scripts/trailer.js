@@ -71,7 +71,7 @@ export async function openMovieOverlayById(movieId) {
       item.overview || "No description available.";
 
     // Favourite button in overlay
-    const overlayFavBtn = document.getElementById("overlayFavoriteBtn");
+    const overlayFavBtn = document.getElementById("overlayFavouriteBtn");
     if (overlayFavBtn) {
       const icon = overlayFavBtn.querySelector("i");
       icon.className = isFavourite(item.id)
@@ -206,7 +206,7 @@ export function initTrailerControls() {
   const closeBtn = document.getElementById("closeTrailer");
   const watchNowBtn = document.getElementById("playPauseBtn");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
-  const overlayFavBtn = document.getElementById("overlayFavoriteBtn");
+  const overlayFavBtn = document.getElementById("overlayFavouriteBtn");
   const shareBtn = document.getElementById("shareBtn");
 
   closeBtn?.addEventListener("click", closeTrailerOverlay);

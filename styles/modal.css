@@ -78,24 +78,135 @@
   font-size: 18px;
 }
 
+.instructions-content {
+  max-width: 460px;
+  text-align: left;
+  padding: 32px;
+}
+
+.instructions-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.instructions-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  color: var(--primary-color);
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.instructions-header h2 {
+  margin: 0 0 6px;
+}
+
+.instructions-header p {
+  color: var(--txt-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
 .instruction-steps {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  text-align: left;
-  margin: 20px 0;
+  gap: 14px;
+  margin: 0 0 24px;
 }
 
-.instruction-steps div {
+.instruction-step {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 15px;
-  color: var(--txt-muted);
+  gap: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  position: relative;
 }
 
-.instruction-steps i {
-  width: 24px;
+.instruction-step .step-num {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: var(--primary-fg);
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instruction-step > i {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--chip-bg);
   color: var(--primary-color);
-  font-size: 18px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.instruction-step div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.instruction-step strong {
+  font-size: 14px;
+  color: var(--txt-color);
+}
+
+.instruction-step span {
+  font-size: 12.5px;
+  color: var(--txt-muted);
+  line-height: 1.4;
+}
+
+.instruction-shortcuts {
+  border-top: 1px solid var(--border-color);
+  padding-top: 18px;
+}
+
+.shortcuts-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--txt-muted);
+  margin-bottom: 10px;
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--txt-muted);
+  margin-bottom: 8px;
+}
+
+.shortcut-row kbd {
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--txt-color);
 }

@@ -68,6 +68,7 @@ export function startAutoRotate() {
   state.isAutoRotating = true;
   const btn = document.getElementById("autoRotateBtn");
   if (btn) {
+    btn.classList.add("is-active");
     const icon = btn.querySelector("i");
     if (icon) icon.className = "fa-solid fa-pause";
   }
@@ -85,6 +86,7 @@ export function stopAutoRotate() {
   }
   const btn = document.getElementById("autoRotateBtn");
   if (btn) {
+    btn.classList.remove("is-active");
     const icon = btn.querySelector("i");
     if (icon) icon.className = "fa-solid fa-play";
   }
@@ -123,6 +125,8 @@ export function initFilters() {
       const yearSel = document.getElementById("yearSelect");
       if (genreSel) genreSel.value = "";
       if (yearSel) yearSel.value = "";
+      const searchBox = document.getElementById("searchBox");
+      if (searchBox) searchBox.value = "";
       window.__syncDropdownLabels?.();
       fetchMovies(filter);
     });
@@ -208,6 +212,18 @@ export function initDropdowns() {
   initCustomDropdown("genreDropdown");
   initCustomDropdown("yearDropdown");
   window.__syncDropdownLabels = () => dropdownSyncers.forEach((fn) => fn());
+
+  // Close any open dropdown when clicking outside it
+  document.addEventListener("click", (e) => {
+    document.querySelectorAll(".custom-dropdown.open").forEach((wrapper) => {
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove("open");
+        wrapper
+          .querySelector(".dropdown-trigger")
+          ?.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
 }
 
 export async function shuffleMovies() {
@@ -304,8 +320,8 @@ export function initKeyboardNav() {
       document.querySelector(".card.active")?.click();
     } else if (e.key === "Escape") {
       closeTrailerOverlay();
-      document.getElementById("shortcutsDropdown")?.classList.add("hidden");
-      document.getElementById("shortcutsBtn")?.classList.remove("active");
+      document.getElementById("instructionsModal")?.classList.add("hidden");
+      document.getElementById("favouritesPopup")?.classList.add("hidden");
     }
   });
 }

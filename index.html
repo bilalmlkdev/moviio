@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <!--
-██████╗ ██╗██╗      █████╗ ██╗
-██╔══██╗██║██║     ██╔══██╗██║
-██████╔╝██║██║     ███████║██║
-██╔══██╗██║██║     ██╔══██║██║
-██████╔╝██║███████╗██║  ██║███████╗
-╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
-███╗   ███╗ █████╗ ██╗     ██╗██╗  ██╗
-████╗ ████║██╔══██╗██║     ██║██║ ██╔╝
-██╔████╔██║███████║██║     ██║█████╔╝
-██║╚██╔╝██║██╔══██║██║     ██║██╔═██╗
-██║ ╚═╝ ██║██║  ██║███████╗██║██║  ██╗
-╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
+████████▄ ██▄██▄      ██████▄ ██▄
+██▌▀▀██▄██▌██▌     ██▌▀▀██▄██▌
+██████▌▀██▌██▌     ████████▌██▌
+██▌▀▀██▄██▌██▌     ██▌▀▀██▄██▌
+██████▌▀██▌████████▄██▌  ██▌███████▄
+▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀
+██▄   ███▄ █████▄ ██▄     ██▄██▄  ██▄
+████▄ ████▌██▀▀██▄██▌     ██▌██▌ ██▀▀
+██▌███▄▀██▌███████▌██▌     ██▌███▄▀▀
+██▌▀██▀▀██▌██▀▀██▄██▌     ██▌██▀▀██▄
+██▌ ▀▀ ██▌██▌  █████▄██▌██▄  ██▄
+▀▀     ▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀
 What are you doing here?! you sneaky developer...
 -->
 <head>
@@ -36,6 +36,50 @@ What are you doing here?! you sneaky developer...
   <link rel="stylesheet" href="landing.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Preview section – matches landing aesthetic */
+    .l-preview {
+      margin: 40px auto 0;
+      max-width: 1100px;
+      padding: 0 20px;
+    }
+
+    .l-preview-inner {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--l-border);
+      background: var(--l-card);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.2s ease;
+    }
+
+    .l-preview-inner:hover {
+      border-color: var(--l-primary);
+    }
+
+    .l-preview-inner img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 16px;
+    }
+
+    /* Optional gradient mask at bottom (like original idea) */
+    .l-preview-mask {
+      mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    }
+
+    @media (max-width: 640px) {
+      .l-preview {
+        padding: 0 12px;
+      }
+    }
+  </style>
   <script>
     (function () {
       try {
@@ -115,6 +159,14 @@ What are you doing here?! you sneaky developer...
         </p>
       </div>
     </header>
+
+    <!--  PRODUCT SCREENSHOT / DASHBOARD PREVIEW  -->
+    <section class="l-preview">
+      <div class="l-preview-inner l-preview-mask">
+        <img src="./assets/dashboard.png"
+          alt="Moviio dashboard showing the 3D movie carousel, filters, and trailer player" loading="lazy" />
+      </div>
+    </section>
 
     <section class="l-features">
       <div class="l-feature-card">

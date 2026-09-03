@@ -1,6 +1,11 @@
 header {
   width: 100%;
   padding: 15px 42px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 #navigation {
@@ -100,23 +105,35 @@ header {
 }
 
 .header-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--surface-color);
-  border: 1px solid var(--surface-border);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
   color: var(--txt-color);
   font-size: 16px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.1s ease;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 0 var(--border-color);
 }
 
 .header-btn:hover {
-  background: var(--surface-hover);
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 0 var(--primary-color);
+}
+
+.header-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 var(--border-color);
+}
+
+#autoRotateBtn.is-active {
+  background: var(--primary-color);
+  color: var(--primary-fg);
   border-color: var(--primary-color);
 }
 

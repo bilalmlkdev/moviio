@@ -83,11 +83,13 @@ async function init() {
   document.getElementById("genreSelect")?.addEventListener("change", (e) => {
     state.selectedGenre = e.target.value;
     if (state.currentQuery === "favourites") state.currentQuery = "popular";
+    if (searchBox) searchBox.value = "";
     fetchMovies(state.currentQuery);
   });
   document.getElementById("yearSelect")?.addEventListener("change", (e) => {
     state.selectedYear = e.target.value;
     if (state.currentQuery === "favourites") state.currentQuery = "popular";
+    if (searchBox) searchBox.value = "";
     fetchMovies(state.currentQuery);
   });
 

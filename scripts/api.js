@@ -9,6 +9,10 @@ export async function fetchGenres() {
       state.genres = data.genres;
       const select = document.getElementById("genreSelect");
       if (select) {
+        // Keep the "All Genres" placeholder, remove any previously added options
+        Array.from(select.querySelectorAll("option[value]:not([value=''])")).forEach(
+          (opt) => opt.remove(),
+        );
         state.genres.forEach((g) => {
           const opt = document.createElement("option");
           opt.value = g.id;
