@@ -1,4 +1,4 @@
-const CACHE_NAME = "moviio-v5";
+const CACHE_NAME = "moviio-v6";
 
 const urlsToCache = [
   "/",
@@ -16,6 +16,7 @@ const urlsToCache = [
   "/styles/trailer.css",
   "/styles/modal.css",
   "/styles/favourites.css",
+  "/styles/dropdown.css",
   "/scripts/config.js",
   "/scripts/state.js",
   "/scripts/utils.js",
@@ -57,16 +58,29 @@ self.addEventListener("fetch", (event) => {
 
   // For navigation requests (HTML), use network-first, falling back to cache
   if (event.request.mode === "navigate") {
+    const url = new URL(event.request.url);
+    // Cache/match by pathname only, so query strings like
+    // ?filter=top_rated&genre=16 or ?movie_id=... don't fragment the cache
+    // into entries that were never precached.
+    const shellRequest = new Request(url.pathname, {
+      headers: event.request.headers,
+    });
+
     event.respondWith(
       fetch(event.request)
         .then((response) => {
           const clone = response.clone();
           caches
             .open(CACHE_NAME)
-            .then((cache) => cache.put(event.request, clone));
+            .then((cache) => cache.put(shellRequest, clone));
           return response;
         })
-        .catch(() => caches.match(event.request)),
+        .catch(async () => {
+          const cached = await caches.match(shellRequest);
+          return (
+            cached || caches.match("/app.html") || caches.match("/index.html")
+          );
+        }),
     );
     return;
   }
@@ -75,6 +89,12 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches
       .match(event.request)
-      .then((response) => response || fetch(event.request)),
+      .then(
+        (response) =>
+          response ||
+          fetch(event.request).catch(
+            () => new Response("", { status: 504, statusText: "Offline" }),
+          ),
+      ),
   );
 });
