@@ -1,9 +1,10 @@
-const CACHE_NAME = "moviio-v6";
+const CACHE_NAME = "moviio-v7";
 
 const urlsToCache = [
   "/",
   "/index.html",
   "/app.html",
+  "/trailer.html",
   "/landing.css",
   "/theme.js",
   "/manifest.json",
@@ -25,7 +26,7 @@ const urlsToCache = [
   "/scripts/ui.js",
   "/scripts/carousel.js",
   "/scripts/controls.js",
-  "/scripts/trailer.js",
+  "/scripts/trailer-page.js",
   "/scripts/modal.js",
   "/scripts/main.js",
 ];

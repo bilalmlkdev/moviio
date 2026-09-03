@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Moviio - Trailer</title>
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0f0f0f" />
+  <meta name="color-scheme" content="dark light" />
+  <link rel="icon" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("moviio-theme");
+        if (t === "light" || t === "dark") {
+          document.documentElement.setAttribute("data-theme", t);
+        }
+      } catch (e) { }
+    })();
+  </script>
+</head>
+<body>
+  <!-- Trailer page -->
+  <div id="trailer-overlay" class="trailer-page">
+    <button id="backToApp" class="back-btn" title="Back">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="trailer-bg">
+      <iframe id="trailerPlayer" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+    <div class="trailer-gradient"></div>
+    <div class="trailer-content">
+      <div class="movie-rating">
+        <span class="tag rating" id="trailerRating"></span>
+        <i class="fa-solid fa-star" id="fa-star"></i>
+      </div>
+      <h1 id="trailerTitle"></h1>
+      <div class="meta">
+        <span><i class="fa-solid fa-play"></i> <span>Movie</span></span>
+        <span><i class="fa-solid fa-calendar-days"></i> <span id="trailerYear"></span></span>
+      </div>
+      <p id="trailerOverview" class="overview"></p>
+
+      <div class="trailer-controls">
+        <button class="btn primary" id="playPauseBtn">
+          <i class="fa-solid fa-play"></i> Watch Now
+        </button>
+        <button class="btn-icon" id="fullscreenBtn" title="Fullscreen">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+        <button class="btn-icon favourite-btn" id="overlayFavouriteBtn" title="Add to Favourites">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+        <button class="btn-icon" id="shareBtn" title="Share Movie">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-screen loader while trailer data loads -->
+  <div id="cardLoader" class="hidden">
+    <div class="spinner"></div>
+    <div class="loader-text">Loading trailer…</div>
+  </div>
+
+  <div id="api-status"></div>
+
+  <script src="theme.js"></script>
+  <script type="module" src="scripts/trailer-page.js"></script>
+</body>
+</html>

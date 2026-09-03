@@ -1,67 +1,73 @@
-// scripts/trailer.js
+// scripts/trailer-page.js
 import { state } from "./state.js";
-import {
-  isFavourite,
-  toggleFavourite,
-  updateFavouritesUI,
-} from "./favourites.js";
+import { loadFavourites, isFavourite, toggleFavourite, updateFavouritesUI } from "./favourites.js";
 import { showApiMessage, showCardLoader, hideCardLoader } from "./utils.js";
-import { openWatchNowModal } from "./controls.js"; // newly added
+import { openWatchNowModal } from "./controls.js";
 
-let trailerOpenBusy = false;
 let ytPlayer = null;
-let currentTrailerMovie = null;
+let currentMovie = null;
 
-export async function openMovieOverlayById(movieId) {
-  if (trailerOpenBusy) return;
-  trailerOpenBusy = true;
-
-  // Show the full‑screen dimming loader
-  showCardLoader();
-
+async function fetchTrailerAndDetails(movieId) {
   try {
-    let item = state.feed.find((m) => String(m.id) === String(movieId));
-    if (!item) {
-      const res = await fetch(`/api/tmdb?details=${movieId}`);
-      const data = await res.json();
-      if (data) {
-        item = {
-          id: data.id,
-          title: data.title || "",
-          date: data.release_date ? data.release_date.slice(0, 4) : "",
-          type: "movie",
-          rating: data.vote_average ? data.vote_average.toFixed(1) : "-",
-          badgeLeft: "MOVIE",
-          badgeRight: data.original_language?.toUpperCase() || "",
-          imgSrc: data.poster_path
-            ? `https://image.tmdb.org/t/p/w400${data.poster_path}`
-            : "",
-          imgAlt: data.title || "",
-          poster_path: data.poster_path || null,
-          overview: data.overview || "",
-        };
-      }
-    }
+    const trailerRes = await fetch(`/api/tmdb?trailer=${movieId}`);
+    if (!trailerRes.ok) return null;
+    const trailerData = await trailerRes.json();
+    const pick =
+      trailerData.results?.find(
+        (v) => v.type === "Trailer" && v.official && v.site === "YouTube",
+      ) ||
+      trailerData.results?.find(
+        (v) => v.type === "Trailer" && v.site === "YouTube",
+      ) ||
+      trailerData.results?.find((v) => v.site === "YouTube");
+    const key = pick ? pick.key : null;
 
-    if (!item) {
+    const detailsRes = await fetch(`/api/tmdb?details=${movieId}`);
+    let details = null;
+    if (detailsRes.ok) details = await detailsRes.json();
+    return { key, details };
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
+async function loadTrailerPage(movieId) {
+  showCardLoader();
+  try {
+    const detailsRes = await fetch(`/api/tmdb?details=${movieId}`);
+    if (!detailsRes.ok) {
       showApiMessage("Movie not found.");
       hideCardLoader();
-      trailerOpenBusy = false;
       return;
     }
+    const data = await detailsRes.json();
+    const item = {
+      id: data.id,
+      title: data.title || "",
+      date: data.release_date ? data.release_date.slice(0, 4) : "",
+      type: "movie",
+      rating: data.vote_average ? data.vote_average.toFixed(1) : "-",
+      badgeLeft: "MOVIE",
+      badgeRight: data.original_language?.toUpperCase() || "",
+      imgSrc: data.poster_path
+        ? `https://image.tmdb.org/t/p/w400${data.poster_path}`
+        : "",
+      imgAlt: data.title || "",
+      poster_path: data.poster_path || null,
+      overview: data.overview || "",
+    };
 
     const result = await fetchTrailerAndDetails(movieId);
     if (!result || !result.key) {
       showApiMessage("Trailer not found.");
       hideCardLoader();
-      trailerOpenBusy = false;
       return;
     }
 
-    // Store current movie for Watch Now, favourite, share
-    currentTrailerMovie = item;
+    currentMovie = item;
+    document.title = `${item.title || "Trailer"} - Moviio`;
 
-    // Populate overlay UI
     document.getElementById("trailerTitle").textContent = item.title || "-";
     document.getElementById("trailerYear").textContent = (item.date || "-")
       .toString()
@@ -70,7 +76,6 @@ export async function openMovieOverlayById(movieId) {
     document.getElementById("trailerOverview").textContent =
       item.overview || "No description available.";
 
-    // Favourite button in overlay
     const overlayFavBtn = document.getElementById("overlayFavouriteBtn");
     if (overlayFavBtn) {
       const icon = overlayFavBtn.querySelector("i");
@@ -79,10 +84,8 @@ export async function openMovieOverlayById(movieId) {
         : "fa-regular fa-heart";
     }
 
-    // Meta info (runtime, director, cast, genres)
     const metaContainer = document.querySelector(".meta");
     if (metaContainer) {
-      // Clear previous dynamic meta items
       metaContainer
         .querySelectorAll(
           ".runtime-info, .cast-info, .genre-info, .director-info",
@@ -130,94 +133,42 @@ export async function openMovieOverlayById(movieId) {
       }
     }
 
-    // Set iframe source with autoplay & playlist loop
     const iframe = document.getElementById("trailerPlayer");
     if (iframe) {
       iframe.src = `https://www.youtube-nocookie.com/embed/${result.key}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&modestbranding=1&loop=1&playlist=${result.key}&enablejsapi=1`;
     }
-    if (ytPlayer && ytPlayer.loadVideoById) {
-      ytPlayer.loadVideoById(result.key);
-      try {
-        ytPlayer.setPlaybackQuality("hd1080");
-      } catch {}
-    }
 
-    // Show the overlay
-    document.getElementById("trailer-overlay")?.classList.remove("hidden");
-
-    // Hide loader now that trailer is ready
     hideCardLoader();
   } catch (err) {
     console.error(err);
-    showApiMessage("Error opening trailer.");
+    showApiMessage("Error loading trailer.");
     hideCardLoader();
-  } finally {
-    trailerOpenBusy = false;
   }
 }
 
-export function closeTrailerOverlay() {
-  document.getElementById("trailer-overlay")?.classList.add("hidden");
-  if (ytPlayer) {
-    try {
-      ytPlayer.stopVideo();
-    } catch {}
-  } else {
-    const iframe = document.getElementById("trailerPlayer");
-    if (iframe) iframe.src = "";
-  }
-  trailerOpenBusy = false;
-  currentTrailerMovie = null;
-  // Remove movie_id from URL
-  const url = new URL(window.location);
-  if (url.searchParams.get("movie_id")) {
-    url.searchParams.delete("movie_id");
-    window.history.replaceState({}, "", url);
-  }
-}
-
-async function fetchTrailerAndDetails(movieId) {
-  try {
-    const trailerRes = await fetch(`/api/tmdb?trailer=${movieId}`);
-    if (!trailerRes.ok) return null;
-    const trailerData = await trailerRes.json();
-    const pick =
-      trailerData.results?.find(
-        (v) => v.type === "Trailer" && v.official && v.site === "YouTube",
-      ) ||
-      trailerData.results?.find(
-        (v) => v.type === "Trailer" && v.site === "YouTube",
-      ) ||
-      trailerData.results?.find((v) => v.site === "YouTube");
-    const key = pick ? pick.key : null;
-
-    const detailsRes = await fetch(`/api/tmdb?details=${movieId}`);
-    let details = null;
-    if (detailsRes.ok) details = await detailsRes.json();
-    return { key, details };
-  } catch (err) {
-    console.error(err);
-    return null;
-  }
-}
-
-export function initTrailerControls() {
-  const overlay = document.getElementById("trailer-overlay");
-  const closeBtn = document.getElementById("closeTrailer");
+function initControls() {
+  const backBtn = document.getElementById("backToApp");
   const watchNowBtn = document.getElementById("playPauseBtn");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
   const overlayFavBtn = document.getElementById("overlayFavouriteBtn");
   const shareBtn = document.getElementById("shareBtn");
 
-  closeBtn?.addEventListener("click", closeTrailerOverlay);
-  overlay?.addEventListener("click", (e) => {
-    if (e.target === overlay) closeTrailerOverlay();
+  backBtn?.addEventListener("click", () => {
+    // Prefer real browser history so "back" feels native; fall back to app.html
+    if (window.history.length > 1 && document.referrer.includes(window.location.host)) {
+      window.history.back();
+    } else {
+      window.location.href = "app.html";
+    }
   });
 
-  // Watch Now → open streaming modal
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") backBtn?.click();
+  });
+
   watchNowBtn?.addEventListener("click", () => {
-    if (currentTrailerMovie) {
-      openWatchNowModal(currentTrailerMovie.title, currentTrailerMovie.id);
+    if (currentMovie) {
+      openWatchNowModal(currentMovie.title, currentMovie.id);
     }
   });
 
@@ -231,25 +182,24 @@ export function initTrailerControls() {
   });
 
   overlayFavBtn?.addEventListener("click", () => {
-    if (currentTrailerMovie) {
-      toggleFavourite(currentTrailerMovie);
+    if (currentMovie) {
+      toggleFavourite(currentMovie);
       updateFavouritesUI();
       const icon = overlayFavBtn.querySelector("i");
-      if (isFavourite(currentTrailerMovie.id))
-        icon.className = "fa-solid fa-heart";
+      if (isFavourite(currentMovie.id)) icon.className = "fa-solid fa-heart";
       else icon.className = "fa-regular fa-heart";
     }
   });
 
   shareBtn?.addEventListener("click", () => {
-    if (!currentTrailerMovie) return;
-    const url = `https://moviio.vercel.app/?movie_id=${currentTrailerMovie.id}`;
+    if (!currentMovie) return;
+    const url = `${window.location.origin}/trailer.html?movie_id=${currentMovie.id}`;
     if (navigator.share) {
       navigator
         .share({
-          title: currentTrailerMovie.title,
-          text: `Check out ${currentTrailerMovie.title} on Moviio!`,
-          url: url,
+          title: currentMovie.title,
+          text: `Check out ${currentMovie.title} on Moviio!`,
+          url,
         })
         .catch(() => {});
     } else {
@@ -261,14 +211,13 @@ export function initTrailerControls() {
   });
 }
 
-export function loadYouTubeAPI() {
+function loadYouTubeAPI() {
   if (window.YT && window.YT.Player) return;
   const tag = document.createElement("script");
   tag.src = "https://www.youtube.com/iframe_api";
   document.head.appendChild(tag);
 }
 
-// YouTube API callback
 window.onYouTubeIframeAPIReady = function () {
   ytPlayer = new YT.Player("trailerPlayer", {
     events: {
@@ -277,9 +226,23 @@ window.onYouTubeIframeAPIReady = function () {
           e.target.setPlaybackQuality("hd2160");
         } catch {}
       },
-      onStateChange: (e) => {
-        // later: update UI if to show pause/play state
-      },
     },
   });
 };
+
+function init() {
+  loadFavourites();
+  initControls();
+  loadYouTubeAPI();
+
+  const params = new URLSearchParams(window.location.search);
+  const movieId = params.get("movie_id");
+  if (!movieId) {
+    showApiMessage("No movie specified.");
+    window.location.href = "app.html";
+    return;
+  }
+  loadTrailerPage(movieId);
+}
+
+init();

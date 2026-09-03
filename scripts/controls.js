@@ -4,7 +4,6 @@ import { showSkeletons, hideSkeletons, populateCards } from "./ui.js";
 import { finalizeKeep7, shiftLeft, shiftRight } from "./carousel.js";
 import { showApiMessage } from "./utils.js";
 import { toggleFavourite } from "./favourites.js";
-import { closeTrailerOverlay } from "./trailer.js";
 
 export async function fetchMovies(query) {
   if (!query || !query.trim()) query = "popular";
@@ -327,7 +326,6 @@ export function initKeyboardNav() {
       e.preventDefault();
       document.querySelector(".card.active")?.click();
     } else if (e.key === "Escape") {
-      closeTrailerOverlay();
       document.getElementById("instructionsModal")?.classList.add("hidden");
       document.getElementById("favouritesPopup")?.classList.add("hidden");
     }

@@ -15,11 +15,6 @@ import {
   initFavouritesPopup,
 } from "./controls.js";
 import { shiftLeft, shiftRight, initDrag, wasDragMoved } from "./carousel.js";
-import {
-  openMovieOverlayById,
-  initTrailerControls,
-  loadYouTubeAPI,
-} from "./trailer.js";
 import { initWelcomeModal, initInstructionsModal } from "./modal.js";
 import { showApiMessage } from "./utils.js";
 
@@ -31,8 +26,6 @@ async function init() {
 
   initFilters();
   initDropdowns();
-  initTrailerControls();
-  loadYouTubeAPI();
   initWelcomeModal();
   initInstructionsModal();
   initFavouritesPopup();
@@ -120,7 +113,7 @@ async function init() {
       showApiMessage("Movie data missing.");
       return;
     }
-    openMovieOverlayById(movieId);
+    window.location.href = `trailer.html?movie_id=${movieId}`;
   });
 
   // Keyboard nav
@@ -143,8 +136,7 @@ async function init() {
   if (year) state.selectedYear = year;
 
   if (movieId) {
-    openMovieOverlayById(movieId);
-    fetchMovies("popular");
+    window.location.replace(`trailer.html?movie_id=${movieId}`);
     return;
   }
 
@@ -172,7 +164,7 @@ async function init() {
     const movieId = params.get("movie_id");
 
     if (movieId) {
-      openMovieOverlayById(movieId);
+      window.location.replace(`trailer.html?movie_id=${movieId}`);
       return;
     }
 

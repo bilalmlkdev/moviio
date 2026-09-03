@@ -49,7 +49,7 @@ It's powered by the TMDB API through a serverless proxy (so the API key never re
 | Search & Filters | Search by title, filter by genre or release year, with custom dropdowns |
 | Favourites | Heart any movie to save it via LocalStorage - browse them in a popup |
 | Trailer Overlay | Fullscreen YouTube trailers with cast, director, runtime, and share |
-| Deep Linking | Share any movie directly via `/app.html?movie_id=980431` |
+| Deep Linking | Share any movie directly via `/trailer.html?movie_id=980431` |
 | Keyboard Shortcuts | `←` `→` navigate, `Enter`/`Space` open trailer, `Esc` close overlays |
 | Instructions Modal | In-app guide covering controls and keyboard shortcuts |
 | Offline Support | Installable PWA with versioned service-worker caching |
