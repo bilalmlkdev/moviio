@@ -301,6 +301,14 @@
   transform: translateY(-50%);
 }
 
+.move-right:active {
+  transform: translateY(calc(-50% + 4px));
+}
+
+.move-left:active {
+  transform: translateY(calc(-50% + 4px));
+}
+
 /* On smaller screens bring them closer */
 @media (max-width: 600px) {
   .move-right {
@@ -309,5 +317,15 @@
 
   .move-left {
     left: 20px;
+  }
+
+  .wheel-container {
+    height: 480px;
+  }
+}
+
+@media (max-width: 400px) {
+  .wheel-container {
+    height: 400px;
   }
 }

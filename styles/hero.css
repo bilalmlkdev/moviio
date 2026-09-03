@@ -77,3 +77,52 @@
   color: var(--txt-color);
   font-weight: 600;
 }
+
+/* Responsive hero heading + filters */
+@media (max-width: 900px) {
+  .hero-section {
+    padding: 0 16px;
+    gap: 14px;
+  }
+
+  .hero-section h1 {
+    font-size: 42px;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .filter-wrapper {
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section h1 {
+    font-size: 30px;
+    padding: 0 8px;
+  }
+
+  .filter-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filter-tabs {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-btn {
+    flex: 1;
+    padding: 0 8px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .custom-dropdown {
+    width: 100%;
+  }
+}

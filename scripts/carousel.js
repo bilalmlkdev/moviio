@@ -135,11 +135,12 @@ export function initDrag() {
     if (Math.abs(delta) > 5) {
       dragState.moved = true;
       e.preventDefault(); // crucial: prevent scroll
-      // Visual feedback: nudge only the active card, not the whole wheel
-      const activeCard = track.querySelector(".card.active");
-      if (activeCard) {
-        activeCard.style.setProperty("--drag-x", `${delta * 0.3}px`);
-      }
+      // Visual feedback: nudge the whole wheel together so it feels
+      // like you're dragging the carousel, not just one card.
+      const cards = track.querySelectorAll(".card");
+      cards.forEach((card) => {
+        card.style.setProperty("--drag-x", `${delta * 0.3}px`);
+      });
     }
   }
 
@@ -147,8 +148,8 @@ export function initDrag() {
     if (!dragState.isDragging) return;
     dragState.isDragging = false;
     track.classList.remove("dragging");
-    const activeCard = track.querySelector(".card.active");
-    if (activeCard) activeCard.style.removeProperty("--drag-x");
+    const cards = track.querySelectorAll(".card");
+    cards.forEach((card) => card.style.removeProperty("--drag-x"));
     track.style.pointerEvents = ""; // re-enable clicks
 
     const delta = dragState.currentX - dragState.startX;

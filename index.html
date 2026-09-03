@@ -105,6 +105,10 @@ What are you doing here?! you sneaky developer...
           <div class="l-logo"><span></span><span></span><span></span><span></span></div>
           <span class="l-wordmark">Moviio</span>
         </a>
+        <div class="l-nav-links">
+          <a href="#about">Features</a>
+          <a href="#how-it-works">How it works</a>
+        </div>
         <div class="l-nav-actions">
           <button class="l-pill-btn theme-toggle-btn icon-only" id="themeToggleBtn" title="Toggle theme">
             <i class="fa-solid fa-moon theme-icon-dark"></i>
@@ -168,26 +172,143 @@ What are you doing here?! you sneaky developer...
       </div>
     </section>
 
-    <section class="l-features">
-      <div class="l-feature-card">
-        <div class="l-feature-icon"><i class="fa-solid fa-compass"></i></div>
-        <h3>Browse &amp; Filter</h3>
-        <p>Popular, upcoming and top-rated titles, filterable by genre and year.</p>
+    <section class="l-about" id="about">
+      <div class="l-section-header">
+        <p class="l-eyebrow">About</p>
+        <h2 class="l-section-title">Everything a movie night needs</h2>
+        <p class="l-section-sub">
+          A cinematic carousel, live trailers, and a favourites list that's actually yours —
+          no accounts, no clutter.
+        </p>
       </div>
-      <div class="l-feature-card">
-        <div class="l-feature-icon"><i class="fa-solid fa-play"></i></div>
-        <h3>Watch Trailers</h3>
-        <p>Instant official trailers in a full-screen player, right from the card.</p>
+
+      <div class="l-bento">
+        <div class="l-bento-card l-bento-large">
+          <div class="l-bento-icon"><i class="fa-solid fa-compass"></i></div>
+          <h3>Browse &amp; Filter</h3>
+          <p>Popular, upcoming, and top-rated titles — filterable by genre and year, updated live from TMDB.</p>
+          <div class="l-bento-preview">
+            <div class="l-mini-row"><span class="l-mini-chip active">Popular</span><span class="l-mini-chip">Top Rated</span><span class="l-mini-chip">Upcoming</span></div>
+            <div class="l-mini-row l-mini-selects"><span class="l-mini-select">All Genres <i class="fa-solid fa-chevron-down"></i></span><span class="l-mini-select">All Years <i class="fa-solid fa-chevron-down"></i></span></div>
+          </div>
+        </div>
+
+        <div class="l-bento-card">
+          <div class="l-bento-icon"><i class="fa-solid fa-play"></i></div>
+          <h3>Watch Trailers</h3>
+          <p>Official trailers in a full-screen player, right from the card you clicked.</p>
+        </div>
+
+        <div class="l-bento-card">
+          <div class="l-bento-icon"><i class="fa-regular fa-heart"></i></div>
+          <h3>Favourites</h3>
+          <p>Heart what catches your eye — saved locally, browsable any time.</p>
+        </div>
+
+        <div class="l-bento-card l-bento-medium">
+          <div class="l-bento-icon"><i class="fa-solid fa-cube"></i></div>
+          <h3>3D Carousel Engine</h3>
+          <p>A custom-built wheel with drag, swipe, and keyboard support — not a stock slider.</p>
+          <div class="l-bento-preview">
+            <div class="l-mini-wheel">
+              <span class="l-mini-card l-mini-card-l"></span>
+              <span class="l-mini-card l-mini-card-c"></span>
+              <span class="l-mini-card l-mini-card-r"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="l-bento-card">
+          <div class="l-bento-icon"><i class="fa-solid fa-shuffle"></i></div>
+          <h3>Shuffle</h3>
+          <p>Jump to a random page of movies whenever you're undecided.</p>
+        </div>
+
+        <div class="l-bento-card">
+          <div class="l-bento-icon"><i class="fa-solid fa-lock"></i></div>
+          <h3>No Account Needed</h3>
+          <p>Everything runs and saves locally in your browser. Nothing leaves your machine.</p>
+        </div>
+
+        <div class="l-bento-card">
+          <div class="l-bento-icon"><i class="fa-solid fa-wifi"></i></div>
+          <h3>Works Offline</h3>
+          <p>Install it as a PWA — cached pages load even without a connection.</p>
+        </div>
       </div>
-      <div class="l-feature-card">
-        <div class="l-feature-icon"><i class="fa-regular fa-heart"></i></div>
-        <h3>Your Favourites</h3>
-        <p>Save what catches your eye and come back to it any time.</p>
+    </section>
+
+    <section class="l-how" id="how-it-works">
+      <div class="l-section-header">
+        <p class="l-eyebrow">Getting Started</p>
+        <h2 class="l-section-title">From landing page to movie night</h2>
+        <p class="l-section-sub">
+          No setup, no sign-up. Just search, browse, and press play.
+        </p>
       </div>
-      <div class="l-feature-card">
-        <div class="l-feature-icon"><i class="fa-solid fa-shuffle"></i></div>
-        <h3>Shuffle &amp; Auto-Rotate</h3>
-        <p>Let the carousel surface something new, or take the wheel yourself.</p>
+
+      <div class="l-timeline">
+        <div class="l-timeline-line"></div>
+
+        <div class="l-timeline-step">
+          <div class="l-timeline-marker">01</div>
+          <div class="l-timeline-content l-timeline-left">
+            <div class="l-timeline-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <h3>Search or browse</h3>
+            <p>Type a title, or pick Popular, Top Rated, or Upcoming to start exploring.</p>
+          </div>
+          <div class="l-timeline-visual l-timeline-right">
+            <div class="l-mini-window">
+              <div class="l-mini-search"><i class="fa-solid fa-magnifying-glass"></i> Search movies...</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="l-timeline-step">
+          <div class="l-timeline-marker">02</div>
+          <div class="l-timeline-visual l-timeline-left">
+            <div class="l-mini-window">
+              <div class="l-mini-wheel">
+                <span class="l-mini-card l-mini-card-l"></span>
+                <span class="l-mini-card l-mini-card-c"></span>
+                <span class="l-mini-card l-mini-card-r"></span>
+              </div>
+            </div>
+          </div>
+          <div class="l-timeline-content l-timeline-right">
+            <div class="l-timeline-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
+            <h3>Spin the wheel</h3>
+            <p>Drag, swipe, or use the arrow buttons to rotate through the carousel.</p>
+          </div>
+        </div>
+
+        <div class="l-timeline-step">
+          <div class="l-timeline-marker">03</div>
+          <div class="l-timeline-content l-timeline-left">
+            <div class="l-timeline-icon"><i class="fa-solid fa-circle-play"></i></div>
+            <h3>Watch the trailer</h3>
+            <p>Click the centered card to open its official trailer in fullscreen.</p>
+          </div>
+          <div class="l-timeline-visual l-timeline-right">
+            <div class="l-mini-window">
+              <div class="l-mini-trailer"><i class="fa-solid fa-play"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="l-timeline-step">
+          <div class="l-timeline-marker">04</div>
+          <div class="l-timeline-visual l-timeline-left">
+            <div class="l-mini-window">
+              <div class="l-mini-heart"><i class="fa-solid fa-heart"></i> Saved to favourites</div>
+            </div>
+          </div>
+          <div class="l-timeline-content l-timeline-right">
+            <div class="l-timeline-icon"><i class="fa-regular fa-heart"></i></div>
+            <h3>Save what you like</h3>
+            <p>Heart it, and it's saved locally — open the favourites popup any time.</p>
+          </div>
+        </div>
       </div>
     </section>
 

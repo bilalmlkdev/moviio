@@ -1,6 +1,6 @@
 ![Moviio Dashboard](./assets/preview.png)
 
-<h1 align="center">Moviio - Movie Explorer</h1>
+<h1 align="center">Moviio — Movie Explorer</h1>
 
 <p align="center">A cinematic 3D carousel movie explorer powered by TMDB. Discover movies, watch trailers, and save favourites through a smooth interactive experience.</p>
 
@@ -32,17 +32,17 @@
 
 ## About
 
-Moviio is an interactive movie discovery app split into a marketing landing page and a separate app view - a **custom 7-card 3D wheel engine** where movies rotate through a circular cinematic interface with CSS 3D transforms.
+Moviio is an interactive movie discovery app split into a marketing landing page and a separate app view — a **custom 7-card 3D wheel engine** where movies rotate through a circular cinematic interface with CSS 3D transforms.
 
 It's powered by the TMDB API through a serverless proxy (so the API key never reaches the client), ships as an installable Progressive Web App with offline caching, and supports full light/dark theming.
 
-- **Two-page structure** - `index.html` is the marketing landing page, `app.html` is the movie explorer itself
-- **Custom 3D carousel** - drag, swipe, keyboard, or auto-rotate through movies
-- **Trailer overlay** - fullscreen YouTube playback with cast, director, runtime, and genres
-- **Favourites** - heart any movie to save it locally, browse them in a dedicated popup
-- **Light/dark theme** - full theming across both pages, persisted via localStorage
-- **PWA-ready** - installable, works offline via a versioned service worker
-- **Secure by design** - TMDB key stays server-side in a Vercel serverless function
+- **Two-page structure** — `index.html` is the marketing landing page, `app.html` is the movie explorer itself
+- **Custom 3D carousel** — drag, swipe, keyboard, or auto-rotate through movies
+- **Trailer overlay** — fullscreen YouTube playback with cast, director, runtime, and genres
+- **Favourites** — heart any movie to save it locally, browse them in a dedicated popup
+- **Light/dark theme** — full theming across both pages, persisted via localStorage
+- **PWA-ready** — installable, works offline via a versioned service worker
+- **Secure by design** — TMDB key stays server-side in a Vercel serverless function
 
 ## Features
 
@@ -51,7 +51,7 @@ It's powered by the TMDB API through a serverless proxy (so the API key never re
 | 3D Movie Wheel | Custom-built carousel with layered cards and smooth 3D transitions |
 | Drag & Swipe Navigation | Mouse drag, touch gestures, or button controls |
 | Search & Filters | Search by title, filter by genre or release year, with custom dropdowns |
-| Favourites | Heart any movie to save it via LocalStorage - browse them in a popup |
+| Favourites | Heart any movie to save it via LocalStorage — browse them in a popup |
 | Trailer Overlay | Fullscreen YouTube trailers with cast, director, runtime, and share |
 | Deep Linking | Share any movie directly via `/app.html?movie_id=980431` |
 | Keyboard Shortcuts | `←` `→` navigate, `Enter`/`Space` open trailer, `Esc` close overlays |
@@ -97,7 +97,7 @@ Then run:
 vercel dev
 ```
 
-> Opening the HTML files directly (or Live Server) won't work - `/api/tmdb` requires the Vercel serverless function to proxy TMDB requests.
+> Opening the HTML files directly (or Live Server) won't work — `/api/tmdb` requires the Vercel serverless function to proxy TMDB requests.
 
 ## Usage
 
@@ -105,7 +105,7 @@ Start on the landing page and click through to the app. Navigate the 3D wheel wi
 
 ## Contributing
 
-Contributions are welcome - bug reports, feature ideas, or code improvements.
+Contributions are welcome — bug reports, feature ideas, or code improvements.
 
 ```bash
 git checkout -b feat/your-feature-name
