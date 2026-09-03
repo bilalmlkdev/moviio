@@ -24,7 +24,7 @@ header {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0px;
 }
 
 .wordmark {
@@ -37,8 +37,8 @@ header {
 
 .logo {
   display: inline-flex;
-  height: 26px;
-  width: 26px;
+  height: 22px;
+  width: 22px;
   display: grid;
   align-items: center;
   justify-content: center;
@@ -46,8 +46,8 @@ header {
 }
 
 .logo .logo-dot {
-  height: 7px;
-  width: 7px;
+  height: 5px;
+  width: 5px;
   background-color: var(--txt-color);
   border-bottom-left-radius: 50%;
   display: inline-block;
@@ -118,18 +118,15 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 0 var(--border-color);
+  /* box-shadow: 0 4px 0 var(--border-color); */
 }
 
-.header-btn:hover {
-  border-color: var(--primary-color);
-  box-shadow: 0 4px 0 var(--primary-color);
-}
 
-.header-btn:active {
+
+/* .header-btn:active {
   transform: translateY(4px);
   box-shadow: 0 0 0 var(--border-color);
-}
+} */
 
 #autoRotateBtn.is-active {
   background: var(--primary-color);

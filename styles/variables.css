@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --card-w: 270px;
   --card-h: 380px;
   --wheel-height: 700px;
@@ -37,6 +37,58 @@
   --primary-fg: #ffffff;
   --chip-bg: rgba(107, 74, 47, 0.08);
   --chip-border: rgba(107, 74, 47, 0.25);
+
+  --surface-color: rgba(0, 0, 0, 0.04);
+  --surface-border: rgba(0, 0, 0, 0.1);
+  --surface-hover: rgba(0, 0, 0, 0.07);
+
+  --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.15);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+} */
+
+
+
+:root {
+  --card-w: 270px;
+  --card-h: 380px;
+  --wheel-height: 700px;
+  --transition-duration: 360ms;
+
+  /* Dark theme (default) – pure black */
+  --bg-color: #000000;
+  --txt-color: #ffffff;
+  --txt-muted: #a3a3a3;
+  --card-color: #111111;
+  --border-color: #333333;
+  --primary-color: #ffffff;
+  --primary-fg: #000000;
+  --chip-bg: rgba(255, 255, 255, 0.08);
+  --chip-border: rgba(255, 255, 255, 0.2);
+  --accent-color: var(--primary-color);
+
+  --surface-color: rgba(255, 255, 255, 0.06);
+  --surface-border: rgba(255, 255, 255, 0.12);
+  --surface-hover: rgba(255, 255, 255, 0.12);
+
+  --shadow-strong: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  --font-sans: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Courier New", monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+[data-theme="light"] {
+  /* Light theme – pure white */
+  --bg-color: #ffffff;
+  --txt-color: #000000;
+  --txt-muted: #666666;
+  --card-color: #ffffff;
+  --border-color: #cccccc;
+  --primary-color: #000000;
+  --primary-fg: #ffffff;
+  --chip-bg: rgba(0, 0, 0, 0.06);
+  --chip-border: rgba(0, 0, 0, 0.2);
 
   --surface-color: rgba(0, 0, 0, 0.04);
   --surface-border: rgba(0, 0, 0, 0.1);

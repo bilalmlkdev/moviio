@@ -206,16 +206,16 @@
   font-size: 12px;
 }
 
+
 .badge-top-left {
-  background: #ffd700;
-  color: #000;
+  background: var(--primary-color);
+  color: var(--primary-fg);
   padding: 3px 6px;
   border-radius: 4px;
   font-size: 10px;
   font-weight: bold;
   display: inline-block;
 }
-
 .badge-top-right {
   background: rgba(0, 0, 0, 0.6);
   color: #fff;

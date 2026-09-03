@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,15 +33,9 @@
     .l-preview-inner {
       position: relative;
       overflow: hidden;
-      border-radius: 16px;
-      border: 1px solid var(--l-border);
+      border-radius: 8px;
       background: var(--l-card);
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-      transition: border-color 0.2s ease;
-    }
-
-    .l-preview-inner:hover {
-      border-color: var(--l-primary);
     }
 
     .l-preview-inner img {
@@ -48,12 +43,11 @@
       width: 100%;
       height: auto;
       aspect-ratio: 16 / 9;
-      object-fit: cover;
+      object-fit: contain;
       object-position: top;
       border-radius: 16px;
     }
 
-    /* Optional gradient mask at bottom (like original idea) */
     .l-preview-mask {
       mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
       -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
@@ -124,7 +118,8 @@
 
     <header class="l-hero">
       <div class="l-badge-row">
-        <span class="l-badge"><i class="fa-brands fa-github"></i> Proudly Open Source Software!</span>
+        <span class="l-badge">
+          Search & Explore Movies!</span>
       </div>
 
       <h1 class="l-heading">
@@ -178,20 +173,7 @@
       </div>
 
       <div class="l-bento">
-        <div class="l-bento-card l-bento-large">
-          <div class="l-bento-icon"><i class="fa-solid fa-compass"></i></div>
-          <h3>Browse &amp; Filter</h3>
-          <p>Popular, upcoming, and top-rated titles - filterable by genre and year, updated live from TMDB.</p>
-          <div class="l-bento-preview">
-            <div class="l-mini-row"><span class="l-mini-chip active">Popular</span><span class="l-mini-chip">Top
-                Rated</span><span class="l-mini-chip">Upcoming</span></div>
-            <div class="l-mini-row l-mini-selects"><span class="l-mini-select">All Genres <i
-                  class="fa-solid fa-chevron-down"></i></span><span class="l-mini-select">All Years <i
-                  class="fa-solid fa-chevron-down"></i></span></div>
-          </div>
-          <div class="l-bento-glow"></div>
-        </div>
-
+        <!-- Removed large card -->
         <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-solid fa-play"></i></div>
           <h3>Watch Trailers</h3>
@@ -206,7 +188,7 @@
           <div class="l-bento-glow"></div>
         </div>
 
-        <div class="l-bento-card l-bento-medium">
+        <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-solid fa-cube"></i></div>
           <h3>3D Carousel Engine</h3>
           <p>A custom-built wheel with drag, swipe, and keyboard support - not a stock slider.</p>
@@ -328,20 +310,10 @@
             </a>
             <p class="l-footer-tagline">Discover movies in motion,<br />with trailers and cinema in one place.</p>
           </div>
-
-          <div class="l-footer-social">
-            <a href="https://github.com/bilalmlkdev/moviio.git" target="_blank" rel="noopener noreferrer"
-              aria-label="GitHub">
-              <i class="fa-brands fa-github"></i>
-            </a>
-          </div>
         </div>
 
         <div class="l-footer-bottom">
           <p class="l-footer-copy">© <span id="footerYear"></span> Moviio. All rights reserved.</p>
-          <div class="l-footer-links">
-            <a href="app.html">Launch App</a>
-          </div>
         </div>
       </div>
     </footer>
@@ -351,7 +323,7 @@
   <script>
     document.getElementById("footerYear").textContent = new Date().getFullYear();
 
-    // Nav: shrink/blur on scroll (matches ReadmeForge header behavior)
+    // Nav: shrink/blur on scroll
     (function () {
       var nav = document.getElementById("landingNav");
       var menuBtn = document.getElementById("navMenuBtn");
@@ -381,7 +353,7 @@
       }
     })();
 
-    // Bento cards: staggered reveal on scroll into view
+    // Bento cards: staggered reveal
     (function () {
       var cards = document.querySelectorAll(".l-bento-card");
       if (!cards.length) return;
