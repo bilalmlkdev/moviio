@@ -95,20 +95,30 @@ body {
 }
 
 .l-nav {
+  position: relative;
   margin: 8px auto 0;
   width: 100%;
   max-width: 1100px;
   padding: 6px 12px;
-  background: color-mix(in srgb, var(--l-bg) 60%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--l-border);
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  transition: max-width 0.3s ease, padding 0.3s ease;
+  flex-wrap: wrap;
+  transition: max-width 0.3s ease, padding 0.3s ease, background 0.3s ease,
+    border-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.l-nav.is-scrolled {
+  max-width: 900px;
+  padding: 6px 10px;
+  background: color-mix(in srgb, var(--l-bg) 70%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: var(--l-border);
 }
 
 .l-nav-left {
@@ -119,7 +129,7 @@ body {
 }
 
 .l-nav-links {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 24px;
   flex: 1;
@@ -137,10 +147,98 @@ body {
   color: var(--l-fg);
 }
 
-@media (max-width: 720px) {
+@media (min-width: 721px) {
   .l-nav-links {
+    display: flex;
+  }
+}
+
+/* Mobile menu toggle */
+.l-nav-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--l-border);
+  background: transparent;
+  color: var(--l-fg);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+@media (min-width: 721px) {
+  .l-nav-menu-btn {
     display: none;
   }
+}
+
+.l-nav-menu-btn i {
+  position: absolute;
+  font-size: 15px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.l-nav-menu-btn .l-icon-close {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.l-nav-menu-btn .l-icon-open {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.l-nav[data-menu="open"] .l-nav-menu-btn .l-icon-close {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.l-nav[data-menu="open"] .l-nav-menu-btn .l-icon-open {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+/* Mobile dropdown panel */
+.l-nav-mobile-panel {
+  display: none;
+  width: 100%;
+  order: 5;
+}
+
+.l-nav[data-menu="open"] .l-nav-mobile-panel {
+  display: block;
+}
+
+@media (min-width: 721px) {
+  .l-nav-mobile-panel {
+    display: none !important;
+  }
+}
+
+.l-nav-mobile-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 4px 6px;
+  border-top: 1px solid var(--l-border);
+  margin-top: 10px;
+}
+
+.l-nav-mobile-links a {
+  font-family: var(--l-sans);
+  font-size: 14px;
+  color: var(--l-fg-muted);
+  padding: 8px 6px;
+  border-radius: 8px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.l-nav-mobile-links a:hover {
+  color: var(--l-fg);
+  background: var(--l-chip-bg);
 }
 
 .l-logo {
@@ -665,18 +763,52 @@ body {
 }
 
 .l-bento-card {
+  position: relative;
+  overflow: hidden;
   grid-column: span 1;
   background: var(--l-card);
   border: 1px solid var(--l-border);
   border-radius: var(--l-radius);
   padding: 22px;
   text-align: left;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.l-bento-card.l-reveal {
+  animation: l-bento-in 0.4s ease forwards;
+}
+
+@keyframes l-bento-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .l-bento-card:hover {
   transform: translateY(-3px);
   border-color: var(--l-primary);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--l-primary) 12%, transparent);
+}
+
+.l-bento-glow {
+  pointer-events: none;
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--l-primary) 18%, transparent);
+  filter: blur(28px);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.l-bento-card:hover .l-bento-glow {
+  opacity: 1;
 }
 
 .l-bento-large {
@@ -741,7 +873,7 @@ body {
   flex-wrap: wrap;
 }
 
-.l-mini-row + .l-mini-row {
+.l-mini-row+.l-mini-row {
   margin-top: 8px;
 }
 

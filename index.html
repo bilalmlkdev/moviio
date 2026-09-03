@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-<!--
-████████▄ ██▄██▄      ██████▄ ██▄
-██▌▀▀██▄██▌██▌     ██▌▀▀██▄██▌
-██████▌▀██▌██▌     ████████▌██▌
-██▌▀▀██▄██▌██▌     ██▌▀▀██▄██▌
-██████▌▀██▌████████▄██▌  ██▌███████▄
-▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀
-██▄   ███▄ █████▄ ██▄     ██▄██▄  ██▄
-████▄ ████▌██▀▀██▄██▌     ██▌██▌ ██▀▀
-██▌███▄▀██▌███████▌██▌     ██▌███▄▀▀
-██▌▀██▀▀██▌██▀▀██▄██▌     ██▌██▀▀██▄
-██▌ ▀▀ ██▌██▌  █████▄██▌██▄  ██▄
-▀▀     ▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀▀  ▀▀
-What are you doing here?! you sneaky developer...
--->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -100,7 +85,7 @@ What are you doing here?! you sneaky developer...
     </div>
 
     <div class="l-nav-outer">
-      <nav class="l-nav">
+      <nav class="l-nav" id="landingNav">
         <a class="l-nav-left" href="index.html">
           <div class="l-logo"><span></span><span></span><span></span><span></span></div>
           <span class="l-wordmark">Moviio</span>
@@ -123,6 +108,16 @@ What are you doing here?! you sneaky developer...
             <i class="fa-solid fa-play"></i>
             <span class="l-pill-label">Launch App</span>
           </a>
+          <button type="button" class="l-nav-menu-btn" id="navMenuBtn" aria-label="Open Menu">
+            <i class="fa-solid fa-bars l-icon-open"></i>
+            <i class="fa-solid fa-xmark l-icon-close"></i>
+          </button>
+        </div>
+        <div class="l-nav-mobile-panel">
+          <div class="l-nav-mobile-links">
+            <a href="#about">Features</a>
+            <a href="#how-it-works">How it works</a>
+          </div>
         </div>
       </nav>
     </div>
@@ -177,7 +172,7 @@ What are you doing here?! you sneaky developer...
         <p class="l-eyebrow">About</p>
         <h2 class="l-section-title">Everything a movie night needs</h2>
         <p class="l-section-sub">
-          A cinematic carousel, live trailers, and a favourites list that's actually yours —
+          A cinematic carousel, live trailers, and a favourites list that's actually yours -
           no accounts, no clutter.
         </p>
       </div>
@@ -186,29 +181,35 @@ What are you doing here?! you sneaky developer...
         <div class="l-bento-card l-bento-large">
           <div class="l-bento-icon"><i class="fa-solid fa-compass"></i></div>
           <h3>Browse &amp; Filter</h3>
-          <p>Popular, upcoming, and top-rated titles — filterable by genre and year, updated live from TMDB.</p>
+          <p>Popular, upcoming, and top-rated titles - filterable by genre and year, updated live from TMDB.</p>
           <div class="l-bento-preview">
-            <div class="l-mini-row"><span class="l-mini-chip active">Popular</span><span class="l-mini-chip">Top Rated</span><span class="l-mini-chip">Upcoming</span></div>
-            <div class="l-mini-row l-mini-selects"><span class="l-mini-select">All Genres <i class="fa-solid fa-chevron-down"></i></span><span class="l-mini-select">All Years <i class="fa-solid fa-chevron-down"></i></span></div>
+            <div class="l-mini-row"><span class="l-mini-chip active">Popular</span><span class="l-mini-chip">Top
+                Rated</span><span class="l-mini-chip">Upcoming</span></div>
+            <div class="l-mini-row l-mini-selects"><span class="l-mini-select">All Genres <i
+                  class="fa-solid fa-chevron-down"></i></span><span class="l-mini-select">All Years <i
+                  class="fa-solid fa-chevron-down"></i></span></div>
           </div>
+          <div class="l-bento-glow"></div>
         </div>
 
         <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-solid fa-play"></i></div>
           <h3>Watch Trailers</h3>
           <p>Official trailers in a full-screen player, right from the card you clicked.</p>
+          <div class="l-bento-glow"></div>
         </div>
 
         <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-regular fa-heart"></i></div>
           <h3>Favourites</h3>
-          <p>Heart what catches your eye — saved locally, browsable any time.</p>
+          <p>Heart what catches your eye - saved locally, browsable any time.</p>
+          <div class="l-bento-glow"></div>
         </div>
 
         <div class="l-bento-card l-bento-medium">
           <div class="l-bento-icon"><i class="fa-solid fa-cube"></i></div>
           <h3>3D Carousel Engine</h3>
-          <p>A custom-built wheel with drag, swipe, and keyboard support — not a stock slider.</p>
+          <p>A custom-built wheel with drag, swipe, and keyboard support - not a stock slider.</p>
           <div class="l-bento-preview">
             <div class="l-mini-wheel">
               <span class="l-mini-card l-mini-card-l"></span>
@@ -216,24 +217,28 @@ What are you doing here?! you sneaky developer...
               <span class="l-mini-card l-mini-card-r"></span>
             </div>
           </div>
+          <div class="l-bento-glow"></div>
         </div>
 
         <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-solid fa-shuffle"></i></div>
           <h3>Shuffle</h3>
           <p>Jump to a random page of movies whenever you're undecided.</p>
+          <div class="l-bento-glow"></div>
         </div>
 
         <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-solid fa-lock"></i></div>
           <h3>No Account Needed</h3>
           <p>Everything runs and saves locally in your browser. Nothing leaves your machine.</p>
+          <div class="l-bento-glow"></div>
         </div>
 
         <div class="l-bento-card">
           <div class="l-bento-icon"><i class="fa-solid fa-wifi"></i></div>
           <h3>Works Offline</h3>
-          <p>Install it as a PWA — cached pages load even without a connection.</p>
+          <p>Install it as a PWA - cached pages load even without a connection.</p>
+          <div class="l-bento-glow"></div>
         </div>
       </div>
     </section>
@@ -306,7 +311,7 @@ What are you doing here?! you sneaky developer...
           <div class="l-timeline-content l-timeline-right">
             <div class="l-timeline-icon"><i class="fa-regular fa-heart"></i></div>
             <h3>Save what you like</h3>
-            <p>Heart it, and it's saved locally — open the favourites popup any time.</p>
+            <p>Heart it, and it's saved locally - open the favourites popup any time.</p>
           </div>
         </div>
       </div>
@@ -345,6 +350,63 @@ What are you doing here?! you sneaky developer...
   <script src="theme.js"></script>
   <script>
     document.getElementById("footerYear").textContent = new Date().getFullYear();
+
+    // Nav: shrink/blur on scroll (matches ReadmeForge header behavior)
+    (function () {
+      var nav = document.getElementById("landingNav");
+      var menuBtn = document.getElementById("navMenuBtn");
+      if (!nav) return;
+
+      function onScroll() {
+        if (window.scrollY > 50) {
+          nav.classList.add("is-scrolled");
+        } else {
+          nav.classList.remove("is-scrolled");
+        }
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      if (menuBtn) {
+        menuBtn.addEventListener("click", function () {
+          var isOpen = nav.getAttribute("data-menu") === "open";
+          nav.setAttribute("data-menu", isOpen ? "" : "open");
+          menuBtn.setAttribute("aria-label", isOpen ? "Open Menu" : "Close Menu");
+        });
+        nav.querySelectorAll(".l-nav-mobile-links a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            nav.setAttribute("data-menu", "");
+          });
+        });
+      }
+    })();
+
+    // Bento cards: staggered reveal on scroll into view
+    (function () {
+      var cards = document.querySelectorAll(".l-bento-card");
+      if (!cards.length) return;
+
+      if (!("IntersectionObserver" in window)) {
+        cards.forEach(function (c) { c.classList.add("l-reveal"); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry, i) {
+            if (entry.isIntersecting) {
+              var idx = Array.prototype.indexOf.call(cards, entry.target);
+              entry.target.style.animationDelay = (idx * 0.06) + "s";
+              entry.target.classList.add("l-reveal");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -80px 0px" },
+      );
+
+      cards.forEach(function (card) { observer.observe(card); });
+    })();
 
     document.getElementById("landingSearchForm").addEventListener("submit", function (e) {
       e.preventDefault();
