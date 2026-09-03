@@ -12,6 +12,7 @@ A cinematic <a href="https://moviio.vercel.app/">3D carousel movie explorer</a> 
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-black?style=for-the-badge)](https://moviio.vercel.app)
 [![GitHub Stars](https://img.shields.io/github/stars/bilalmlkdev/moviio?style=for-the-badge&logo=github&color=yellow)](https://github.com/bilalmlkdev/moviio.git)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
 </div>
 
