@@ -309,6 +309,14 @@ export function initFavouritesPopup() {
 
 export function initKeyboardNav() {
   document.addEventListener("keydown", (e) => {
+    const target = e.target;
+    const isTypingField =
+      target &&
+      (target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable);
+    if (isTypingField) return; // don't hijack keys while typing (search box etc.)
+
     if (e.key === "ArrowLeft") {
       e.preventDefault();
       shiftLeft(1);
