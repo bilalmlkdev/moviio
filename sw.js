@@ -1,4 +1,4 @@
-const CACHE_NAME = "moviio-v8";
+const CACHE_NAME = "moviio-v9";
 
 const urlsToCache = [
   "/",
