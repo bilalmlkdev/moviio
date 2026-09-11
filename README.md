@@ -22,7 +22,7 @@ A cinematic <a href="https://moviio.vercel.app/">3D carousel movie explorer</a> 
 </p>
 
 
-[![Moviio Dashboard](https://raw.githubusercontent.com/bilalmlkdev/moviio/main/assets/dashboardLight.png)](https://moviio.vercel.app/)
+[![Moviio Dashboard](https://raw.githubusercontent.com/bilalmlkdev/moviio/main/assets/dashboardDark.png)](https://moviio.vercel.app/)
 
 
 
