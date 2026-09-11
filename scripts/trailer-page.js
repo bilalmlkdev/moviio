@@ -1,6 +1,9 @@
-// scripts/trailer-page.js
-import { state } from "./state.js";
-import { loadFavourites, isFavourite, toggleFavourite, updateFavouritesUI } from "./favourites.js";
+import {
+  loadFavourites,
+  isFavourite,
+  toggleFavourite,
+  updateFavouritesUI,
+} from "./favourites.js";
 import { showApiMessage, showCardLoader, hideCardLoader } from "./utils.js";
 import { openWatchNowModal } from "./controls.js";
 
@@ -154,11 +157,14 @@ function initControls() {
   const shareBtn = document.getElementById("shareBtn");
 
   backBtn?.addEventListener("click", () => {
-    // Prefer real browser history so "back" feels native; fall back to app.html
-    if (window.history.length > 1 && document.referrer.includes(window.location.host)) {
+    // Prefer real browser history so "back" feels native; fall back to app root
+    if (
+      window.history.length > 1 &&
+      document.referrer.includes(window.location.host)
+    ) {
       window.history.back();
     } else {
-      window.location.href = "app.html";
+      window.location.href = "/";
     }
   });
 
@@ -239,7 +245,7 @@ function init() {
   const movieId = params.get("movie_id");
   if (!movieId) {
     showApiMessage("No movie specified.");
-    window.location.href = "app.html";
+    window.location.href = "/";
     return;
   }
   loadTrailerPage(movieId);

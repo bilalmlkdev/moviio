@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-
+<!--
+██████╗ ██╗██╗      █████╗ ██╗
+██╔══██╗██║██║     ██╔══██╗██║
+██████╔╝██║██║     ███████║██║
+██╔══██╗██║██║     ██╔══██║██║
+██████╔╝██║███████╗██║  ██║███████╗
+╚═════╝ ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
+███╗   ███╗ █████╗ ██╗     ██╗██╗  ██╗
+████╗ ████║██╔══██╗██║     ██║██║ ██╔╝
+██╔████╔██║███████║██║     ██║█████╔╝
+██║╚██╔╝██║██╔══██║██║     ██║██╔═██╗
+██║ ╚═╝ ██║██║  ██║███████╗██║██║  ██╗
+╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝
+What are you doing here?! you sneaky developer...
+-->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,50 +28,14 @@
   <meta name="robots" content="index, follow" />
   <meta property="og:description"
     content="Discover movies in motion. Browse films, watch trailers, and explore cinema with Moviio." />
-  <meta name="theme-color" content="#16130f" />
+  <meta name="theme-color" content="#0f0f0f" />
   <meta name="color-scheme" content="dark light" />
   <link rel="icon" href="./assets/favicon.svg" />
   <link rel="manifest" href="/manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="landing.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    /* Preview section – matches landing aesthetic */
-    .l-preview {
-      margin: 40px auto 0;
-      max-width: 1100px;
-      padding: 0 20px;
-    }
-
-    .l-preview-inner {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      background: var(--l-card);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .l-preview-inner img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      object-position: top;
-      border-radius: 8px;
-    }
-
-    .l-preview-mask {
-      mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-    }
-
-    @media (max-width: 640px) {
-      .l-preview {
-        padding: 0 12px;
-      }
-    }
-  </style>
   <script>
     (function () {
       try {
@@ -68,361 +46,372 @@
       } catch (e) { }
     })();
   </script>
+  <style>
+    .wheel-container {
+      overflow: hidden;
+      position: relative;
+      transition: transform 360ms ease;
+      will-change: transform;
+      touch-action: pan-y;
+    }
+
+    .wheel-track {
+      display: block;
+      position: relative;
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="landing">
-    <div class="l-bg-layers">
-      <div class="l-bg-glow"></div>
-      <div class="l-bg-vignette"></div>
+  <section class="wrapper">
+    <div id="api-status" style="display:none;
+  padding:20px;
+  border-radius:8px;
+  background:#ffe8e8;
+  color:#a40000;
+  font-weight:600;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  margin: auto;
+  position:absolute;
+  left: 50%; top: 55%; transform: translate(-50% , -50%);z-index: 999;">
     </div>
 
-    <div class="l-nav-outer">
-      <nav class="l-nav" id="landingNav">
-        <a class="l-nav-left" href="index.html">
-          <div class="l-logo"><span></span><span></span><span></span><span></span></div>
-          <span class="l-wordmark">Moviio</span>
-        </a>
-        <div class="l-nav-links">
-          <a href="#about">Features</a>
-          <a href="#how-it-works">How it works</a>
+    <div id="cardLoader" class="card-loader hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- One-time Welcome Modal -->
+    <div id="welcomeModal" class="welcome-modal hidden">
+      <div class="welcome-modal-content">
+        <button class="welcome-modal-close" id="welcomeCloseBtn">&times;</button>
+        <h2>Welcome to Moviio</h2>
+        <div class="welcome-features">
+          <div><i class="fa-solid fa-compass"></i> Browse &amp; Filter</div>
+          <div><i class="fa-solid fa-play"></i> Watch Trailers</div>
+          <div><i class="fa-regular fa-heart"></i> Your Favourites</div>
+          <div><i class="fa-solid fa-shuffle"></i> Shuffle &amp; Auto‑Rotate</div>
         </div>
-        <div class="l-nav-actions">
-          <button class="l-pill-btn theme-toggle-btn icon-only" id="themeToggleBtn" title="Toggle theme">
+        <button id="welcomeGotItBtn" class="btn primary">Got it</button>
+      </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div id="instructionsModal" class="instructions-modal hidden">
+      <div class="instructions-content">
+        <button id="instructionsCloseBtn" class="modal-close">&times;</button>
+        <div class="instructions-header">
+          <div class="instructions-icon"><i class="fa-solid fa-clapperboard"></i></div>
+          <h2>How to Use Moviio</h2>
+          <p>Everything you need to explore the wheel.</p>
+        </div>
+        <div class="instruction-steps">
+          <div class="instruction-step">
+            <span class="step-num">1</span>
+            <i class="fa-solid fa-arrows-left-right"></i>
+            <div>
+              <strong>Navigate</strong>
+              <span>Drag, swipe, or use the arrow buttons to rotate the wheel</span>
+            </div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">2</span>
+            <i class="fa-solid fa-circle-play"></i>
+            <div>
+              <strong>Watch a trailer</strong>
+              <span>Click the centered card to open its official trailer</span>
+            </div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">3</span>
+            <i class="fa-regular fa-heart"></i>
+            <div>
+              <strong>Save favourites</strong>
+              <span>Tap the heart icon on any card to save it for later</span>
+            </div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">4</span>
+            <i class="fa-solid fa-shuffle"></i>
+            <div>
+              <strong>Shuffle</strong>
+              <span>Jump to a random page of popular movies</span>
+            </div>
+          </div>
+          <div class="instruction-step">
+            <span class="step-num">5</span>
+            <i class="fa-solid fa-rotate"></i>
+            <div>
+              <strong>Auto‑rotate</strong>
+              <span>Let the wheel spin on its own, hands‑free</span>
+            </div>
+          </div>
+        </div>
+        <div class="instruction-shortcuts">
+          <span class="shortcuts-label">Keyboard shortcuts</span>
+          <div class="shortcut-row"><kbd>←</kbd><kbd>→</kbd> Rotate the wheel</div>
+          <div class="shortcut-row"><kbd>Enter</kbd> / <kbd>Space</kbd> Open trailer</div>
+          <div class="shortcut-row"><kbd>Esc</kbd> Close overlays</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Favourites Popup -->
+    <div id="favouritesPopup" class="favourites-popup hidden">
+      <div class="favourites-header">
+        <h3>Your Favourites</h3>
+        <button id="favouritesCloseBtn" class="modal-close">&times;</button>
+      </div>
+      <div id="favouritesList" class="favourites-list"></div>
+    </div>
+
+    <header>
+      <nav id="navigation">
+        <div class="nav-left">
+          <a href="/" class="brand">
+            <div class="logo">
+              <span class="logo-dot"></span>
+              <span class="logo-dot"></span><span class="logo-dot"></span><span class="logo-dot"></span>
+            </div>
+            <span class="wordmark">Moviio</span>
+          </a>
+        </div>
+        <div class="search-wrapper">
+          <input type="search" placeholder="Search the movies" id="searchBox">
+          <button class="search-icon" id="searchBtn">
+            <i class="fa-solid fa-search"></i>
+          </button>
+        </div>
+        <div class="header-actions">
+          <button id="autoRotateBtn" class="header-btn" title="Auto‑Rotate">
+            <i class="fa-solid fa-play"></i>
+          </button>
+          <button id="shuffleBtn" class="header-btn" title="Shuffle">
+            <i class="fa-solid fa-shuffle"></i>
+          </button>
+          <button id="favouritesBtn" class="header-btn" title="Favourites">
+            <i class="fa-regular fa-heart"></i>
+            <span class="favourites-count">0</span>
+          </button>
+          <button id="instructionsBtn" class="header-btn" title="Instructions">
+            <i class="fa-regular fa-question-circle"></i>
+          </button>
+          <button class="theme-toggle-btn header-btn" id="themeToggleBtn" title="Toggle theme">
             <i class="fa-solid fa-moon theme-icon-dark"></i>
             <i class="fa-solid fa-sun theme-icon-light"></i>
           </button>
-          <a class="l-pill-btn" href="https://github.com/bilalmlkdev/moviio.git" target="_blank"
-            rel="noopener noreferrer">
-            <i class="fa-brands fa-github"></i>
-            <span class="l-pill-label">GitHub</span>
-          </a>
-          <a class="l-pill-btn" href="app.html">
-            <i class="fa-solid fa-play"></i>
-            <span class="l-pill-label">Launch App</span>
-          </a>
-          <button type="button" class="l-nav-menu-btn" id="navMenuBtn" aria-label="Open Menu">
-            <i class="fa-solid fa-bars l-icon-open"></i>
-            <i class="fa-solid fa-xmark l-icon-close"></i>
-          </button>
-        </div>
-        <div class="l-nav-mobile-panel">
-          <div class="l-nav-mobile-links">
-            <a href="#about">Features</a>
-            <a href="#how-it-works">How it works</a>
-          </div>
         </div>
       </nav>
-    </div>
-
-    <header class="l-hero">
-      <div class="l-badge-row">
-        <span class="l-badge">
-          Search & Explore Movies!</span>
-      </div>
-
-      <h1 class="l-heading">
-        <span class="l-dim">Discover <span class="l-solid">Every</span> Movie</span>
-        <span>
-          <span class="l-underline-wrap">
-            <span>In Motion</span>
-            <svg viewBox="0 0 100 10" preserveAspectRatio="none">
-              <path d="M2 5.5C15 3.5 45 2.5 60 4.5C75 6.5 90 8 98 5" stroke="currentColor" stroke-width="3" fill="none"
-                stroke-linecap="round" />
-            </svg>
-          </span>
-          <span class="l-dim">, Not Static Lists.</span>
-        </span>
-      </h1>
-
-      <div class="l-analyzer">
-        <form class="l-input-row" id="landingSearchForm">
-          <div class="l-input-icon"><i class="fa-solid fa-film"></i></div>
-          <input type="search" class="l-input-field" id="landingSearchInput"
-            placeholder="you can search movie from here by entering movie name..." autocomplete="off" />
-          <button type="submit" class="l-analyze-btn">
-            <!-- <i class="fa-solid fa-play"></i> -->
-            <span>Search Movie</span>
-            <!-- <i class="fa-solid fa-arrow-right" style="font-size:12px;"></i> -->
-          </button>
-        </form>
-        <p class="l-analyzer-hint">
-          Try it now - jump straight to <button type="button" onclick="window.location.href='app.html'">Popular
-            movies</button>, no sign-up needed.
-        </p>
-      </div>
     </header>
 
-    <!--  PRODUCT SCREENSHOT / DASHBOARD PREVIEW  -->
-    <section class="l-preview">
-      <div class="l-preview-inner l-preview-mask">
-        <img id="dashboardPreviewImg" src="./assets/dashboardDark.png"
-          alt="Moviio dashboard showing the 3D movie carousel, filters, and trailer player" loading="lazy" />
-      </div>
-    </section>
-
-    <section class="l-about" id="about">
-      <div class="l-section-header">
-        <p class="l-eyebrow">About</p>
-        <h2 class="l-section-title">Everything a movie night needs</h2>
-        <p class="l-section-sub">
-          A cinematic carousel, live trailers, and a favourites list that's actually yours -
-          no accounts, no clutter.
-        </p>
-      </div>
-
-      <div class="l-bento">
-        <!-- Removed large card -->
-        <div class="l-bento-card">
-          <div class="l-bento-icon"><i class="fa-solid fa-play"></i></div>
-          <h3>Watch Trailers</h3>
-          <p>Official trailers in a full-screen player, right from the card you clicked.</p>
-          <div class="l-bento-glow"></div>
-        </div>
-
-        <div class="l-bento-card">
-          <div class="l-bento-icon"><i class="fa-regular fa-heart"></i></div>
-          <h3>Favourites</h3>
-          <p>Heart what catches your eye - saved locally, browsable any time.</p>
-          <div class="l-bento-glow"></div>
-        </div>
-
-        <div class="l-bento-card">
-          <div class="l-bento-icon"><i class="fa-solid fa-cube"></i></div>
-          <h3>3D Carousel Engine</h3>
-          <p>A custom-built wheel with drag, swipe, and keyboard support - not a stock slider.</p>
-          <div class="l-bento-preview">
-            <div class="l-mini-wheel">
-              <span class="l-mini-card l-mini-card-l"></span>
-              <span class="l-mini-card l-mini-card-c"></span>
-              <span class="l-mini-card l-mini-card-r"></span>
-            </div>
+    <main class="main-site">
+      <section class="hero-section">
+        <h1>Search and Discover Movies</h1>
+        <div class="filter-wrapper">
+          <div class="filter-tabs">
+            <span class="active-indicator"></span>
+            <button class="filter-btn active" data-attribute="popular">Popular</button>
+            <button class="filter-btn" data-attribute="upcoming">Upcoming</button>
+            <button class="filter-btn" data-attribute="top_rated">Top Rated</button>
           </div>
-          <div class="l-bento-glow"></div>
-        </div>
 
-        <div class="l-bento-card">
-          <div class="l-bento-icon"><i class="fa-solid fa-shuffle"></i></div>
-          <h3>Shuffle</h3>
-          <p>Jump to a random page of movies whenever you're undecided.</p>
-          <div class="l-bento-glow"></div>
-        </div>
-
-        <div class="l-bento-card">
-          <div class="l-bento-icon"><i class="fa-solid fa-lock"></i></div>
-          <h3>No Account Needed</h3>
-          <p>Everything runs and saves locally in your browser. Nothing leaves your machine.</p>
-          <div class="l-bento-glow"></div>
-        </div>
-
-        <div class="l-bento-card">
-          <div class="l-bento-icon"><i class="fa-solid fa-wifi"></i></div>
-          <h3>Works Offline</h3>
-          <p>Install it as a PWA - cached pages load even without a connection.</p>
-          <div class="l-bento-glow"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="l-how" id="how-it-works">
-      <div class="l-section-header">
-        <p class="l-eyebrow">Getting Started</p>
-        <h2 class="l-section-title">From landing page to movie night</h2>
-        <p class="l-section-sub">
-          No setup, no sign-up. Just search, browse, and press play.
-        </p>
-      </div>
-
-      <div class="l-timeline">
-        <div class="l-timeline-line"></div>
-
-        <div class="l-timeline-step">
-          <div class="l-timeline-marker">01</div>
-          <div class="l-timeline-content l-timeline-left">
-            <div class="l-timeline-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <h3>Search or browse</h3>
-            <p>Type a title, or pick Popular, Top Rated, or Upcoming to start exploring.</p>
+          <div class="custom-dropdown" id="genreDropdown">
+            <button type="button" class="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dropdown-value">All Genres</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" role="listbox"></div>
+            <select class="filter-select sr-only" id="genreSelect" tabindex="-1" aria-hidden="true">
+              <option value="">All Genres</option>
+            </select>
           </div>
-          <div class="l-timeline-visual l-timeline-right">
-            <div class="l-mini-window">
-              <div class="l-mini-search"><i class="fa-solid fa-magnifying-glass"></i> Search movies...</div>
-            </div>
+
+          <div class="custom-dropdown" id="yearDropdown">
+            <button type="button" class="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="dropdown-value">All Years</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" role="listbox"></div>
+            <select class="filter-select sr-only" id="yearSelect" tabindex="-1" aria-hidden="true">
+              <option value="">All Years</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+            </select>
           </div>
         </div>
+      </section>
 
-        <div class="l-timeline-step">
-          <div class="l-timeline-marker">02</div>
-          <div class="l-timeline-visual l-timeline-left">
-            <div class="l-mini-window">
-              <div class="l-mini-wheel">
-                <span class="l-mini-card l-mini-card-l"></span>
-                <span class="l-mini-card l-mini-card-c"></span>
-                <span class="l-mini-card l-mini-card-r"></span>
+      <div class="wheel-container">
+        <div id="emptyState" class="empty-state hidden">
+          <i class="fa-regular fa-heart"></i>
+          <p>Nothing in your favourites yet.</p>
+        </div>
+
+        <button class="move-right controller-btn">
+          <span><i class="fas fa-angle-right"></i></span>
+        </button>
+        <button class="move-left controller-btn">
+          <span><i class="fas fa-angle-left"></i></span>
+        </button>
+
+        <div class="wheel-track">
+          <div class="card card-0">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
               </div>
             </div>
+            <img src="" alt="">
           </div>
-          <div class="l-timeline-content l-timeline-right">
-            <div class="l-timeline-icon"><i class="fa-solid fa-arrows-left-right"></i></div>
-            <h3>Spin the wheel</h3>
-            <p>Drag, swipe, or use the arrow buttons to rotate through the carousel.</p>
-          </div>
-        </div>
-
-        <div class="l-timeline-step">
-          <div class="l-timeline-marker">03</div>
-          <div class="l-timeline-content l-timeline-left">
-            <div class="l-timeline-icon"><i class="fa-solid fa-circle-play"></i></div>
-            <h3>Watch the trailer</h3>
-            <p>Click the centered card to open its official trailer in fullscreen.</p>
-          </div>
-          <div class="l-timeline-visual l-timeline-right">
-            <div class="l-mini-window">
-              <div class="l-mini-trailer"><i class="fa-solid fa-play"></i></div>
+          <div class="card card-1">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
+              </div>
             </div>
+            <img src="" alt="">
           </div>
-        </div>
-
-        <div class="l-timeline-step">
-          <div class="l-timeline-marker">04</div>
-          <div class="l-timeline-visual l-timeline-left">
-            <div class="l-mini-window">
-              <div class="l-mini-heart"><i class="fa-solid fa-heart"></i> Saved to favourites</div>
+          <div class="card card-2">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
+              </div>
             </div>
+            <img src="" alt="">
           </div>
-          <div class="l-timeline-content l-timeline-right">
-            <div class="l-timeline-icon"><i class="fa-regular fa-heart"></i></div>
-            <h3>Save what you like</h3>
-            <p>Heart it, and it's saved locally - open the favourites popup any time.</p>
+          <div class="card card-3" id="active-card">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
+              </div>
+            </div>
+            <img src="" alt="">
+          </div>
+          <div class="card card-4">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
+              </div>
+            </div>
+            <img src="" alt="">
+          </div>
+          <div class="card card-5">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
+              </div>
+            </div>
+            <img src="" alt="">
+          </div>
+          <div class="card card-6">
+            <div class="movie-details">
+              <div class="details-top">
+                <div class="movie-type">
+                  <div class="badge-top-left"></div>
+                  <div class="badge-top-right"></div>
+                </div>
+                <div class="movie-rating">
+                  <h2><span><i class="fa-solid fa-star"></i></span></h2>
+                </div>
+              </div>
+              <div class="details-bottom">
+                <div class="card-content">
+                  <h3></h3>
+                  <div class="movie-dateType"><span class="movie-data"></span> • <span class="what-type"></span></div>
+                </div>
+              </div>
+            </div>
+            <img src="" alt="">
           </div>
         </div>
       </div>
-    </section>
-
-    <footer class="l-footer">
-      <div class="l-footer-hairline"></div>
-      <div class="l-footer-inner">
-        <div class="l-footer-top">
-          <div class="l-footer-brand-block">
-            <a class="l-footer-brand" href="index.html">
-              <div class="l-logo"><span></span><span></span><span></span><span></span></div>
-              <span class="l-wordmark">Moviio</span>
-            </a>
-            <p class="l-footer-tagline">Discover movies in motion,<br />with trailers and cinema in one place.</p>
-          </div>
-        </div>
-
-        <div class="l-footer-bottom">
-          <p class="l-footer-copy">© <span id="footerYear"></span> Moviio. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  </div>
+    </main>
+  </section>
 
   <script src="theme.js"></script>
+  <script type="module" src="scripts/main.js"></script>
   <script>
-    // Theme-aware dashboard preview image
-    (function () {
-      const img = document.getElementById('dashboardPreviewImg');
-      if (!img) return;
-
-      function updatePreviewImage() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        // Fallback to dark if no attribute or unexpected value
-        const isDark = theme !== 'light';
-        img.src = isDark ? './assets/dashboardDark.png' : './assets/dashboardLight.png';
-      }
-
-      // Initial update
-      updatePreviewImage();
-
-      // Watch for theme changes (e.g., from theme.js toggle)
-      const observer = new MutationObserver(updatePreviewImage);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['data-theme']
-      });
-
-      // Optional: also update when the toggle button is clicked directly
-      // (in case theme.js doesn't update the attribute immediately)
-      const toggleBtn = document.getElementById('themeToggleBtn');
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', function () {
-          // Wait a tick for theme.js to update the attribute
-          setTimeout(updatePreviewImage, 0);
-        });
-      }
-    })();
-  </script>
-  <script>
-    document.getElementById("footerYear").textContent = new Date().getFullYear();
-
-    // Nav: shrink/blur on scroll
-    (function () {
-      var nav = document.getElementById("landingNav");
-      var menuBtn = document.getElementById("navMenuBtn");
-      if (!nav) return;
-
-      function onScroll() {
-        if (window.scrollY > 50) {
-          nav.classList.add("is-scrolled");
-        } else {
-          nav.classList.remove("is-scrolled");
-        }
-      }
-      window.addEventListener("scroll", onScroll, { passive: true });
-      onScroll();
-
-      if (menuBtn) {
-        menuBtn.addEventListener("click", function () {
-          var isOpen = nav.getAttribute("data-menu") === "open";
-          nav.setAttribute("data-menu", isOpen ? "" : "open");
-          menuBtn.setAttribute("aria-label", isOpen ? "Open Menu" : "Close Menu");
-        });
-        nav.querySelectorAll(".l-nav-mobile-links a").forEach(function (a) {
-          a.addEventListener("click", function () {
-            nav.setAttribute("data-menu", "");
-          });
-        });
-      }
-    })();
-
-    // Bento cards: staggered reveal
-    (function () {
-      var cards = document.querySelectorAll(".l-bento-card");
-      if (!cards.length) return;
-
-      if (!("IntersectionObserver" in window)) {
-        cards.forEach(function (c) { c.classList.add("l-reveal"); });
-        return;
-      }
-
-      var observer = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry, i) {
-            if (entry.isIntersecting) {
-              var idx = Array.prototype.indexOf.call(cards, entry.target);
-              entry.target.style.animationDelay = (idx * 0.06) + "s";
-              entry.target.classList.add("l-reveal");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.15, rootMargin: "0px 0px -80px 0px" },
-      );
-
-      cards.forEach(function (card) { observer.observe(card); });
-    })();
-
-    document.getElementById("landingSearchForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const query = document.getElementById("landingSearchInput").value.trim();
-      if (query) {
-        window.location.href = `app.html?search=${encodeURIComponent(query)}`;
-      } else {
-        window.location.href = "app.html";
-      }
-    });
-
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js');
