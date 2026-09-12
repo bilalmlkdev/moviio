@@ -1,7 +1,7 @@
 <div align="center">
 
   <a href="https://moviio.vercel.app/">
-    <img src="./assets/favicon.svg" alt="JS Practice Projects" width="100%" height="120">
+    <img src="./assets/favicon.svg" alt="moviio logo" width="100%" height="120">
   </a>
 
 # Moviio - Movie Explorer
@@ -113,8 +113,6 @@ git push origin feat/your-feature-name
 Then open a pull request describing your changes.
 
 ## License
-
-Distributed under the MIT License. See [`LICENSE`](./LICENSE) for details.
 
 ```text
 MIT License
