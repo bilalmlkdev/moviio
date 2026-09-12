@@ -1,7 +1,7 @@
 <div align="center">
 
   <a href="https://moviio.vercel.app/">
-    <img src="./assets/favicon.svg" alt="JS Practice Projects" width="100%" height="120">
+    <img src="./assets/favicon.svg" alt="moviio logo" width="100%" height="120">
   </a>
 
 # Moviio - Movie Explorer
