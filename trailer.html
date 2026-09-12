@@ -14,7 +14,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
-    /* ===== CSS VARIABLES ===== */
+    /*  CSS VARIABLES  */
     :root {
       --card-w: 270px;
       --card-h: 380px;
@@ -57,96 +57,10 @@
       --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
-    /* ===== BASE STYLES ===== */
-    *,
-    *::after,
-    *::before {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
+    /*  ISOLATED TRAILER PAGE STYLES  */
+    /* All styles scoped under .trailer-page to prevent conflicts */
 
-    html,
-    body {
-      overscroll-behavior: none;
-      width: 100%;
-      background-color: var(--bg-color);
-      color: var(--txt-color);
-      font-family: var(--font-sans);
-      overflow: hidden;
-      position: relative;
-      transition: background-color 0.25s ease, color 0.25s ease;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    input,
-    textarea,
-    output {
-      outline: none;
-      border: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    button {
-      border: none;
-      background: transparent;
-      margin: 0;
-      padding: 0;
-      cursor: pointer;
-    }
-
-    ul,
-    ol,
-    li {
-      list-style: none;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    #api-status {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 999999;
-      padding: 12px 24px;
-      border-radius: 10px;
-      background: var(--card-color);
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-strong);
-      color: var(--txt-color);
-      font-family: var(--font-sans);
-      font-weight: 500;
-      max-width: 90%;
-      text-align: center;
-      transition: opacity 0.3s;
-    }
-
-    #api-status.hidden {
-      display: none;
-    }
-
-    /* ===== TRAILER STYLES ===== */
-    #trailer-overlay {
+    .trailer-page {
       position: fixed;
       inset: 0;
       background: #0a0a0a !important;
@@ -157,13 +71,17 @@
       z-index: 9999;
       width: 100%;
       height: 100vh;
+      font-family: var(--font-sans);
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
     }
 
-    #trailer-overlay.hidden {
-      display: none !important;
+    .trailer-page * {
+      box-sizing: border-box;
     }
 
-    #trailer-overlay.trailer-page {
+    .trailer-page.trailer-page {
       position: relative;
       inset: auto;
       width: 100%;
@@ -171,7 +89,7 @@
       z-index: auto;
     }
 
-    .back-btn {
+    .trailer-page .back-btn {
       position: absolute;
       top: 24px;
       left: 24px;
@@ -188,19 +106,21 @@
       font-size: 1.2rem;
       cursor: pointer;
       transition: background 0.2s;
+      padding: 0;
+      margin: 0;
     }
 
-    .back-btn:hover {
+    .trailer-page .back-btn:hover {
       background: rgba(0, 0, 0, 0.75);
     }
 
-    .trailer-bg {
+    .trailer-page .trailer-bg {
       position: absolute;
       inset: 0;
       overflow: hidden;
     }
 
-    #trailerPlayer {
+    .trailer-page #trailerPlayer {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -210,13 +130,13 @@
       border: none;
     }
 
-    .trailer-gradient {
+    .trailer-page .trailer-gradient {
       position: absolute;
       inset: 0;
       background: linear-gradient(90deg, #000 25%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.9));
     }
 
-    .trailer-content {
+    .trailer-page .trailer-content {
       position: relative;
       z-index: 5;
       width: 50%;
@@ -227,33 +147,111 @@
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
+      margin: 0;
+      padding: 0;
     }
 
-    .trailer-content .movie-rating span {
+    .trailer-page .trailer-content .movie-rating {
+      margin: 0;
+      padding: 0;
+    }
+
+    .trailer-page .trailer-content .movie-rating span {
       font-size: 25px;
       color: #f2ece4 !important;
+      margin: 0;
+      padding: 0;
     }
 
-    .trailer-content h1 {
+    .trailer-page .trailer-content h1 {
       font-size: 4rem;
       line-height: 1.1;
       color: #fff !important;
+      margin: 0;
+      padding: 0;
     }
 
-    .meta span {
+    .trailer-page .trailer-content .meta {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .trailer-page .trailer-content .meta span {
       color: #ccc !important;
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
     }
 
-    .overview {
+    .trailer-page .trailer-content .overview {
       color: #ddd !important;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
     }
 
-    .btn.primary {
-      background: var(--primary-color);
-      color: var(--primary-fg);
+    .trailer-page .trailer-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin: 20px 0 0 0;
+      padding: 0;
     }
 
-    .watchnow-modal {
+    .trailer-page .btn {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .trailer-page .btn.primary {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    .trailer-page .btn.primary:hover {
+      background: #f0f0f0;
+      border-color: #f0f0f0;
+    }
+
+    .trailer-page .btn-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      padding: 0;
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .trailer-page .btn-icon:hover {
+      border-color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Watch Now Modal - scoped */
+    .trailer-page .watchnow-modal {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.8);
@@ -264,69 +262,77 @@
       z-index: 10002;
     }
 
-    .watchnow-modal.hidden {
+    .trailer-page .watchnow-modal.hidden {
       display: none;
     }
 
-    .watchnow-content {
-      background: var(--card-color);
-      border: 1px solid var(--border-color);
+    .trailer-page .watchnow-content {
+      background: #111111;
+      border: 1px solid #333333;
       border-radius: 16px;
       padding: 32px 28px;
       max-width: 480px;
       width: 100%;
-      box-shadow: var(--shadow-strong);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       text-align: center;
+      margin: 0;
     }
 
-    .watchnow-content h2 {
+    .trailer-page .watchnow-content h2 {
       font-family: var(--font-serif);
       font-size: 1.8rem;
-      margin-bottom: 20px;
-      color: var(--txt-color);
+      margin: 0 0 20px 0;
+      color: #ffffff;
+      padding: 0;
     }
 
-    .platform-grid {
+    .trailer-page .platform-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 12px;
+      margin: 0;
+      padding: 0;
     }
 
-    .platform-btn {
+    .trailer-page .platform-btn {
       display: flex;
       align-items: center;
       gap: 10px;
       padding: 12px 16px;
       border-radius: 10px;
-      background: var(--surface-color);
-      border: 1px solid var(--border-color);
-      color: var(--txt-color);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid #333333;
+      color: #ffffff;
       font-weight: 500;
       transition: background 0.2s, transform 0.1s;
       cursor: pointer;
+      margin: 0;
+      font-size: 14px;
     }
 
-    .platform-btn:hover {
-      background: var(--surface-hover);
+    .trailer-page .platform-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
       transform: scale(1.02);
     }
 
-    .platform-btn i {
+    .trailer-page .platform-btn i {
       font-size: 1.2rem;
       width: 24px;
-      color: var(--primary-color);
+      color: #ffffff;
     }
 
-    .watchnow-close {
-      margin-top: 20px;
+    .trailer-page .watchnow-close {
+      margin: 20px 0 0 0;
       background: none;
       border: none;
-      color: var(--txt-muted);
+      color: #a3a3a3;
       font-size: 1.2rem;
       cursor: pointer;
+      padding: 0;
     }
 
-    #cardLoader {
+    /* Loader - scoped */
+    .trailer-page #cardLoader {
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.7);
@@ -339,48 +345,75 @@
       transition: opacity 0.3s;
     }
 
-    #cardLoader.hidden {
+    .trailer-page #cardLoader.hidden {
       opacity: 0;
       pointer-events: none;
     }
 
-    #cardLoader .spinner {
+    .trailer-page #cardLoader .spinner {
       width: 56px;
       height: 56px;
-      border: 5px solid var(--border-color);
-      border-top-color: var(--primary-color);
+      border: 5px solid #333333;
+      border-top-color: #ffffff;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: trailer-spin 0.8s linear infinite;
     }
 
-    #cardLoader .loader-text {
+    .trailer-page #cardLoader .loader-text {
       color: #fff;
       font-family: var(--font-sans);
       margin-top: 20px;
       font-size: 1.2rem;
+      padding: 0;
     }
 
-    @keyframes spin {
+    @keyframes trailer-spin {
       to {
         transform: rotate(360deg);
       }
     }
 
+    /* API Status - scoped */
+    .trailer-page #api-status {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999999;
+      padding: 12px 24px;
+      border-radius: 10px;
+      background: #111111;
+      border: 1px solid #333333;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      max-width: 90%;
+      text-align: center;
+      transition: opacity 0.3s;
+      margin: 0;
+    }
+
+    .trailer-page #api-status.hidden {
+      display: none;
+    }
+
+    .trailer-page .hidden {
+      display: none !important;
+    }
+
+    /* Responsive */
     @media (max-width: 768px) {
-      .trailer-content {
+      .trailer-page .trailer-content {
         width: 80%;
         margin-left: 2rem;
       }
 
-      .trailer-content h1 {
+      .trailer-page .trailer-content h1 {
         font-size: 2.5rem;
       }
 
-      .close svg {
-        height: 40px;
-      }
-
-      .platform-grid {
+      .trailer-page .platform-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -429,7 +462,7 @@
         <button class="btn-icon" id="fullscreenBtn" title="Fullscreen">
           <i class="fa-solid fa-expand"></i>
         </button>
-        <button class="btn-icon favourite-btn" id="overlayFavouriteBtn" title="Add to Favourites">
+        <button class="btn-icon" id="overlayFavouriteBtn" title="Add to Favourites">
           <i class="fa-regular fa-heart"></i>
         </button>
         <button class="btn-icon" id="shareBtn" title="Share Movie">
