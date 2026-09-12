@@ -114,8 +114,6 @@ Then open a pull request describing your changes.
 
 ## License
 
-Distributed under the MIT License. See [`LICENSE`](./LICENSE) for details.
-
 ```text
 MIT License
 
